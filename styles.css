@@ -594,6 +594,19 @@ footer {
   border-radius: 999px;
 }
 
+#edit-profile-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: var(--cream) !important;
+  border: 1px solid var(--line) !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#edit-profile-btn:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-color: var(--pink) !important;
+}
+
 .user-identity {
   display: flex;
   align-items: center;

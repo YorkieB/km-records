@@ -133,7 +133,9 @@
     tabChatBtn.addEventListener("click", () => {
       activeTab = "chat";
       tabChatBtn.classList.add("active");
+      tabChatBtn.setAttribute("aria-selected", "true");
       tabForumBtn.classList.remove("active");
+      tabForumBtn.setAttribute("aria-selected", "false");
       tabChatPane.classList.remove("hidden");
       tabForumPane.classList.add("hidden");
       fetchChatMessages(true);
@@ -141,7 +143,9 @@
     tabForumBtn.addEventListener("click", () => {
       activeTab = "forum";
       tabForumBtn.classList.add("active");
+      tabForumBtn.setAttribute("aria-selected", "true");
       tabChatBtn.classList.remove("active");
+      tabChatBtn.setAttribute("aria-selected", "false");
       tabForumPane.classList.remove("hidden");
       tabChatPane.classList.add("hidden");
       fetchForumTopics();

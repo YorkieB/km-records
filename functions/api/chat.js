@@ -82,6 +82,15 @@ export async function onRequest(context) {
     }
   }
 
+  // Ensure timestamps are realistic (Cloudflare Workers evaluates top-level Date.now() at 0 during module load)
+  const now = Date.now();
+  inMemoryMessages = inMemoryMessages.map((m, idx) => {
+    if (!m.timestamp || m.timestamp < 1000000000000) {
+      m.timestamp = now - (inMemoryMessages.length - idx) * 900000;
+    }
+    return m;
+  });
+
   if (request.method === "GET") {
     return new Response(JSON.stringify({ messages: inMemoryMessages.slice(-60) }), {
       headers: corsHeaders

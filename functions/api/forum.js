@@ -11,7 +11,7 @@ let inMemoryTopics = [
     avatar: "🎸",
     badge: "FAN",
     timestamp: Date.now() - 3600000 * 24,
-    content: "Between 'Thunder Queen', 'Lola\\'s the Fire in the Wire', and the newly added instrumental 'Guitar Speaks', the guitar work is incredible. Which one has your favourite riff or outro solo?",
+    content: "Between 'Thunder Queen', 'Lola's the Fire in the Wire', and the newly added instrumental 'Guitar Speaks', the guitar work is incredible. Which one has your favourite riff or outro solo?",
     likes: 18,
     replies: [
       {
@@ -160,6 +160,23 @@ export async function onRequest(context) {
       console.error("KV read error", e);
     }
   }
+
+  // Ensure realistic timestamps inside request handler (Cloudflare Workers evaluates top-level Date.now() at 0 during module load)
+  const now = Date.now();
+  inMemoryTopics = inMemoryTopics.map((t, idx) => {
+    if (!t.timestamp || t.timestamp < 1000000000000) {
+      t.timestamp = now - (inMemoryTopics.length - idx) * 3600000 * 4;
+    }
+    if (t.replies) {
+      t.replies = t.replies.map((r, rIdx) => {
+        if (!r.timestamp || r.timestamp < 1000000000000) {
+          r.timestamp = t.timestamp + (rIdx + 1) * 1800000;
+        }
+        return r;
+      });
+    }
+    return t;
+  });
 
   // GET: List topics or single topic
   if (request.method === "GET") {
