@@ -1,0 +1,242 @@
+[
+  {
+    "id": "km-stage-01",
+    "artist": "kayleigh",
+    "category": "live",
+    "categoryLabel": "Live Stage",
+    "title": "Neon Electric",
+    "caption": "Kayleigh tearing through the outro of Thunder Queen under Camden club lights.",
+    "location": "Camden Underworld, London",
+    "image": "gallery/km-stage-01.webp"
+  },
+  {
+    "id": "km-stage-02",
+    "artist": "kayleigh",
+    "category": "live",
+    "categoryLabel": "Live Stage",
+    "title": "Gibson SG Scream",
+    "caption": "Raw vocal energy and screaming guitar bends on Cherry Red.",
+    "location": "Electric Ballroom, London",
+    "image": "gallery/km-stage-02.webp"
+  },
+  {
+    "id": "km-street-01",
+    "artist": "kayleigh",
+    "category": "tour",
+    "categoryLabel": "Tour Life",
+    "title": "Midnight Camden",
+    "caption": "Heading home after late-night soundcheck with guitar in tow.",
+    "location": "Chalk Farm Road, London",
+    "image": "gallery/km-street-01.webp"
+  },
+  {
+    "id": "km-tour-01",
+    "artist": "kayleigh",
+    "category": "tour",
+    "categoryLabel": "Tour Life",
+    "title": "Tour Bus Bunks",
+    "caption": "Postcard moments between UK club dates along the motorway.",
+    "location": "M1 Southbound, UK Tour",
+    "image": "gallery/km-tour-01.webp"
+  },
+  {
+    "id": "km-acoustic-01",
+    "artist": "kayleigh",
+    "category": "studio",
+    "categoryLabel": "Songwriting",
+    "title": "Acoustic on the Rug",
+    "caption": "Tracking fingerstyle chord progressions and demo vocals at dawn.",
+    "location": "KM Records Writing Room",
+    "image": "gallery/km-acoustic-01.webp"
+  },
+  {
+    "id": "km-desk-01",
+    "artist": "kayleigh",
+    "category": "studio",
+    "categoryLabel": "Songwriting",
+    "title": "Lyric Revisions",
+    "caption": "Pen, paper, and notebook drafts for the upcoming EP tracks.",
+    "location": "KM Records Studio House",
+    "image": "gallery/km-desk-01.webp"
+  },
+  {
+    "id": "km-window-01",
+    "artist": "kayleigh",
+    "category": "portrait",
+    "categoryLabel": "Portrait",
+    "title": "Cardigan & Coffee",
+    "caption": "Early morning quiet with tea before the studio monitors power up.",
+    "location": "London Studio Loft",
+    "image": "gallery/km-window-01.webp"
+  },
+  {
+    "id": "km-london-01",
+    "artist": "kayleigh",
+    "category": "portrait",
+    "categoryLabel": "Portrait",
+    "title": "Summer Denim",
+    "caption": "Taking five outside between mastering playback sessions.",
+    "location": "Soho, London",
+    "image": "gallery/km-london-01.webp"
+  },
+  {
+    "id": "km-forest-01",
+    "artist": "kayleigh",
+    "category": "tour",
+    "categoryLabel": "Life",
+    "title": "Pine Mist Trails",
+    "caption": "Decompressing in the woods between weekend tour stretches.",
+    "location": "Scottish Highlands",
+    "image": "gallery/km-forest-01.webp"
+  },
+  {
+    "id": "km-rain-01",
+    "artist": "kayleigh",
+    "category": "portrait",
+    "categoryLabel": "Portrait",
+    "title": "Rain on Glass",
+    "caption": "Watching the London drizzle while tracking acoustic rhythms.",
+    "location": "Studio Control Room",
+    "image": "gallery/km-rain-01.webp"
+  },
+  {
+    "id": "km-wedding-01",
+    "artist": "kayleigh",
+    "category": "life",
+    "categoryLabel": "Life",
+    "title": "Mediterranean Steps",
+    "caption": "Kayleigh and Lola by the Italian sea on their wedding day.",
+    "location": "Lake Como, Italy",
+    "image": "gallery/km-wedding-01.webp"
+  },
+  {
+    "id": "km-speaks-01",
+    "artist": "kayleigh",
+    "category": "live",
+    "categoryLabel": "Live Rock",
+    "title": "Guitar Speaks",
+    "caption": "Kneeling drop-D breakdown during the instrumental rock set.",
+    "location": "Roundhouse, London",
+    "image": "gallery/km-speaks-01.webp"
+  },
+  {
+    "id": "lc-sunset-01",
+    "artist": "leah",
+    "category": "portrait",
+    "categoryLabel": "Cover Shoot",
+    "title": "Sunset & Denim",
+    "caption": "Original master portrait shoot for Leah's single Not That Girl.",
+    "location": "Cotswolds Countryside",
+    "image": "gallery/lc-sunset-01.webp"
+  },
+  {
+    "id": "lc-truck-01",
+    "artist": "leah",
+    "category": "portrait",
+    "categoryLabel": "Cover Shoot",
+    "title": "Gravel & Goodbye",
+    "caption": "Twilight dusk shoot beside the vintage Ford pickup on gravel road.",
+    "location": "Open Road County Line",
+    "image": "gallery/lc-truck-01.webp"
+  },
+  {
+    "id": "lc-porch-01",
+    "artist": "leah",
+    "category": "studio",
+    "categoryLabel": "Storytelling",
+    "title": "Calluses on These Hands",
+    "caption": "Front porch acoustic session in work boots and denim shirt.",
+    "location": "Carter Farm Porch",
+    "image": "gallery/lc-porch-01.webp"
+  },
+  {
+    "id": "lc-choir-01",
+    "artist": "leah",
+    "category": "live",
+    "categoryLabel": "Live Choir",
+    "title": "Is This It?",
+    "caption": "Leah backed by the gospel choir under warm stage spotlight.",
+    "location": "Union Chapel, London",
+    "image": "gallery/lc-choir-01.webp"
+  },
+  {
+    "id": "lc-window-01",
+    "artist": "leah",
+    "category": "studio",
+    "categoryLabel": "Mood",
+    "title": "The Hard Part",
+    "caption": "Midnight window gaze overlooking the glowing city rain.",
+    "location": "KM Records Residence",
+    "image": "gallery/lc-window-01.webp"
+  },
+  {
+    "id": "lc-dinner-01",
+    "artist": "leah",
+    "category": "portrait",
+    "categoryLabel": "Evening",
+    "title": "Candlelit Elegance",
+    "caption": "Leah celebrating the catalogue release dinner in London.",
+    "location": "The Savoy, London",
+    "image": "gallery/lc-dinner-01.webp"
+  },
+  {
+    "id": "lc-highway-01",
+    "artist": "leah",
+    "category": "portrait",
+    "categoryLabel": "Acoustic",
+    "title": "The Highway Don't Lie",
+    "caption": "High desert horizon session tracking acoustic leads.",
+    "location": "Highway 66 Outskirts",
+    "image": "gallery/lc-highway-01.webp"
+  },
+  {
+    "id": "lc-ranch-01",
+    "artist": "leah",
+    "category": "studio",
+    "categoryLabel": "Studio Session",
+    "title": "The Ranch Sessions",
+    "caption": "Tracking slide guitar and harmonica in the wood cabin studio.",
+    "location": "KM Records Wood Cabin",
+    "image": "gallery/lc-ranch-01.webp"
+  },
+  {
+    "id": "lc-whiskey-01",
+    "artist": "leah",
+    "category": "portrait",
+    "categoryLabel": "Country Rock",
+    "title": "Whiskey on a Wednesday",
+    "caption": "Dimly lit tavern booth acoustic shoot with vintage Gibson J-45.",
+    "location": "Old Bluebird Tavern",
+    "image": "gallery/lc-whiskey-01.webp"
+  },
+  {
+    "id": "lc-shadow-01",
+    "artist": "leah",
+    "category": "portrait",
+    "categoryLabel": "Storytelling",
+    "title": "Same Old Shadow",
+    "caption": "Golden hour pasture gate portrait exploring acoustic melodies.",
+    "location": "Valley Ranch Fields",
+    "image": "gallery/lc-shadow-01.webp"
+  },
+  {
+    "id": "lc-lastgoodyear-01",
+    "artist": "leah",
+    "category": "portrait",
+    "categoryLabel": "Cover Shoot",
+    "title": "The Last Good Year",
+    "caption": "Autumn leaves and acoustic strums under the maple tree.",
+    "location": "Maple Grove, Cotswolds",
+    "image": "gallery/lc-lastgoodyear-01.webp"
+  },
+  {
+    "id": "lc-bubblegum-01",
+    "artist": "leah",
+    "category": "studio",
+    "categoryLabel": "Artwork",
+    "title": "Bubblegum in the Rain",
+    "caption": "Original master single visual design with umbrella reflection.",
+    "location": "KM Records Art Direction",
+    "image": "gallery/lc-bubblegum-01.webp"
+  }
+]
