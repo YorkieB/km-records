@@ -1,0 +1,82 @@
+[
+  {
+    "id": "tq-mv",
+    "title": "Thunder Queen",
+    "artist": "Kayleigh Merez",
+    "tag": "Official Music Video",
+    "desc": "Kayleigh performing live with lyrics, lightning energy, and searing lead guitar.",
+    "src": "video/thunder-queen-mv.mp4",
+    "poster": "video/posters/tq-mv.jpg",
+    "duration": 282.333333
+  },
+  {
+    "id": "ntg-viz",
+    "title": "Not That Girl",
+    "artist": "Leah Carter",
+    "tag": "Official Single Visualizer",
+    "desc": "Leah Carter's signature country single at sunset outside the cottage.",
+    "src": "video/not-that-girl.mp4",
+    "poster": "video/posters/ntg-viz.jpg",
+    "duration": 237.013
+  },
+  {
+    "id": "cr-viz",
+    "title": "Cherry Red",
+    "artist": "Kayleigh Merez",
+    "tag": "Live Concert Performance",
+    "desc": "Gritty live rock vocals and screaming Gibson SG power chords.",
+    "src": "video/cherry-red.mp4",
+    "poster": "video/posters/cr-viz.jpg",
+    "duration": 253.013
+  },
+  {
+    "id": "bgr-viz",
+    "title": "Bubblegum in the Rain",
+    "artist": "Leah Carter",
+    "tag": "Official Visualizer",
+    "desc": "Nostalgic storytelling, melodic acoustic guitar, and rainy neon streets.",
+    "src": "video/bubblegum-in-the-rain.mp4",
+    "poster": "video/posters/bgr-viz.jpg",
+    "duration": 178.005
+  },
+  {
+    "id": "gs-viz",
+    "title": "Guitar Speaks",
+    "artist": "Kayleigh Merez",
+    "tag": "Instrumental Rock Showcase",
+    "desc": "Full-length instrumental rock anthem spotlighting Kayleigh's guitar lineage.",
+    "src": "video/guitar-speaks.mp4",
+    "poster": "video/posters/gs-viz.jpg",
+    "duration": 258.005
+  },
+  {
+    "id": "gag-viz",
+    "title": "Gravel and Goodbye",
+    "artist": "Leah Carter",
+    "tag": "Open Road Visualizer",
+    "desc": "Twilight country ballad by the vintage pickup truck along the gravel highway.",
+    "src": "video/gravel-and-goodbye.mp4",
+    "poster": "video/posters/gag-viz.jpg",
+    "duration": 243.008
+  },
+  {
+    "id": "ciw-viz",
+    "title": "Call It What It Is",
+    "artist": "Kayleigh Merez",
+    "tag": "Studio Visualizer",
+    "desc": "Studio master playback visualizer with typography and lyric graphics.",
+    "src": "video/call-it-what-it-is.mp4",
+    "poster": "video/posters/ciw-viz.jpg",
+    "duration": 214.0
+  },
+  {
+    "id": "pfs-viz",
+    "title": "Pocket Full of Stars",
+    "artist": "Leah Carter",
+    "tag": "Acoustic Constellation",
+    "desc": "Ethereal acoustic storytelling and glowing denim starfield visualizer.",
+    "src": "video/pocket-full-of-stars.mp4",
+    "poster": "video/posters/pfs-viz.jpg",
+    "duration": 181.021995
+  }
+]

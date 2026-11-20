@@ -1573,3 +1573,393 @@ footer {
   color: var(--muted);
   margin: 0;
 }
+
+
+/* --- KM Records TV Channel (KM TV) --- */
+.tv-block {
+  padding: 4rem 1.5rem;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.tv-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(320px, 1fr);
+  gap: 2rem;
+  margin-top: 1.8rem;
+  align-items: start;
+}
+
+.tv-player-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.tv-screen-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+.tv-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+  display: block;
+}
+
+.tv-live-beacon {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(220, 38, 38, 0.9);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  backdrop-filter: blur(8px);
+  z-index: 5;
+}
+
+.tv-beacon-dot {
+  width: 7px;
+  height: 7px;
+  background: #fff;
+  border-radius: 50%;
+  animation: tvPulse 1.2s infinite;
+}
+
+@keyframes tvPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.tv-unmute-banner {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(10, 12, 18, 0.85);
+  border: 1px solid var(--pink);
+  color: var(--cream);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  z-index: 5;
+  transition: transform 0.2s, background 0.2s;
+  backdrop-filter: blur(8px);
+}
+
+.tv-unmute-banner:hover {
+  background: var(--pink);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* Lower Third Chyron */
+.tv-chyron {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, rgba(2, 3, 7, 0.95) 0%, rgba(2, 3, 7, 0.7) 70%, transparent 100%);
+  padding: 2.5rem 1.4rem 1rem;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.tv-chyron-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.tv-chyron-artist {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 0.15rem;
+}
+
+.tv-chyron-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.chyron-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+}
+
+.chyron-tag.tag-kayleigh { background: rgba(255, 46, 166, 0.85); color: #fff; }
+.chyron-tag.tag-leah { background: rgba(122, 91, 255, 0.85); color: #fff; }
+
+.tv-timeline-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.tv-progress-track {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.tv-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: var(--pink);
+  transition: width 0.3s linear;
+}
+
+/* TV Controls Under Video */
+.tv-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.tv-controls-left, .tv-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.tv-ctrl-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line);
+  color: var(--cream);
+  padding: 0.35rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.tv-ctrl-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--pink);
+}
+
+.tv-upnext-box {
+  padding: 0.5rem 1rem;
+  background: rgba(122, 91, 255, 0.1);
+  border: 1px solid rgba(122, 91, 255, 0.3);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: var(--cream);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* TV Guide / Channel Lineup */
+.tv-guide-wrap {
+  background: rgba(10, 12, 18, 0.8);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 580px;
+}
+
+.tv-guide-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tv-guide-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.tv-filter-bar {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.tv-filter-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.tv-filter-btn:hover {
+  color: var(--cream);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tv-filter-btn.active {
+  background: rgba(255, 46, 166, 0.2);
+  border-color: var(--pink);
+  color: var(--cream);
+}
+
+.tv-guide-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+
+.tv-guide-list::-webkit-scrollbar {
+  width: 5px;
+}
+.tv-guide-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+.tv-guide-card {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.6rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tv-guide-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 46, 166, 0.4);
+  transform: translateX(4px);
+}
+
+.tv-guide-card.playing {
+  border-color: var(--pink);
+  background: rgba(255, 46, 166, 0.12);
+}
+
+.guide-thumb-wrap {
+  position: relative;
+  width: 80px;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #000;
+}
+
+.guide-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.guide-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+
+.guide-badge.tag-kayleigh { background: var(--pink); color: #fff; }
+.guide-badge.tag-leah { background: var(--violet); color: #fff; }
+
+.guide-dur {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+}
+
+.guide-meta {
+  min-width: 0;
+  flex: 1;
+}
+
+.guide-title {
+  margin: 0 0 0.15rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.guide-artist {
+  margin: 0 0 0.25rem;
+  font-size: 0.78rem;
+  color: var(--pink);
+  font-weight: 600;
+}
+
+.guide-desc {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.35;
+}
+
+@media (max-width: 950px) {
+  .tv-layout {
+    grid-template-columns: 1fr;
+  }
+}
