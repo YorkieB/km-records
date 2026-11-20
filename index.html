@@ -31,6 +31,7 @@
       <a href="#radio">Radio</a>
       <a href="#kayleigh">Kayleigh</a>
       <a href="#leah">Leah</a>
+      <a href="#community">Community</a>
       <a href="#comics">Comics</a>
     </nav>
     <a class="pill ghost" href="#contact">Contact</a>
@@ -245,6 +246,157 @@
       </div>
     </div>
 
+    <section id="community" class="block community-block">
+      <div class="community-header">
+        <p class="kicker">KM Lounge &amp; Green Room</p>
+        <h2>The Green Room.</h2>
+        <p>Live chat with listeners, drop reactions to the 24/7 radio stream, and discuss Kayleigh and Leah's music.</p>
+        
+        <div class="community-status-bar">
+          <div class="user-identity">
+            <span class="avatar-badge" id="user-avatar-display">🎸</span>
+            <span class="user-name" id="user-name-display">Fan_101</span>
+            <button type="button" class="pill ghost" id="edit-profile-btn" style="padding: 0.25rem 0.75rem; font-size: 0.8rem; margin-left: 0.4rem;">Edit Profile</button>
+          </div>
+          <div class="presence-tag">
+            <span class="pulse-dot"></span>
+            <span>48 fans listening &amp; in the lounge</span>
+          </div>
+        </div>
+
+        <div class="community-tabs" role="tablist">
+          <button type="button" class="tab-btn active" id="tab-chat-btn" role="tab" aria-selected="true">🟢 Live Green Room</button>
+          <button type="button" class="tab-btn" id="tab-forum-btn" role="tab" aria-selected="false">💬 Discussion Boards</button>
+        </div>
+      </div>
+
+      <!-- Tab 1: Live Green Room Chat -->
+      <div id="tab-chat-pane" class="chat-pane">
+        <div class="chat-container">
+          <div class="chat-radio-banner">
+            <div id="chat-radio-track" class="chat-radio-track">
+              <span class="live-dot"></span>
+              <strong>KM Radio:</strong> Connecting to London studio...
+            </div>
+            <div class="radio-reactions" title="Send live reaction to chat">
+              <button type="button" class="react-btn" data-emoji="🔥">🔥</button>
+              <button type="button" class="react-btn" data-emoji="🎸">🎸</button>
+              <button type="button" class="react-btn" data-emoji="❤️">❤️</button>
+              <button type="button" class="react-btn" data-emoji="👏">👏</button>
+            </div>
+          </div>
+
+          <div id="chat-messages-list" class="chat-messages" aria-live="polite">
+            <!-- Messages loaded via /api/chat -->
+          </div>
+
+          <div class="chat-composer">
+            <div class="composer-top">
+              <span id="chat-author-preview">🎸 Fan</span>
+              <div class="quick-emojis">
+                <button type="button" class="quick-emoji">🎸</button>
+                <button type="button" class="quick-emoji">⚡</button>
+                <button type="button" class="quick-emoji">❤️</button>
+                <button type="button" class="quick-emoji">🔥</button>
+                <button type="button" class="quick-emoji">📻</button>
+                <button type="button" class="quick-emoji">✨</button>
+                <button type="button" class="quick-emoji">👏</button>
+              </div>
+              <span id="chat-char-count">0 / 300</span>
+            </div>
+            <div class="composer-input-row">
+              <input type="text" id="chat-input" class="chat-input" placeholder="Say something in the Green Room... (Enter to send)" maxlength="300" autocomplete="off">
+              <button type="button" id="chat-send-btn" class="chat-send-btn">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Discussion Boards (Forum) -->
+      <div id="tab-forum-pane" class="forum-pane hidden">
+        <!-- Topics View -->
+        <div id="forum-topics-view">
+          <div class="forum-header-bar">
+            <div class="category-filters">
+              <button type="button" class="cat-pill active" data-cat="all">All Topics</button>
+              <button type="button" class="cat-pill" data-cat="kayleigh">🎸 Kayleigh Merez</button>
+              <button type="button" class="cat-pill" data-cat="leah">🌾 Leah Carter</button>
+              <button type="button" class="cat-pill" data-cat="radio">📻 KM Radio &amp; Requests</button>
+              <button type="button" class="cat-pill" data-cat="news">📢 News &amp; Gigs</button>
+            </div>
+            <button type="button" class="pill solid" id="new-topic-btn">+ New Discussion</button>
+          </div>
+
+          <div id="forum-topics-list" class="forum-topics-list">
+            <!-- Topics loaded via /api/forum -->
+          </div>
+        </div>
+
+        <!-- Single Topic Detail View -->
+        <div id="forum-topic-detail-view" class="hidden">
+          <button type="button" class="back-btn" id="back-to-topics-btn">&larr; Back to all discussions</button>
+          <div id="topic-detail-container">
+            <!-- Full post and replies -->
+          </div>
+          <div class="reply-composer">
+            <h4 style="margin: 0 0 0.6rem; font-size: 1rem;">Leave a Reply</h4>
+            <textarea id="reply-input" class="reply-textarea" placeholder="Share your thoughts on this topic..." maxlength="1000"></textarea>
+            <button type="button" id="reply-send-btn" class="pill solid">Post Reply</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Editor Modal -->
+      <div id="profile-modal" class="km-modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="km-modal-card">
+          <button type="button" class="close-modal-btn" id="close-profile-modal-btn" aria-label="Close">&times;</button>
+          <h2>Customize Your Green Room Profile</h2>
+          <div class="form-group">
+            <label for="profile-name-input">Display Name / Handle</label>
+            <input type="text" id="profile-name-input" class="modal-input" maxlength="25" placeholder="Your name or handle">
+          </div>
+          <div class="form-group">
+            <label>Choose Avatar Icon</label>
+            <div id="avatar-grid" class="avatar-grid"></div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="pill solid" id="save-profile-btn">Save Profile</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- New Topic Modal -->
+      <div id="new-topic-modal" class="km-modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="km-modal-card">
+          <button type="button" class="close-modal-btn" id="close-new-topic-modal-btn" aria-label="Close">&times;</button>
+          <h2>Start a New Discussion</h2>
+          <form id="new-topic-form">
+            <div class="form-group">
+              <label for="new-topic-category">Category</label>
+              <select id="new-topic-category" class="modal-select">
+                <option value="kayleigh">🎸 Kayleigh Merez</option>
+                <option value="leah">🌾 Leah Carter</option>
+                <option value="radio">📻 KM Radio &amp; Requests</option>
+                <option value="news">📢 News &amp; Gigs</option>
+                <option value="general">💬 General Discussion</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="new-topic-title">Discussion Title</label>
+              <input type="text" id="new-topic-title" class="modal-input" placeholder="e.g. Favorite track from the new release?" maxlength="120" required>
+            </div>
+            <div class="form-group">
+              <label for="new-topic-content">Your Message / Topic Content</label>
+              <textarea id="new-topic-content" class="modal-textarea" rows="4" placeholder="What would you like to discuss with the community?" maxlength="2000" required></textarea>
+            </div>
+            <div class="modal-actions">
+              <button type="submit" class="pill solid">Publish Discussion</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
     <section id="contact" class="block">
       <p class="kicker">Contact</p>
       <h2>Get in touch.</h2>
@@ -270,5 +422,6 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.20/dist/hls.min.js"></script>
   <script src="player.js?v=26"></script>
+  <script src="community.js?v=1"></script>
 </body>
 </html>
