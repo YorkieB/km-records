@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=16">
+  <link rel="stylesheet" href="styles.css?v=17">
 </head>
 <body>
   <a class="skip" href="#radio">Skip to radio</a>
@@ -73,6 +73,76 @@
           <tr><td>03:00–06:00</td><td>Early</td><td>Maya Cole</td></tr>
         </tbody>
       </table>
+    </section>
+
+    <section id="tv" class="block tv-block">
+      <p class="kicker">Continuous Broadcast</p>
+      <h2>KM TV.</h2>
+      <p class="section-desc">24/7 music videos, studio visualizers, and live concert performances from Kayleigh Merez and Leah Carter.</p>
+
+      <div class="tv-layout">
+        <div class="tv-player-wrap">
+          <div class="tv-screen-box">
+            <video id="tv-video" playsinline preload="metadata"></video>
+            <div class="tv-live-beacon"><span class="live-dot"></span> LIVE ON AIR</div>
+            <div id="tv-unmute-banner" class="tv-unmute-banner" hidden>
+              <span>🔊 Click anywhere to unmute broadcast</span>
+            </div>
+            <div class="tv-chyron">
+              <div class="chyron-meta">
+                <span id="tv-chyron-tag" class="chyron-tag tag-kayleigh">Official MV</span>
+                <div class="chyron-titles">
+                  <h3 id="tv-chyron-title">Loading Broadcast...</h3>
+                  <p id="tv-chyron-artist">KM Records</p>
+                </div>
+              </div>
+              <div class="chyron-progress-box">
+                <div class="chyron-times">
+                  <span id="tv-time-current">0:00</span>
+                  <span id="tv-time-duration">0:00</span>
+                </div>
+                <div class="chyron-bar-track">
+                  <div id="tv-progress-bar" class="chyron-bar-fill"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tv-controls-bar">
+            <div class="tv-ctrl-group">
+              <button type="button" id="tv-play-btn" class="tv-ctrl-btn" aria-label="Play or Pause">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              </button>
+              <button type="button" id="tv-mute-btn" class="tv-ctrl-btn" aria-label="Mute or Unmute">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+              </button>
+            </div>
+            <div id="tv-upnext-title" class="tv-upnext-title">Up Next: Loading...</div>
+            <div class="tv-ctrl-group">
+              <button type="button" id="tv-pip-btn" class="tv-ctrl-btn" title="Picture in Picture" aria-label="Picture in Picture">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 11h-8v6h8v-6zm4 8V4.98C23 3.88 22.1 3 21 3H3c-1.1 0-2 .88-2 1.98V19c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2zm-2 .02H3V4.97h18v14.05z"/></svg>
+              </button>
+              <button type="button" id="tv-fullscreen-btn" class="tv-ctrl-btn" title="Fullscreen" aria-label="Fullscreen">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tv-guide-wrap">
+          <div class="tv-guide-head">
+            <h3>Channel Guide</h3>
+            <div class="tv-filter-pills">
+              <button type="button" class="tv-filter-btn active" data-filter="all">All</button>
+              <button type="button" class="tv-filter-btn" data-filter="Kayleigh Merez">Kayleigh</button>
+              <button type="button" class="tv-filter-btn" data-filter="Leah Carter">Leah</button>
+            </div>
+          </div>
+          <div id="tv-guide-list" class="tv-guide-list">
+            <!-- Dynamically populated by tv.js -->
+          </div>
+        </div>
+      </div>
     </section>
 
     <section id="catalogue" class="block">
@@ -129,7 +199,7 @@
           <li><button type="button" class="track" data-src="audio/same-old-shadow.mp3" data-title="Same Old Shadow" data-artist="Leah Carter" aria-pressed="false"><img src="covers/same-old-shadow.png" alt="Same Old Shadow single cover"><span class="track-name">Same Old Shadow</span><span class="play-label">Play</span></button></li>
           <li><button type="button" class="track" data-src="audio/the-last-good-year.mp3" data-title="The Last Good Year" data-artist="Leah Carter" aria-pressed="false"><img src="covers/the-last-good-year.png" alt="The Last Good Year single cover"><span class="track-name">The Last Good Year</span><span class="play-label">Play</span></button></li>
           <li><button type="button" class="track" data-src="audio/never-say-my-name.m4a" data-title="Never Say My Name" data-artist="Leah Carter" aria-pressed="false"><img src="covers/never-say-my-name.png" alt="Never Say My Name single cover"><span class="track-name">Never Say My Name</span><span class="play-label">Play</span></button></li>
-          <li><button type="button" class="track" data-src="audio/not-that-girl.mp3" data-title="Not That Girl" data-artist="Leah Carter" aria-pressed="false"><img src="covers/not-that-girl.png?v=2" alt="Not That Girl single cover"><span class="track-name">Not That Girl</span><span class="play-label">Play</span></button></li>
+          <li><button type="button" class="track" data-src="audio/not-that-girl.mp3" data-title="Not That Girl" data-artist="Leah Carter" aria-pressed="false"><img src="covers/not-that-girl.png?v=3" alt="Not That Girl single cover"><span class="track-name">Not That Girl</span><span class="play-label">Play</span></button></li>
           <li><button type="button" class="track" data-src="audio/harbour-of-ashes.mp3" data-title="Harbour of Ashes" data-artist="Leah Carter" aria-pressed="false"><img src="covers/harbour-of-ashes.png" alt="Harbour of Ashes single cover"><span class="track-name">Harbour of Ashes</span><span class="play-label">Play</span></button></li>
           <li><button type="button" class="track" data-src="audio/is-this-it.mp3" data-title="Is This It? (What Am I Here For)" data-artist="Leah Carter" aria-pressed="false"><img src="covers/is-this-it.png" alt="Is This It? single cover"><span class="track-name">Is This It? (What Am I Here For)</span><span class="play-label">Play</span></button></li>
         </ul>
@@ -183,8 +253,9 @@
       <p class="kicker">Visual Diary</p>
       <h2>By Kayleigh Merez.</h2>
       <p>Original 4-panel slice-of-life comic strips created by Kayleigh, chronicling music, marriage to Lola, and their California adventures.</p>
-      <div style="margin: 1.2rem 0 2rem;">
+      <div style="margin: 1.2rem 0 2rem; display: flex; gap: 0.8rem; flex-wrap: wrap;">
         <a class="pill solid" href="comics/By_Kayleigh_Merez_Season_1_Collector_Edition.pdf" download="By_Kayleigh_Merez_Season_1.pdf">Download Season 1 Book (PDF)</a>
+        <a class="pill solid" href="comics/By_Kayleigh_Merez_Season_2_Collector_Edition.pdf" download="By_Kayleigh_Merez_Season_2.pdf">Download Season 2 Book (PDF)</a>
       </div>
       
       <div class="comics-grid">
@@ -356,6 +427,15 @@
             <span class="comic-ep">Episode 19</span>
             <h3 class="comic-title">Tea at Trevenna</h3>
             <p class="comic-desc">Constantine sanctuary — honey tea in the garden, listening to Lola read poetry beneath the apple trees.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep20.webp" alt="Episode 20: Full Circle (Season 2 Finale)" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 20 · Season 2 Finale</span>
+            <h3 class="comic-title">Full Circle</h3>
+            <p class="comic-desc">Departing Cornwall, golden flight over the Pacific, sunset balcony embrace, and home studio sanctuary.</p>
           </div>
         </article>
       </div>
@@ -548,5 +628,6 @@
   <script src="player.js?v=26"></script>
   <script src="gallery.js?v=2"></script>
   <script src="community.js?v=2"></script>
+  <script src="tv.js?v=1"></script>
 </body>
 </html>
