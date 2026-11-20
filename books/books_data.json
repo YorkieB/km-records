@@ -1,0 +1,300 @@
+[
+  {
+    "id": "season-1-graphic",
+    "title": "By Kayleigh Merez: Season One",
+    "author": "Kayleigh Merez",
+    "tag": "Graphic Diary",
+    "badge": "Collector's Edition",
+    "pages": "10 Episodes · Full Colour",
+    "cover": "books/covers/season1-cover.webp",
+    "pdf": "books/downloads/By_Kayleigh_Merez_Season_1.pdf",
+    "pdf_size": "2.06 MB",
+    "synopsis": "The complete first volume of Kayleigh's syndicated slice-of-life visual diary. Follow Kayleigh and Lola through early California life, Santa Monica sunsets, wedding day joy, kitchen jams, and quiet acoustic mornings.",
+    "chapters": [
+      {
+        "id": "ep1",
+        "title": "Episode 1: The First Morning",
+        "subtitle": "Moving boxes, ocean breeze, and morning espresso",
+        "content": "Unpacking guitars in Santa Monica. Lola standing on the balcony watching the sunrise over the Pacific. The smell of salt air and fresh coffee filling the empty hardwood apartment."
+      },
+      {
+        "id": "ep2",
+        "title": "Episode 2: The Studio Run",
+        "subtitle": "Traffic on Lincoln Boulevard and valve hum",
+        "content": "Heading down to the rehearsal room with two Gibson cases in the back seat. Dialling in the overdrive pedal while Lola laughs at the volume warning on the door."
+      },
+      {
+        "id": "ep3",
+        "title": "Episode 3: Sunset on the Pier",
+        "subtitle": "Churros, Ferris wheel lights, and ocean breeze",
+        "content": "Walking the boardwalk at dusk. Kayleigh wearing Lola's oversized denim jacket. Eating cinnamon churros with sugar on their thumbs and talking about Cornwall."
+      },
+      {
+        "id": "ep4",
+        "title": "Episode 4: Kitchen Jam",
+        "subtitle": "Sourdough, olive oil, and acoustic fingerpicking",
+        "content": "Cooking pasta while Kayleigh balances a Martin 000-18 on the kitchen stool. Lola harmonising over the sound of simmering garlic and basil."
+      },
+      {
+        "id": "ep5",
+        "title": "Episode 5: The Wedding Day",
+        "subtitle": "Terrace breeze, white linen, and forever promises",
+        "content": "The stone arch overlooking the Mediterranean. Lola wiping a happy tear from Kayleigh's cheek before she fumbles the gold ring with a nervous grin."
+      },
+      {
+        "id": "ep6",
+        "title": "Episode 6: Late Night Writing",
+        "subtitle": "Midnight chords, black notebooks, and quiet embers",
+        "content": "Two in the morning on the Persian rug. Red wine in tumbler glasses. Finding the chorus chord progression for Thunder Queen while the city sleeps."
+      },
+      {
+        "id": "ep7",
+        "title": "Episode 7: The Beach Run",
+        "subtitle": "Golden retrievers, foam waves, and wet sneakers",
+        "content": "Running along the wet sand at low tide. Laughing so hard they collapse onto the driftwood log, watching the pelicans dive into the swell."
+      },
+      {
+        "id": "ep8",
+        "title": "Episode 8: The Record Store Hunt",
+        "subtitle": "Dusty vinyl crates, vintage Bowie, and coffee shops",
+        "content": "Flipping through 1970s rock records in Echo Park. Finding an original British pressing of Wish You Were Here with the postcards still inside."
+      },
+      {
+        "id": "ep9",
+        "title": "Episode 9: Guitar Clinic",
+        "subtitle": "Re-stringing, lemon oil on rosewood, and soldering irons",
+        "content": "Setting up the 1968 Gibson SG. Sean's advice on intonation ringing true across five thousand miles. Lola holding the flashlight steady."
+      },
+      {
+        "id": "ep10",
+        "title": "Episode 10: California Sunset Sanctuary",
+        "subtitle": "Season 1 Finale · Warm breeze, gratitude, and home",
+        "content": "Sitting on the cliff edge above Malibu as the sun dips into the purple horizon. Lola resting her head on Kayleigh's shoulder. A year of dreams that came true."
+      }
+    ]
+  },
+  {
+    "id": "season-2-graphic",
+    "title": "By Kayleigh Merez: Season Two",
+    "author": "Kayleigh Merez",
+    "tag": "Graphic Diary",
+    "badge": "Tour Edition",
+    "pages": "10 Episodes · Full Colour",
+    "cover": "books/covers/season2-cover.webp",
+    "pdf": "books/downloads/By_Kayleigh_Merez_Season_2.pdf",
+    "pdf_size": "2.31 MB",
+    "synopsis": "The full 10-episode tour collection across America and back home to Cornwall. From the Big Sur cliffs and Seattle rain to Midwestern farmhouses and the Cornish sanctuary at Carn Lowen.",
+    "chapters": [
+      {
+        "id": "ep11",
+        "title": "Episode 11: The Morning After",
+        "subtitle": "Season 2 Premiere · Tour bus coffee and departure",
+        "content": "Waking up in the tour bus bunk as dawn breaks over the San Fernando Valley. Lola handing Kayleigh a warm thermos of tea before the engine roars."
+      },
+      {
+        "id": "ep12",
+        "title": "Episode 12: Heading South",
+        "subtitle": "Coast highway, taco trucks, and soundchecks",
+        "content": "Rolling into San Diego with ocean spray hitting the windshield. Loading amplifiers onto the wooden club stage while the sea gull cries outside."
+      },
+      {
+        "id": "ep13",
+        "title": "Episode 13: San Diego Encore",
+        "subtitle": "Sweaty encores, ringing ears, and cold beers",
+        "content": "Thunder Queen rocking the sold-out venue. Lola standing at stage left smiling as Kayleigh finishes a blistering pentatonic solo with both eyes closed."
+      },
+      {
+        "id": "ep14",
+        "title": "Episode 14: Big Sur Sanctuary",
+        "subtitle": "Redwood giants, ocean mist, and wooden cabins",
+        "content": "A day off along Highway 1. Walking among ancient trees taller than cathedrals, sitting by the wood stove with tea while the Pacific fog rolls over the ridge."
+      },
+      {
+        "id": "ep15",
+        "title": "Episode 15: Fog City & The Fillmore",
+        "subtitle": "San Francisco hills, vintage cable cars, and rock royalty",
+        "content": "Stepping onto the historic Fillmore stage. Touching the original posters of Hendrix and Joplin. Playing the Gibson SG with everything she had."
+      },
+      {
+        "id": "ep16",
+        "title": "Episode 16: Rainy Rhythms & Seattle Sound",
+        "subtitle": "Pike Place market, wet wool, and grunge lineage",
+        "content": "Rain drumming on the green awning of the coffee shop. Writing lyrics in a damp notebook while Lola shops for fresh Pacific salmon and cedar planks."
+      },
+      {
+        "id": "ep17",
+        "title": "Episode 17: Midwestern Horizon",
+        "subtitle": "Endless grain fields, rusty silos, and open skies",
+        "content": "Driving through five hundred miles of golden wheat. The highway arrow-straight under thunderous blue skies. Kayleigh playing slide guitar on the bus sofa."
+      },
+      {
+        "id": "ep18",
+        "title": "Episode 18: The Farmhouse Session",
+        "subtitle": "Converted barn studio, warm acoustics, and acoustic wood",
+        "content": "Setting up ribbon microphones in a 19th-century timber barn. Recording acoustic overdubs with birdsong bleeding gently into the track."
+      },
+      {
+        "id": "ep19",
+        "title": "Episode 19: Tea at Trevenna",
+        "subtitle": "Constantine garden, honey tea, and poetry beneath apple trees",
+        "content": "Arriving in England. Taking the winding country lane down to Trevenna. Sitting under the mossy orchard boughs listening to Lola read poetry."
+      },
+      {
+        "id": "ep20",
+        "title": "Episode 20: Full Circle (Finale)",
+        "subtitle": "Mount's Bay, Carn Lowen, and the home studio",
+        "content": "Standing on the granite headland above Mousehole. Smell of woodsmoke and sea spray. Coming back through the kitchen door at Carn Lowen to where it all began."
+      }
+    ]
+  },
+  {
+    "id": "carn-lowen-memoir",
+    "title": "Carn Lowen: The House on the Coast Road",
+    "author": "Kayleigh Merez",
+    "tag": "Autobiography & Essays",
+    "badge": "Cornish Memoir",
+    "pages": "7 Chapters · 12,000 Words",
+    "cover": "books/covers/carn-lowen-cover.webp",
+    "pdf": "books/downloads/Carn_Lowen_Memoir_Kayleigh_Merez.pdf",
+    "pdf_size": "0.12 MB",
+    "synopsis": "An intimate, lyrical memoir of growing up between Penzance and Mousehole, the smell of woodsmoke and seaweed, learning electric guitar from Sean, and falling in love with Lola.",
+    "chapters": [
+      {
+        "id": "house-coast-road",
+        "title": "Chapter 1: The House on the Coast Road (Ages 0–10)",
+        "subtitle": "Carn Lowen, woodsmoke, and the first guitar",
+        "content": "She was born in Truro on the tenth of October 2002, but the place that made her was twenty minutes west: a long, low, white-rendered farmhouse called Carn Lowen, perched above the coast road between Penzance and Mousehole, with three acres of scrubby garden running down to a stile and then to the sea. The house had thick stone walls that swallowed sound in winter and a kitchen with a permanently-warm Aga, and Kayleigh's two clearest sense-memories of childhood are the smell of woodsmoke and seaweed mixed together on autumn evenings, and the sound of the wind throwing itself at the kitchen window so hard the glass hummed.\n\nHer favourite rooms were the snug — a small, dark, beam-ceilinged sitting room with a record player and a saggy red velvet sofa — and the upstairs landing, where the floorboards creaked in a particular sequence she still claims she could play back on a piano.\n\nAs a small child she was both things at once: feral in the garden and forensic at the kitchen table. She would spend whole mornings dragging Leah on a hand-built raft across the pond and then come inside and quietly draw cassette tapes for an hour with a biro. She was the louder of the two girls — always — but it wasn't unkind loudness, it was the loudness of a child who'd worked out very early that life rewarded you for filling rooms.\n\nMusic grabbed her on a Sunday in March 2007, when she was four. Olivia was washing up with the radio on Radio 2, and AC/DC's 'Hells Bells' came on between two middle-of-the-road pop records. Kayleigh stopped halfway across the rug, listened through the four bell tolls, and then began jumping on the spot with both fists clenched so hard her knuckles turned white. Olivia tells this story at every birthday: 'Sean came in from the garage with grease on his forearms and just watched her. He looked at me, I looked at him, and he said, \"Well, that's that then.\"'\n\nThe first guitar she picked up with intent was Sean's battered 1978 Yamaha FG acoustic, which lived on a stand in the corner of his workshop behind three motorbikes. She was seven. Her fingers couldn't wrap around the neck, so she laid it flat on the workbench like a lap-steel and hit the low E string with the handle of a 10mm spanner until Sean came in, laughed, and tuned the whole thing to open D so whatever she hit made a noise worth hearing."
+      },
+      {
+        "id": "pencarrow-college",
+        "title": "Chapter 2: Pencarrow College (Ages 11–18)",
+        "subtitle": "Sea winds, teenage rock, and classical rebellion",
+        "content": "Her parents sent both girls to Pencarrow College, the comprehensive in Penzance where Olivia had gone thirty years earlier. Kayleigh was never an easy pupil to place on an academic grid. She was brilliant at English, passable at Geography (mainly because she liked drawing coastlines), and aggressively indifferent to anything involving quadratic equations. Her reports consistently used words like 'engaged', 'distracted', 'ferocious when interested', and 'a disruptive influence during silent study'.\n\nThree of her favourite school memories with Leah were:\nFirst, Year 9, when they convinced the supply French teacher that 'le Cornish pasty' was a recognised AOC foodstuff with its own grammar;\nSecond, the December afternoon when the sea wall breached at high tide and the whole school was evacuated through the back gates, Kayleigh and Leah walking the three miles back along the cliff path with salt crusting on their blazers and laughing so hard they had stitches;\nAnd third, the battle of the bands in Year 11, which Kayleigh entered with a three-piece called The Lowen and lost to a sixth-form Coldplay covers outfit, which made her so incandescent she spent the whole summer holiday in the garage learning EVH tap solos at 180bpm until her fingertips bled into the fretboard.\n\nShe came out to Leah first, at fifteen, sitting on the granite jetty at Mousehole with two salt-vinegar bags of chips between them. Leah looked up, chewed once, and said: 'Yeah, obviously. Did you think that was a surprise?' Olivia was second, a week later over scrambled eggs. Her mother set down the spatula, kissed the crown of her head, and said, 'Tea, darling? Or did you want a whole conversation about it?' Kayleigh still says that five-second non-event was the greatest single act of parenting she ever received."
+      },
+      {
+        "id": "lipa-and-the-band",
+        "title": "Chapter 3: University, Liverpool & The Crash (Ages 18–21)",
+        "subtitle": "LIPA, the Mersey docks, and rock lineage",
+        "content": "She read BA Songwriting at LIPA — the Liverpool Institute for Performing Arts — from 2021 to 2024. Liverpool was the first place she ever lived where people didn't care about the sea, which baffled her for a fortnight until she discovered that the Mersey smelled almost right if you stood on the pier head when the tide was going out.\n\nShe lived in a draughty Victorian terrace off Smithdown Road with two bass players and a drummer, spent her maintenance loan on valve preamps and vintage Big Muffs, and wrote fifty songs in her first eighteen months, forty-two of which she subsequently deleted.\n\nThe Crash formed in her second year at LIPA. Four women, two guitars, bass, drums, no synthesizers, no click tracks. They played every basement in Liverpool, Manchester, and Leeds between October 2022 and May 2024. Kayleigh was lead guitarist and primary songwriter; she sang from behind a Gibson SG that looked three sizes too big for her and played like she was trying to break the amplifier before the amplifier broke her.\n\nMoving to Los Angeles was an accident that looked like a plan. A music supervisor heard their live bootleg of 'Thunder Queen' at a label showcase in Soho, bought the synch rights for an independent feature film, and handed Kayleigh enough money to buy a round-trip ticket to LAX. She got off the plane at twenty-one, looked at the palms along Century Boulevard, and felt for the first time in her life that the world was larger than Mount's Bay."
+      },
+      {
+        "id": "the-lola-chapter",
+        "title": "Chapter 4: The Lola Chapter",
+        "subtitle": "Marbella, red wine, and the woman who anchored the fire",
+        "content": "The breakup with her ex landed in early December 2025. Kayleigh did what Cornish people do when everything falls apart: she got on an aeroplane, flew to Spain, and sat by the Mediterranean until the cold stopped following her around.\n\nLola was already in Marbella. Lola had been in the business seven years longer, carried twice the scars, and owned a presence that could quiet an entire room without raising her voice.\n\nThey met at a private dinner at the villa of an English producer who had known Sean Carter since the late eighties. It was just after eleven. The lights of Marbella were strung out along the curve of the bay like orange beads, and Kayleigh was out on the terrace with a glass of red wine, leaning against the warm stone balustrade and looking out toward Gibraltar.\n\nLola walked out into the warm terrace air with a wool cardigan draped over her shoulders. She looked at Kayleigh's leather jacket, looked at her glass, and said: 'You look like you're either going to kill somebody or write a record about them.'\nKayleigh didn't look round. She took a sip of the Rioja and said: 'Probably both, in that order.'\nLola laughed — that deep, smokey, effortless chuckle that Kayleigh would later spend months trying to capture in vocal overdubs — leaned against the stone beside her, and stayed until four in the morning.\n\nThey were married four months later. Not a quiet marriage, not a private marriage, but a fierce, joyous, completely unapologetic union. Kayleigh had Lola's name inked across her left forearm in fine cursive within six weeks: 'Because if you know, you know, and anyone who tells you to wait six months doesn't understand rock and roll.'"
+      },
+      {
+        "id": "underneath",
+        "title": "Chapter 5: Underneath & The Quiet Fear",
+        "subtitle": "Beyond the loudness, the anchor of home",
+        "content": "What Kayleigh is actually afraid of is outliving the music. Not death, not failure, not losing money — she's lived on instant noodles in Smithdown Road and she could do it again tomorrow with a grin. What terrifies her is the thought of waking up at forty-five and picking up a guitar and feeling nothing. The fear is visceral, bodily, and real. It's why she practices four hours every day even when she has nothing booked.\n\nThe thing she has never said out loud, even to Lola, is that she makes noise because she's frightened of what she sounds like when she stops.\n\nCornwall is the only place where she doesn't feel that terror. When she's at Carn Lowen, walking across the headland from Mousehole to Lamorna, the silence doesn't feel like an absence; it feels like granite. It's solid. It holds her."
+      },
+      {
+        "id": "six-stories",
+        "title": "Chapter 6: Six Stories from the Coast",
+        "subtitle": "Hells Bells, Christmas concerts, and pasties in the rain",
+        "content": "1. 'The Hells Bells Moment' — Aged four, on the kitchen rug at Carn Lowen. Olivia washing up, Sean in motor grease, the bell tolling four times from the radio. The realisation that sound could be heavy, dangerous, and wonderful all at once.\n\n2. 'The Christmas Concert' — Year 9 at Pencarrow. Assigned 'Once in Royal David's City' on acoustic; played Pink Floyd's 'Wish You Were Here' intro instead through a 15-watt practice amp hidden behind the choir risers. Banned from choir for six weeks; received a standing ovation from the sixth formers.\n\n3. 'The Lulworth Pasty' — Year 9 geography field trip. Gulls swooping down over the limestone cove; Leah losing her sandwich; Kayleigh trading half her pasty for Leah's headphones so they could share a cassette of Fleetwood Mac on the bus home.\n\n4. 'The Night on Battery Rocks' — Aged nine, with Sean. Midnight low tide during the spring equinox. Phosphorescence in the rockpools, water glowing blue when you stirred it with a kelp stem. Sean saying: 'Look at that, Kay. The whole world is lit up from underneath. You just have to be awake to see it.'\n\n5. 'The Garden Wall' — December 2025 in Marbella. The stone balustrade, the bottle of Faustino, Lola's cardigan, the quiet that changed the next twenty years.\n\n6. 'The Cast and the Cliff' — Year 12. Climbing the granite face at Bosigran with Megan, scraping her palm on the feldspar, sitting at the top eating shortbread with blood on her thumb, watching the Atlantic swell come in from Newfoundland."
+      },
+      {
+        "id": "the-people",
+        "title": "Chapter 7: The People of the House",
+        "subtitle": "Sean, Megan, Olivia, and Leah",
+        "content": "Sean is her north star and her sparring partner. He doesn't praise her easily, which is why when he says, 'That's good, Kay,' it counts for more than five reviews in Kerrang! or Rolling Stone. He taught her how to change a tyre, how to solder a guitar jack, and how to hold your ground in a contract meeting.\n\nMegan is the cousin she can be completely unguarded with. They have that particular shorthand that only exists between cousins who were forced to share a sofa-bed at family Christmases for a decade.\n\nOlivia is the anchor. Kayleigh gets her stubbornness from Olivia, her love of language, and her absolute refusal to compromise on quality. When Kayleigh is spinning out, Olivia doesn't give advice; she gives her a mug of Yorkshire tea with two sugars and tells her to go walk on the beach.\n\nAnd Leah. Leah is the other half of the house. Different mothers, different tempos, completely different musical languages — Leah with her warm Nashville acoustic fingerpicking and country honesty, Kayleigh with her screaming Gibson SG and British punk swagger. But they are sisters in every way that counts: two artists, one house, bound by the granite of Carn Lowen."
+      }
+    ]
+  },
+  {
+    "id": "olivia-stone-memoir",
+    "title": "The Salt & The Stone: A Cornish Lineage",
+    "author": "Olivia Wilson-Carter",
+    "tag": "Cornish Heritage",
+    "badge": "Oral History",
+    "pages": "5 Chapters · 9,000 Words",
+    "cover": "books/covers/olivia-story-cover.webp",
+    "pdf": "books/downloads/The_Salt_and_The_Stone_Olivia_Story.pdf",
+    "pdf_size": "0.12 MB",
+    "synopsis": "Olivia's story of growing up on Stratton Terrace above Falmouth harbour, meeting Sean Carter, building Carn Lowen, and the deep Cornish roots that shaped Kayleigh and Leah.",
+    "chapters": [
+      {
+        "id": "falmouth-harbour",
+        "title": "Chapter 1: A Name, a Date, a Town",
+        "subtitle": "Stratton Terrace, Newlyn mackerel, and Flushing ferry",
+        "content": "A Name, a Date, a Town\n\nHer full name is Olivia Jane Wilson — Jane for her mother's mother, a Newlyn fishmonger's daughter who taught her to gut a mackerel at six and to read poetry at seven. She was born on 8 November 1973, which makes her fifty-two, and her birthplace is Falmouth — specifically, the upper-floor flat of a tall Edwardian house on Stratton Terrace with a long view across the harbour to Flushing. She is Cornish by birth, by bone, and by taste; she would say, if pressed, that she has lived elsewhere but she has never been from anywhere else.\n\nThe Wilson Household\n\nHer father, Hugh Wilson, was a solicitor at a small Falmouth practice — a kind, deliberate man with a slight stoop and a soft Cornish accent he never lost, who specialised in the unglamorous end of property and probate and read Patrick O'Brian in the evenings. Her mother, Catherine \"Cathy\" Wilson, née Trevethan, was a librarian at Falmouth Library for thirty-two years and, in her own private hours, a competent watercolourist who exhibited twice in her life at the Poly and once at a gallery in St Ives and never made anything of it. The Wilsons were culturally engaged middle-class Cornish — comfortable rather than wealthy, with a paid-off mortgage, two annual subscriptions (the London Review of Books and Gramophone), a piano in the front room, and Saturday-morning ritual visits to the second-hand bookshop on Killigrew Street.\n\nOlivia has one younger brother — James Wilson, forty-nine, who became an oboist and now teaches at the Royal Welsh College of Music and Drama in Cardiff. They are close, in a sparing, affectionate way; he calls her every other Sunday."
+      },
+      {
+        "id": "the-wilson-house",
+        "title": "Chapter 2: The Wilson Household & School Days",
+        "subtitle": "High ceilings, sash windows, and colour observation",
+        "content": "The flat on Stratton Terrace had high ceilings and slightly draughty sash windows, Radio 3 always on in the kitchen, and a smell — she could find it blindfolded — of bergamot tea, beeswax polish, and the faintly inky drift from Hugh's study. The atmosphere was quietly serious about art: nobody in the Wilson household ever said the word culture out loud, because culture was simply what one did in the evening when the dishes were dried.\n\nAs a small girl she was watchful, observant, decisive about colour, and unusually patient. She loved her mother's watercolour box, the harbour at low tide, and the Newlyn School paintings at Penlee House Gallery in Penzance, which she first visited aged six and never quite recovered from. She was afraid of the dark in the upstairs corridor and, more rationally, of disappointing her father. She laughed until she hurt at James, aged five, trying to play the recorder. Before she understood what she could become, she wanted to be the curator of Penlee House.\n\nSchool (Ages 5–18)\n\nShe went to Falmouth Primary and then, on a partial scholarship her father had not expected to win her, to Truro High School for Girls — the independent girls' school in Truro, where she commuted daily on the train from 1985 to 1992. She was an all-rounder who was secretly a specialist: straight As across the board, but the subjects that defined her were English, Art History, and French. The teacher who saw her was a Mrs Eleanor Penberthy, head of Art History, a woman with grey shingled hair and a wardrobe of linen smocks, who lent her catalogues from her own shelves and told her, in Year 13, \"darling, you are not going to be the painter — you are going to be the one who makes sure the painter gets to eat.\"\n\nThat sentence reorganised her life. She understood by sixteen that she was, by temperament, more interested in the infrastructure of art than the performance of it. She did not, ever, want to be on stage. She wanted to make the stage exist."
+      },
+      {
+        "id": "bristol-and-tate",
+        "title": "Chapter 3: Bristol, St Ives & A Career in Art",
+        "subtitle": "History of art, the Newlyn School, and the Tate St Ives",
+        "content": "Bristol, and the Beginnings of a Career\n\nShe read History of Art at the University of Bristol (1992–1995), graduating with a First. Bristol gave her the first foreign country of her life that wasn't a foreign country — the dock at low tide, the Georgian terraces, the Watershed cinema, the Arnolfini gallery, and an entire set of friends who were not Cornish and did not pretend to understand her accent. She loved it without ever quite belonging to it, which she came to see, later, as the right relationship to have with a city.\n\nShe took her first job in autumn 1995 as Press and Marketing Assistant at the Hall for Cornwall in Truro — junior, underpaid, frantic, and exactly what she needed. Within eighteen months she was running the venue's press operation. By 1998 she had moved sideways into a freelance arts PR practice she ran herself out of a small office in Penzance, picking up clients across the Newlyn School Gallery, the Penlee House Gallery, the Porthcurno Telegraph Museum, and the Minack Theatre. She discovered she was exceptionally good at three specific things: writing a press release that a Guardian arts editor would actually open on a Monday morning, persuading a national broadsheet that a Cornish story was a national one, and managing the egos of Cornish artists who had been overlooked for too long and were not always graceful about it. She built her reputation as the person who could make the Cornish art world legible to London without flattening what made it Cornish.\n\nBy 2002 she was on retainer with the Tate St Ives in a senior PR consultancy capacity, on a project basis, while raising two small daughters. It is the single piece of her CV she is still, quietly, the proudest of."
+      },
+      {
+        "id": "meeting-sean",
+        "title": "Chapter 4: Meeting Sean Carter (Summer 1992)",
+        "subtitle": "A steady, capable presence and building Carn Lowen",
+        "content": "Meeting Sean\n\nShe met Sean Carter in the summer of 1992, when she was eighteen and he was twenty, at the Acorn Theatre on Parade Street in Penzance. She was selling programmes at a small table by the door during her university summer holidays; he came in wearing a jacket that was too big and gave her the wrong change for a five-pound note. She remembers, exactly, the look she gave him — half severe, half amused — and that he held her gaze for a fraction of a second longer than was comfortable, and that he came back the next night for a play he plainly did not want to see.\n\nWhat she saw in him, that nobody else could see at twenty, was a steady, careful seriousness — the same quality her father had, with an entirely different appetite behind it. He was at the very beginning of nothing; he had three A-Levels, a borrowed jacket, and an idea. She had a place at Bristol and a clear sense of what she wanted to do with her life. She was not looking for a husband. She found one anyway.\n\nThe relationship took six months to be a relationship — letters between Bristol and Penzance, weekends home that lasted too long, a quiet Christmas where Hugh and Cathy met him at the kitchen table on Stratton Terrace and Cathy, who could be sharp, said only \"Hugh, put the kettle on,\" which was, in Wilson grammar, we like him. They married in June 1996 at St Mary's, Penzance, with seventy guests and a cellist Olivia had once written a press release for.\n\nWhen she understood the scale of what Sean was building — and this came in waves, not in a single moment, but the clearest wave was in 2007 when the first London project completed — she felt prepared without being prepared. She had married a man with appetite. She had not understood, exactly, how much appetite. She adjusted; she did not become a different person; and she was, very specifically, never going to be a billionaire's wife as a job. That decision, made in a single quiet conversation with Sean in the kitchen at Carn Lowen in early 2008, is one of the load-bearing facts of the family."
+      },
+      {
+        "id": "raising-two-artists",
+        "title": "Chapter 5: Two Daughters on Mount's Bay",
+        "subtitle": "Kayleigh's roaring fire and Leah's quiet country clarity",
+        "content": "The Marriage\n\nWhat has held this marriage together for thirty years is two very specific things: Sean has never asked her to be smaller than she is, and she has never asked him to slow down. What has tested it is the years he was not at breakfast — a phrase that, in the Carter house, means the years he was building. What she loves about him that she could not have anticipated at eighteen is his tenderness with small things — the tomatoes, his mother, his daughters' bad days. What she finds most infuriating is that he reads the FT at the breakfast table and forgets to reply to her texts within the same calendar day.\n\nHe gives her something nobody else has ever given her: the complete, unsentimental belief that her work is real work. He read every press release she wrote in the 1990s. He once flew home from London early to attend a Penlee House opening she was running. He has, every single year of their marriage, sent her flowers on the anniversary of her first published byline in The Cornishman.\n\nShe did not give up her career so much as re-shape it around two children and a husband who was building three countries. From 2003 onward she worked at about forty per cent of her old capacity — selective retainers, a board seat at Newlyn Art Gallery from 2009 to 2018, a trustee role with the Penlee House Trust from 2015 to the present, and a quiet stream of pro bono PR for younger Cornish artists she rates. She is, in 2026, deputy chair of the Penlee House Trust and on the advisory committee of a St Ives–based women's printmaking residency she helped found in 2019.\n\nShe fell in love with Andalucía on her own terms in 2011 — not the Marbella villas, but the Albaicín in Granada and the Alhambra on a long November weekend that Sean had not, technically, planned to be a holiday. She loves the jasmine, the tilework, the slow afternoons, and the way the light at five o'clock turns the white walls pink. Marbella, she would admit privately, is Sean's place. Granada is hers.\n\nAs a Mother\n\nShe gave her daughters books on every birthday from one to eighteen, a piano in the front room from the moment Leah could sit up, a rotating set of postcards from Penlee House on the kitchen noticeboard, and the unstated household rule that art was real work. The cultural seriousness in the farmhouse was, unambiguously, hers — Sean approved of it, paid for it, and would not have organised it himself.\n\nShe always understood Kayleigh, but she had to learn how to read her. Kayleigh's loudness is, Olivia decided early, a containment strategy; what looks like confidence is, often, very accurate self-management. The specific thing only a mother notices is that Kayleigh eats almost nothing on the day before a release — a small, repeated fact that nobody else in the household has ever clocked. Olivia leaves a bowl of grapes within reach and says nothing.\n\nLeah is the daughter who most resembles her — the same forensic attention, the same patience for a sentence, the same unwillingness to be hurried. Hearing Leah's private life turned into songs is, Olivia has said only to Sean and only once, \"the strangest and most flattering thing that has ever happened to me as a parent.\" The song on Salt and Gold she finds hardest to listen to is track 7 — The Quiet House* — which is, although Leah will not say so, partly about Olivia herself.\n\nThe story behind the farmhouse interior is this: in summer 2003, six weeks after Kayleigh was born, with Sean away in London and the house still half-furnished from the move, Olivia spent four uninterrupted days on a single project — stripping the lime-washed sitting-room walls back to bare granite, sourcing a 1920s Persian rug from an auction house in Truro, having the chimney breast re-pointed, and hanging a small Newlyn School oil her mother had left her over the fireplace. Sean came home, walked into the room, said \"oh,\" and then \"right,\" and then never let her stop. Every interior of the family's three homes is, in the end, traceable to her.\n\nShe has known Lola Merez since Lola was eleven and the Carter kitchen has been the second home Lola visited most often. She suspected, by about 2017, that Lola was in love with Kayleigh. She did not say so. She is, completely uncomplicatedly, glad. What she hopes for Kayleigh in this marriage is the one thing she has always hoped for her: a person who will be in the room at the end of the day, and the time to enjoy it.\n\nArts, As a Living Thing"
+      }
+    ]
+  },
+  {
+    "id": "complete-songbook",
+    "title": "Two Artists. One House: The Complete Lyrics",
+    "author": "Kayleigh Merez & Leah Carter",
+    "tag": "Official Songbook",
+    "badge": "Lyrics & Chords",
+    "pages": "6 Featured Tracks · Tunings & Chords",
+    "cover": "books/covers/songbook-cover.webp",
+    "pdf": "books/downloads/Two_Artists_One_House_Lyric_Songbook.pdf",
+    "pdf_size": "0.11 MB",
+    "synopsis": "The definitive studio songbook of KM Records. Verified lyrics, guitar tunings, chord progressions, and handwritten studio reflections for house tracks across British rock and country.",
+    "chapters": [
+      {
+        "id": "thunder-queen",
+        "title": "Thunder Queen — Kayleigh Merez",
+        "subtitle": "Key of D Minor · 138 BPM · Tuning: Drop D (D-A-D-G-B-E)",
+        "content": "CHORDS: Dm - F - C - G - Bb\n\nSTUDIO NOTE: \"Written on Sean's workbench in Carn Lowen. High-output valve saturation with Marshall JCM800 lead tone.\"\n\n[Intro]\n(Lightning riff in D Minor)\n\n[Verse 1]\nThunder in the harbour, black clouds roll in deep\nStanding on the jetty where the water never sleeps\nYou told me I was reckless, said I'd burn down in the storm\nI was made of iron before your morning sun was born\n\n[Chorus]\nCall me the Thunder Queen, fire in the rain\nRunning on the high wire, laughing through the pain\nGibson in my hands and lightning in my veins\nYou can keep your crown, I'm the Thunder Queen\n\n[Verse 2]\nNeon on the asphalt, tyres spinning red\nI heard every word that the gentle angels said\nThey said to bow my head and keep my fingers light\nI plugged into the stack and tore right through the night\n\n[Chorus]\nCall me the Thunder Queen, fire in the rain\nRunning on the high wire, laughing through the pain\nGibson in my hands and lightning in my veins\nYou can keep your crown, I'm the Thunder Queen\n\n[Guitar Solo]\n(E-minor pentatonic tapping into screaming sustained D)\n\n[Outro]\nI'm the Thunder Queen.\nYeah, watch the sky break."
+      },
+      {
+        "id": "not-that-girl",
+        "title": "Not That Girl — Leah Carter",
+        "subtitle": "Key of A Major · 104 BPM · Tuning: Standard (E-A-D-G-B-E) · Capo 2nd Fret",
+        "content": "CHORDS: G - D - Em7 - Cadd9\n\nSTUDIO NOTE: \"Acoustic fingerstyle country ballad. Written outside the cottage on the cedar deck at golden hour.\"\n\n[Verse 1]\nYou left your muddy workboots on the welcome mat again\nTalking like we're something you can put down now and then\nI poured the black roast coffee, watched the steam rise in the air\nYou think because I'm quiet that I'm standing in your glare\n\n[Chorus]\nI'm not that girl who waits beside the window sill\nI'm not the shadow standing underneath your hill\nI've got my two boots laced and twenty miles to run\nI'm not that girl who waits on anyone\n\n[Verse 2]\nThe gravel drive is empty where your Chevy used to sit\nYou thought without your headlights I would wander in the mist\nThe porch light's still burning, but the lock is turned tonight\nI finally found the beauty in my own clear morning light\n\n[Chorus]\nI'm not that girl who waits beside the window sill\nI'm not the shadow standing underneath your hill\nI've got my two boots laced and twenty miles to run\nI'm not that girl who waits on anyone\n\n[Bridge]\nLet the bluebird sing out on the cedar pine\nYour clock is ticking fast, but the open road is mine\n\n[Outro]\nNo, I'm not that girl.\nI'm already gone."
+      },
+      {
+        "id": "cherry-red",
+        "title": "Cherry Red — Kayleigh Merez",
+        "subtitle": "Key of E Major · 126 BPM · Tuning: Standard (E-A-D-G-B-E)",
+        "content": "CHORDS: E - A - B - C#m\n\nSTUDIO NOTE: \"Classic British rock single inspired by The Clash and Paul Kossoff's vibrato.\"\n\n[Verse 1]\nScreaming red finish on a mahogany slab\nPicked it out of London in the back of a black cab\nSix strings of copper, thirty watts of heat\nFoot down on the fuzz box, dancing in the street\n\n[Chorus]\nCherry red, singing through the smoke\nEvery promise that you made was just a bitter joke\nStrap it on my shoulder, watch the amps turn red\nI'm playing for the living, not the dead\n\n[Verse 2]\nLola's at the sound desk, nodding with a grin\nWaiting for the four-count before the drums kick in\nTwo guitars firing like a pair of loaded guns\nWe don't need permission from anyone's sons\n\n[Chorus]\nCherry red, singing through the smoke\nEvery promise that you made was just a bitter joke\nStrap it on my shoulder, watch the amps turn red\nI'm playing for the living, not the dead"
+      },
+      {
+        "id": "whiskey-on-a-wednesday",
+        "title": "Whiskey on a Wednesday — Leah Carter",
+        "subtitle": "Key of D Major · 92 BPM · Tuning: Drop D · Capo 3rd Fret",
+        "content": "CHORDS: D - G - A7 - Bm\n\nSTUDIO NOTE: \"Intimate honky-tonk acoustic blues. Recorded with a single Neumann U87 microphone in one take.\"\n\n[Verse 1]\nThe calendar on the pantry door has got three days crossed out\nA half-empty tumbler on the table leaves no doubt\nSunday was for promises, Tuesday was the fight\nNow I'm sitting with a bottle on a rainy Wednesday night\n\n[Chorus]\nWhiskey on a Wednesday, burning down the dust\nLooking at this ring that's turning into rust\nI don't need a weekend to let the tears run free\nWhiskey on a Wednesday is company enough for me\n\n[Verse 2]\nThe radio plays soft and low, some old Hank Williams tune\nRaindrops tapping Morse code on the ceiling of my room\nI used to think that drinking alone was a sign of giving in\nTonight it just feels honest like an old and worn-out friend\n\n[Chorus]\nWhiskey on a Wednesday, burning down the dust\nLooking at this ring that's turning into rust\nI don't need a weekend to let the tears run free\nWhiskey on a Wednesday is company enough for me"
+      },
+      {
+        "id": "guitar-speaks",
+        "title": "Guitar Speaks — Kayleigh Merez",
+        "subtitle": "Key of G Major · 112 BPM · Tuning: Open G (D-G-D-G-B-D)",
+        "content": "CHORDS: G - C - D - F - Am\n\nSTUDIO NOTE: \"Instrumental rock masterwork. Kayleigh's tribute to Jeff Beck, Gary Moore, and Cornish sea cliffs.\"\n\n[Liner Notes]\n(Instrumental Composition)\n\n'I don't need to put lyrics on this one. When the fuzz pedal engages at 1:45, that's what Mount's Bay sounds like in a November gale when the waves hit the breakwater at Newlyn. Every slide note is a word I couldn't find in the dictionary.' — Kayleigh Merez"
+      },
+      {
+        "id": "gravel-and-goodbye",
+        "title": "Gravel and Goodbye — Leah Carter",
+        "subtitle": "Key of C Major · 88 BPM · Tuning: Standard (E-A-D-G-B-E)",
+        "content": "CHORDS: C - F - G - Am\n\nSTUDIO NOTE: \"Storytelling country ballad written on the tailgate of the vintage Ford truck.\"\n\n[Verse 1]\nTwo tyre tracks in the limestone dust\nAn old iron gate covered up with rust\nYou packed your denim jacket in the passenger side\nDidn't even look back at the tears I couldn't hide\n\n[Chorus]\nGravel and goodbye, that's all you left behind\nA cloud of white smoke blowing through my mind\nYou took the open highway and the summer sun\nLeft me with the gravel and the things we left undone\n\n[Verse 2]\nNow the autumn wind is sweeping all the stones away\nI walked down to the mailbox at the end of every day\nNot a single postcard, not a single line\nJust gravel and goodbye, and a world that's doing fine\n\n[Outro]\nYeah, gravel and goodbye.\nDust in the wind."
+      }
+    ]
+  }
+]

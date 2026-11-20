@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=17">
+  <link rel="stylesheet" href="styles.css?v=18">
 </head>
 <body>
   <a class="skip" href="#radio">Skip to radio</a>
@@ -33,8 +33,9 @@
       <a href="#kayleigh">Kayleigh</a>
       <a href="#leah">Leah</a>
       <a href="#gallery">Gallery</a>
-      <a href="#community">Community</a>
+      <a href="#books">Books</a>
       <a href="#comics">Comics</a>
+      <a href="#community">Community</a>
     </nav>
     <a class="pill ghost" href="#contact">Contact</a>
   </header>
@@ -246,6 +247,26 @@
             <p id="lightbox-location" class="lightbox-location"></p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="books" class="block books-block">
+      <div class="books-head-row">
+        <div>
+          <p class="kicker">Publications & Stories</p>
+          <h2>KM Books.</h2>
+          <p class="section-desc">Official memoirs, collector's graphic diaries, Cornish histories, and the complete lyrics of the KM Records house.</p>
+        </div>
+        <div class="book-filter-pills">
+          <button type="button" class="book-filter-btn active" data-filter="all">All</button>
+          <button type="button" class="book-filter-btn" data-filter="graphic">Graphic Diaries</button>
+          <button type="button" class="book-filter-btn" data-filter="memoir">Memoirs</button>
+          <button type="button" class="book-filter-btn" data-filter="songbook">Songbooks</button>
+        </div>
+      </div>
+
+      <div id="books-grid" class="books-grid">
+        <!-- Dynamically rendered by books.js -->
       </div>
     </section>
 
@@ -696,10 +717,55 @@
     <span id="time">0:00</span>
     <audio id="audio" preload="none"></audio>
   </div>
+  <!-- Interactive Book Reader Modal -->
+  <div id="book-reader-modal" class="reader-modal-overlay" hidden>
+    <div class="reader-pane" role="dialog" aria-modal="true" aria-labelledby="reader-book-title">
+      <div class="reader-header">
+        <div class="reader-title-box">
+          <h3 id="reader-book-title">Loading Book...</h3>
+          <p id="reader-author">KM Records Editions</p>
+        </div>
+        <div class="reader-toolbar">
+          <div class="reader-theme-group" title="Select Reader Theme">
+            <button type="button" class="reader-theme-btn theme-parchment active" data-theme="parchment" aria-label="Parchment Theme"></button>
+            <button type="button" class="reader-theme-btn theme-midnight" data-theme="midnight" aria-label="Midnight Theme"></button>
+            <button type="button" class="reader-theme-btn theme-ivory" data-theme="ivory" aria-label="Ivory Theme"></button>
+          </div>
+          <button type="button" id="reader-font-toggle" class="reader-ctrl-btn" title="Toggle Serif / Sans Font">Serif</button>
+          <button type="button" id="reader-font-dec" class="reader-ctrl-btn" title="Decrease Font Size">A−</button>
+          <button type="button" id="reader-font-inc" class="reader-ctrl-btn" title="Increase Font Size">A+</button>
+          <a id="reader-pdf-download" href="#" class="reader-ctrl-btn" title="Download PDF" download>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: -1px; margin-right: 3px;"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>PDF
+          </a>
+          <button type="button" id="reader-close-btn" class="reader-close-btn" aria-label="Close Reader">×</button>
+        </div>
+      </div>
+
+      <div id="reader-body" class="reader-body theme-parchment font-serif">
+        <h2 id="reader-chap-title" class="reader-chap-title">Chapter Title</h2>
+        <p id="reader-chap-subtitle" class="reader-chap-subtitle">Subtitle</p>
+        <div id="reader-text">
+          <!-- Chapter paragraphs rendered by books.js -->
+        </div>
+      </div>
+
+      <div class="reader-footer">
+        <button type="button" id="reader-prev-btn" class="pill ghost" style="padding: 0.45rem 1rem; font-size: 0.82rem;">← Previous Chapter</button>
+        <div class="reader-chap-nav">
+          <select id="reader-chapter-select" class="reader-select" aria-label="Select Chapter">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+        <button type="button" id="reader-next-btn" class="pill solid" style="padding: 0.45rem 1rem; font-size: 0.82rem;">Next Chapter →</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.20/dist/hls.min.js"></script>
   <script src="player.js?v=26"></script>
   <script src="gallery.js?v=2"></script>
   <script src="community.js?v=2"></script>
   <script src="tv.js?v=2"></script>
+  <script src="books.js?v=1"></script>
 </body>
 </html>
