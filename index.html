@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=18">
+  <link rel="stylesheet" href="styles.css?v=19">
 </head>
 <body>
   <a class="skip" href="#radio">Skip to radio</a>
@@ -34,6 +34,7 @@
       <a href="#leah">Leah</a>
       <a href="#gallery">Gallery</a>
       <a href="#books">Books</a>
+      <a href="#podcasts">Podcasts</a>
       <a href="#comics">Comics</a>
       <a href="#community">Community</a>
     </nav>
@@ -267,6 +268,66 @@
 
       <div id="books-grid" class="books-grid">
         <!-- Dynamically rendered by books.js -->
+      </div>
+    </section>
+
+    <section id="podcasts" class="block podcasts-block">
+      <div class="podcasts-head-row">
+        <div>
+          <p class="kicker">Original Audio & Conversations</p>
+          <h2>KM Podcasts.</h2>
+          <p class="section-desc">Flagship audio series, studio guitar breakdowns, songwriting circles, and late-night kitchen tapes from Mount's Bay.</p>
+        </div>
+        <div class="pod-filter-pills">
+          <button type="button" class="pod-filter-btn active" data-filter="all">All Shows</button>
+          <button type="button" class="pod-filter-btn" data-filter="mounts-bay-tapes">Mount's Bay Tapes</button>
+          <button type="button" class="pod-filter-btn" data-filter="behind-the-fretboard">Behind the Fretboard</button>
+          <button type="button" class="pod-filter-btn" data-filter="cedar-and-strings">Cedar & Strings</button>
+          <button type="button" class="pod-filter-btn" data-filter="late-night-green-room">Late Night Green Room</button>
+        </div>
+      </div>
+
+      <!-- Featured Spotlight Episode Player -->
+      <div class="podcast-hero">
+        <div class="pod-hero-cover-box">
+          <img id="pod-hero-cover" src="podcasts/covers/mounts-bay-tapes.webp" alt="Featured Podcast" class="pod-hero-cover-img">
+          <span class="pod-hero-badge">Featured Episode</span>
+        </div>
+        <div class="pod-hero-content">
+          <div class="pod-hero-meta-row">
+            <span id="pod-hero-show" class="pod-hero-show">The Mount's Bay Tapes</span>
+            <span id="pod-hero-num" class="pod-hero-num">Episode 101 · 18 Nov 2026 · 28:45</span>
+          </div>
+          <h3 id="pod-hero-title" class="pod-hero-title">Two Artists, One House: The Genesis of KM Records</h3>
+          <p id="pod-hero-summary" class="pod-hero-summary">How British rock guitarist Kayleigh Merez and country songwriter Leah Carter forged KM Records under one roof in Mount's Bay.</p>
+
+          <div class="pod-hero-progress-box">
+            <div class="pod-hero-times">
+              <span id="pod-hero-curtime">0:00</span>
+              <span id="pod-hero-durtime">28:45</span>
+            </div>
+            <div id="pod-hero-progress" class="pod-hero-bar-track" role="progressbar" aria-label="Podcast Timeline">
+              <div id="pod-hero-bar" class="pod-hero-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="pod-hero-controls">
+            <div class="pod-hero-ctrl-left">
+              <button type="button" id="pod-hero-play" class="pod-hero-play-btn" aria-label="Play Episode">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+              <button type="button" id="pod-hero-back" class="pod-skip-btn" title="Rewind 15 Seconds" aria-label="Rewind 15 Seconds">−15s</button>
+              <button type="button" id="pod-hero-fwd" class="pod-skip-btn" title="Skip 15 Seconds" aria-label="Skip 15 Seconds">+15s</button>
+              <button type="button" id="pod-hero-speed" class="pod-speed-pill" title="Playback Speed">1×</button>
+            </div>
+            <button type="button" id="pod-hero-notes-btn" class="pill ghost pod-notes-trigger-btn">Show Notes & Timestamps</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Episode Tracklist / Grid -->
+      <div id="pod-episodes-grid" class="pod-episodes-grid">
+        <!-- Dynamically populated by podcasts.js -->
       </div>
     </section>
 
@@ -653,6 +714,15 @@
             <p class="comic-desc">Granite outbuilding sanctuary — morning sunbeams through oak beams, acoustic handclaps, blueprints, and building their dream studio.</p>
           </div>
         </article>
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep43.webp" alt="Episode 43: Acoustic Wood & Cedar Shingles" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 43</span>
+            <h3 class="comic-title">Acoustic Wood & Cedar Shingles</h3>
+            <p class="comic-desc">Unloading fragrant red cedar timber — sound-diffusion panels on granite walls, truck tailgate cider, and sawdust in blonde hair.</p>
+          </div>
+        </article>
+
 
 
 
