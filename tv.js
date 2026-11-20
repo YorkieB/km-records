@@ -137,9 +137,10 @@
     if (!tvGuideList) return;
     tvGuideList.innerHTML = "";
 
+    const f = (filter || "").toLowerCase();
     lineup.forEach((item, idx) => {
-      if (filter === "kayleigh" && item.artist !== "Kayleigh Merez") return;
-      if (filter === "leah" && item.artist !== "Leah Carter") return;
+      if (f.includes("kayleigh") && item.artist !== "Kayleigh Merez") return;
+      if (f.includes("leah") && item.artist !== "Leah Carter") return;
 
       const card = document.createElement("div");
       card.className = "tv-guide-card" + (idx === currentIndex ? " playing" : "");
