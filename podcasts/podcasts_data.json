@@ -1,0 +1,224 @@
+{
+  "shows": [
+    {
+      "id": "mounts-bay-tapes",
+      "title": "The Mount's Bay Tapes",
+      "tagline": "The Official KM Records House Podcast",
+      "hosts": "Owen Hart & Sarah Quinn",
+      "cover": "podcasts/covers/mounts-bay-tapes.webp",
+      "color": "var(--pink)",
+      "desc": "Deep-dive conversations from the kitchen at Carn Lowen. Backstage tour stories, anatomy of master tracks, and unfiltered discussions with Kayleigh Merez and Leah Carter."
+    },
+    {
+      "id": "behind-the-fretboard",
+      "title": "Behind the Fretboard",
+      "tagline": "Kayleigh Merez's Guitar & Tone Workshop",
+      "hosts": "Kayleigh Merez",
+      "cover": "podcasts/covers/behind-the-fretboard.webp",
+      "color": "#ff4b64",
+      "desc": "Tube saturation, vintage Gibsons, fuzz pedals, open tunings, and British rock lineage. Kayleigh breaks down riffs, guitar philosophy, and life onstage."
+    },
+    {
+      "id": "cedar-and-strings",
+      "title": "Cedar & Strings",
+      "tagline": "Leah Carter's Songwriting & Story Circle",
+      "hosts": "Leah Carter",
+      "cover": "podcasts/covers/cedar-and-strings.webp",
+      "color": "var(--cyan)",
+      "desc": "Lyrics that cut to the bone, acoustic nuances, storytelling craft, and country honesty. Leah discusses writing on the porch, open roads, and finding vulnerability."
+    },
+    {
+      "id": "late-night-green-room",
+      "title": "The Late Night Green Room",
+      "tagline": "After-Hours Vinyl Spins & Artist Banter",
+      "hosts": "Tom Hale & Nia Brooks",
+      "cover": "podcasts/covers/late-night-green-room.webp",
+      "color": "#b48cff",
+      "desc": "Midnight roundtables from the snug at Carn Lowen. Spinning 180g test pressings, the smell of peat smoke, and answering listener questions from the Green Room chat."
+    }
+  ],
+  "episodes": [
+    {
+      "id": "mbt-101",
+      "showId": "mounts-bay-tapes",
+      "showTitle": "The Mount's Bay Tapes",
+      "episodeNumber": "Episode 101",
+      "title": "Two Artists, One House: The Genesis of KM Records",
+      "date": "18 Nov 2026",
+      "duration": "28:45",
+      "durationSec": 1725,
+      "audio": "audio/all-the-way-home.mp3",
+      "cover": "podcasts/covers/mounts-bay-tapes.webp",
+      "featured": true,
+      "summary": "Owen Hart and Sarah Quinn sit down with Kayleigh Merez and Leah Carter in the kitchen at Carn Lowen. How British rock and American heartland country came together under one roof, navigating independent record distribution, and setting up their own 24/7 radio station.",
+      "notes": [
+        "00:00 – Introduction: The kitchen at Carn Lowen and the permanent Aga warmth.",
+        "04:20 – How Kayleigh and Leah met: Cornwall roots, Sean's garage, and the first jam sessions.",
+        "11:15 – Founding KM Records: Why remaining independent in Mount's Bay mattered more than major-label London contracts.",
+        "18:40 – Acoustic listening: Breaking down the guitar interplay on 'All the Way Home'.",
+        "24:10 – What's coming up: KM TV, vinyl test pressings, and upcoming live dates."
+      ]
+    },
+    {
+      "id": "mbt-102",
+      "showId": "mounts-bay-tapes",
+      "showTitle": "The Mount's Bay Tapes",
+      "episodeNumber": "Episode 102",
+      "title": "Thunder & Lightning: Anatomy of a Rock Master",
+      "date": "11 Nov 2026",
+      "duration": "32:10",
+      "durationSec": 1930,
+      "audio": "audio/thunder-queen.m4a",
+      "cover": "podcasts/covers/mounts-bay-tapes.webp",
+      "featured": false,
+      "summary": "A deep dissection of Kayleigh's signature rock anthem 'Thunder Queen'. Sean Carter's 10mm spanner lesson, tracking searing solos at 180 BPM, and the story behind the stormy Mount's Bay music video.",
+      "notes": [
+        "00:00 – Owen Hart previews the stem tracks of 'Thunder Queen'.",
+        "05:30 – Kayleigh on dialling in the Marshall JCM800 lead tone without digital modelling.",
+        "14:20 – The lyrical inspiration: Atlantic gale storms on the Mousehole breakwater.",
+        "22:45 – Lola's feedback from the sound desk during the final mixdown.",
+        "29:10 – Audience Q&A from the KM Green Room chat."
+      ]
+    },
+    {
+      "id": "mbt-103",
+      "showId": "mounts-bay-tapes",
+      "showTitle": "The Mount's Bay Tapes",
+      "episodeNumber": "Episode 103",
+      "title": "The Open Road & Sunset Solos",
+      "date": "04 Nov 2026",
+      "duration": "29:15",
+      "durationSec": 1755,
+      "audio": "audio/not-that-girl.mp3",
+      "cover": "podcasts/covers/mounts-bay-tapes.webp",
+      "featured": false,
+      "summary": "Sarah Quinn chats with Leah Carter about the breakthrough success of 'Not That Girl'. Writing on the cedar porch at golden hour, capturing country honesty, and why acoustic fingerpicking drives the emotional engine of the song.",
+      "notes": [
+        "00:00 – Sarah Quinn opens with Leah's new single artwork.",
+        "06:10 – The story of 'Not That Girl': Walking away from half-hearted promises.",
+        "13:50 – The Martin acoustic guitar setup and Capo 2 voicings.",
+        "21:30 – Listener reactions from Nashville and the UK country charts."
+      ]
+    },
+    {
+      "id": "btf-201",
+      "showId": "behind-the-fretboard",
+      "showTitle": "Behind the Fretboard",
+      "episodeNumber": "Episode 201",
+      "title": "The 1968 Gibson SG & The 10mm Spanner",
+      "date": "15 Nov 2026",
+      "duration": "35:20",
+      "durationSec": 2120,
+      "audio": "audio/guitar-speaks.mp3",
+      "cover": "podcasts/covers/behind-the-fretboard.webp",
+      "featured": false,
+      "summary": "Kayleigh Merez walks through her guitar lineage: hitting Sean's 1978 Yamaha FG with a motorcycle wrench at age seven, mastering open D, and why the solid mahogany SG became an extension of her vocal cords.",
+      "notes": [
+        "00:00 – Rig rundown: 1968 Gibson SG Special, P-90 pickups, and vintage Big Muff.",
+        "08:45 – 'Guitar Speaks': Why this track was composed without a single vocal line.",
+        "19:30 – Jeff Beck, Gary Moore, and Paul Kossoff vibrato breakdown.",
+        "28:15 – Home practice routines: 4 hours every single day."
+      ]
+    },
+    {
+      "id": "btf-202",
+      "showId": "behind-the-fretboard",
+      "showTitle": "Behind the Fretboard",
+      "episodeNumber": "Episode 202",
+      "title": "Drop D, Big Muffs & The LIPA Basements",
+      "date": "08 Nov 2026",
+      "duration": "26:40",
+      "durationSec": 1600,
+      "audio": "audio/cherry-red.mp3",
+      "cover": "podcasts/covers/behind-the-fretboard.webp",
+      "featured": false,
+      "summary": "University memories from Smithdown Road in Liverpool: playing basement clubs in Manchester and Leeds, dialling in fuzzy power chords on 'Cherry Red', and finding rock attitude in the rain.",
+      "notes": [
+        "00:00 – Liverpool student days with four guitars and two bass players.",
+        "07:20 – Deconstructing the rhythm crunch on 'Cherry Red'.",
+        "16:40 – Valve preamps vs modern digital amp emulators.",
+        "22:15 – Setting up intonation before live gigs."
+      ]
+    },
+    {
+      "id": "cas-301",
+      "showId": "cedar-and-strings",
+      "showTitle": "Cedar & Strings",
+      "episodeNumber": "Episode 301",
+      "title": "One Mic, One Take: The Honest Vocal",
+      "date": "14 Nov 2026",
+      "duration": "31:50",
+      "durationSec": 1910,
+      "audio": "audio/whiskey-on-a-wednesday.mp3",
+      "cover": "podcasts/covers/cedar-and-strings.webp",
+      "featured": false,
+      "summary": "Leah Carter on the lost art of recording in a single live take. Tracking 'Whiskey on a Wednesday' with a single Neumann U87 microphone, embracing vocal cracks, and finding truth in quiet rooms.",
+      "notes": [
+        "00:00 – Why perfect pitch correction kills emotion in folk and country.",
+        "09:15 – Writing 'Whiskey on a Wednesday' after three crossed-out days on the calendar.",
+        "18:40 – Drop D tuning with Capo 3: warm chord resonances.",
+        "25:00 – Playing live at intimate wooden tavern venues."
+      ]
+    },
+    {
+      "id": "cas-302",
+      "showId": "cedar-and-strings",
+      "showTitle": "Cedar & Strings",
+      "episodeNumber": "Episode 302",
+      "title": "Tailgates, Highways & Vintage Trucks",
+      "date": "07 Nov 2026",
+      "duration": "27:30",
+      "durationSec": 1650,
+      "audio": "audio/the-highway-dont-lie.mp3",
+      "cover": "podcasts/covers/cedar-and-strings.webp",
+      "featured": false,
+      "summary": "The open road imagery behind 'The Highway Don't Lie' and 'Gravel and Goodbye'. How driving through country roads clarifies song structure and lyric meter.",
+      "notes": [
+        "00:00 – Composing on the tailgate of the vintage pickup truck.",
+        "08:15 – Narrative pacing: balancing verses with sing-along choruses.",
+        "17:30 – The influence of Hank Williams, Emmylou Harris, and Patty Griffin.",
+        "23:45 – Acoustic guitar choices: Cedar tops vs Adirondack spruce."
+      ]
+    },
+    {
+      "id": "lng-401",
+      "showId": "late-night-green-room",
+      "showTitle": "The Late Night Green Room",
+      "episodeNumber": "Episode 401",
+      "title": "Midnight at Carn Lowen: Woodsmoke & Vinyl",
+      "date": "17 Nov 2026",
+      "duration": "41:15",
+      "durationSec": 2475,
+      "audio": "audio/lolas-the-fire-in-the-wire.m4a",
+      "cover": "podcasts/covers/late-night-green-room.webp",
+      "featured": false,
+      "summary": "Tom Hale hosts an after-midnight conversation with Kayleigh and Lola from the snug. Dropping the needle on rare 180g test pressings, the story behind 'Lola's the Fire in the Wire', and late-night listener call-ins.",
+      "notes": [
+        "00:00 – Tom Hale sets the midnight mood with rain outside the sash windows.",
+        "10:15 – Kayleigh and Lola on their whirlwind romance in Marbella and four-month marriage.",
+        "22:30 – Spinning 'Lola's the Fire in the Wire' on the turntable.",
+        "33:00 – Answering listener messages from the live Green Room forum."
+      ]
+    },
+    {
+      "id": "lng-402",
+      "showId": "late-night-green-room",
+      "showTitle": "The Late Night Green Room",
+      "episodeNumber": "Episode 402",
+      "title": "Road Trip Confessions: Big Sur to Seattle",
+      "date": "10 Nov 2026",
+      "duration": "38:00",
+      "durationSec": 2280,
+      "audio": "audio/call-it-what-it-is.m4a",
+      "cover": "podcasts/covers/late-night-green-room.webp",
+      "featured": false,
+      "summary": "Nia Brooks and Tom Hale unpack tour diary memories from the American road. Breaking down along Highway 1 in Big Sur, foggy Fillmore nights, and recording lyrics in Seattle diners.",
+      "notes": [
+        "00:00 – Packing six guitars into a tour bus with no air conditioning.",
+        "12:20 – Highway 1 redwood sanctuary: walking in silence among giant trees.",
+        "24:15 – Studio reflections on 'Call It What It Is'.",
+        "31:40 – The journey back across the Atlantic to Cornwall."
+      ]
+    }
+  ]
+}
