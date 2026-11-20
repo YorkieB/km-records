@@ -125,7 +125,7 @@
     lightboxLocation.textContent = "📍 " + photo.location;
 
     const artistName = photo.artist === "kayleigh" ? "Kayleigh Merez" : "Leah Carter";
-    lightboxArtistTag.textContent = `${artistName} &bull; ${photo.categoryLabel}`;
+    lightboxArtistTag.textContent = `${artistName} • ${photo.categoryLabel}`;
     lightboxArtistTag.className = "lightbox-artist " + (photo.artist === "kayleigh" ? "kayleigh-text" : "leah-text");
 
     lightboxCounter.textContent = `${activeIndex + 1} / ${filteredIndices.length}`;
