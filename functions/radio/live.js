@@ -1,5 +1,5 @@
 export async function onRequest(context) {
-  const TOTAL_SEGMENTS = 861;
+  const TOTAL_SEGMENTS = 1411;
   const SEGMENT_DURATION = 6.0;
   const WINDOW_SIZE = 22;
 
