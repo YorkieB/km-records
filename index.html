@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=15">
+  <link rel="stylesheet" href="styles.css?v=16">
 </head>
 <body>
   <a class="skip" href="#radio">Skip to radio</a>
@@ -140,6 +140,44 @@
       </section>
     </section>
 
+    <section id="gallery" class="block gallery-block">
+      <p class="kicker">Visual Archive</p>
+      <h2>Official Gallery.</h2>
+      <p>Concert photography, studio sessions, and candid moments across the KM Records house.</p>
+
+      <div class="gallery-filters" role="tablist" aria-label="Gallery category filters">
+        <button type="button" class="gallery-filter-btn active" data-filter="all">All Photos (24)</button>
+        <button type="button" class="gallery-filter-btn" data-filter="kayleigh">🎸 Kayleigh Merez</button>
+        <button type="button" class="gallery-filter-btn" data-filter="leah">🌾 Leah Carter</button>
+        <button type="button" class="gallery-filter-btn" data-filter="studio">🎙️ Studio &amp; Tour</button>
+      </div>
+
+      <div id="gallery-grid" class="gallery-grid" aria-live="polite">
+        <!-- Photo cards rendered dynamically via gallery.js from gallery_data.json -->
+      </div>
+
+      <!-- Lightbox Modal -->
+      <div id="gallery-lightbox-modal" class="gallery-lightbox-modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="lightbox-content-box">
+          <button type="button" class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Close photo viewer">&times;</button>
+          <div class="lightbox-media">
+            <button type="button" class="lightbox-nav-btn lightbox-prev" id="lightbox-prev-btn" aria-label="Previous photo">&larr;</button>
+            <img id="lightbox-img" class="lightbox-img" src="" alt="KM Records Gallery photo">
+            <button type="button" class="lightbox-nav-btn lightbox-next" id="lightbox-next-btn" aria-label="Next photo">&rarr;</button>
+          </div>
+          <div class="lightbox-details">
+            <div class="lightbox-header-row">
+              <h3 id="lightbox-title" class="lightbox-title"></h3>
+              <span id="lightbox-counter" class="lightbox-counter"></span>
+            </div>
+            <div id="lightbox-artist-tag" class="lightbox-artist"></div>
+            <p id="lightbox-caption" class="lightbox-caption"></p>
+            <p id="lightbox-location" class="lightbox-location"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="comics" class="block">
       <p class="kicker">Visual Diary</p>
       <h2>By Kayleigh Merez.</h2>
@@ -254,6 +292,15 @@
             <span class="comic-ep">Episode 12</span>
             <h3 class="comic-title">Heading South</h3>
             <p class="comic-desc">Pacific Highway — loading the gear, aux cord playlists, and arriving in San Diego.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep13.webp" alt="Episode 13: San Diego Encore" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 13</span>
+            <h3 class="comic-title">San Diego Encore</h3>
+            <p class="comic-desc">Night one — sold-out beachside show, inviting Lola on stage for the final song.</p>
           </div>
         </article>
       </div>
@@ -444,6 +491,7 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.20/dist/hls.min.js"></script>
   <script src="player.js?v=26"></script>
+  <script src="gallery.js?v=1"></script>
   <script src="community.js?v=2"></script>
 </body>
 </html>
