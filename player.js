@@ -250,3 +250,42 @@ seek.addEventListener("change", () => {
   if (audio.duration) audio.currentTime = (seek.value / 1000) * audio.duration
   dragging = false
 })
+
+// Comic Lightbox Modal
+const comicModal = document.querySelector("#comic-modal")
+const comicModalImg = document.querySelector("#comic-modal-img")
+const comicModalCaption = document.querySelector("#comic-modal-caption")
+const comicModalClose = document.querySelector("#comic-modal-close")
+
+if (comicModal) {
+  document.querySelectorAll(".comic-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const img = card.querySelector(".comic-thumb")
+      const title = card.querySelector(".comic-title")?.textContent || ""
+      const ep = card.querySelector(".comic-ep")?.textContent || ""
+      if (img) {
+        comicModalImg.src = img.src
+        comicModalImg.alt = img.alt
+        comicModalCaption.textContent = ep ? ep + " — " + title : title
+        comicModal.classList.add("active")
+        comicModal.setAttribute("aria-hidden", "false")
+      }
+    })
+  })
+
+  function closeComicModal() {
+    comicModal.classList.remove("active")
+    comicModal.setAttribute("aria-hidden", "true")
+    comicModalImg.src = ""
+  }
+
+  comicModalClose?.addEventListener("click", closeComicModal)
+  comicModal.addEventListener("click", (e) => {
+    if (e.target === comicModal) closeComicModal()
+  })
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && comicModal.classList.contains("active")) {
+      closeComicModal()
+    }
+  })
+}

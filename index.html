@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=13">
+  <link rel="stylesheet" href="styles.css?v=14">
 </head>
 <body>
   <a class="skip" href="#radio">Skip to radio</a>
@@ -31,6 +31,7 @@
       <a href="#radio">Radio</a>
       <a href="#kayleigh">Kayleigh</a>
       <a href="#leah">Leah</a>
+      <a href="#comics">Comics</a>
     </nav>
     <a class="pill ghost" href="#contact">Contact</a>
   </header>
@@ -137,6 +138,113 @@
       </section>
     </section>
 
+    <section id="comics" class="block">
+      <p class="kicker">Visual Diary</p>
+      <h2>By Kayleigh Merez.</h2>
+      <p>Original 4-panel slice-of-life comic strips created by Kayleigh, chronicling music, marriage to Lola, and their California adventures.</p>
+      
+      <div class="comics-grid">
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep1.webp" alt="Episode 1: Bedtime Sanctuary" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 01</span>
+            <h3 class="comic-title">Bedtime Sanctuary</h3>
+            <p class="comic-desc">London bedroom — waking up together in quiet, sacred devotion.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep2.webp" alt="Episode 2: California Arrival" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 02</span>
+            <h3 class="comic-title">California Arrival</h3>
+            <p class="comic-desc">Venice balcony — morning coffee, sunshine, and running audition lines.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep3.webp" alt="Episode 3: Missing Chords" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 03</span>
+            <h3 class="comic-title">Missing Chords</h3>
+            <p class="comic-desc">Rehearsal room — working through Telecaster riffs to unlock the melody.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep4.webp" alt="Episode 4: The Callback" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 04</span>
+            <h3 class="comic-title">The Callback</h3>
+            <p class="comic-desc">Santa Monica beach — celebrating the film audition callback at golden hour.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep5.webp" alt="Episode 5: The Studio Session" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 05</span>
+            <h3 class="comic-title">The Studio Session</h3>
+            <p class="comic-desc">Control room & vocal booth — tracking lead harmonies and acoustic chords.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep6.webp" alt="Episode 6: Coastline & Chasing Stars" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 06</span>
+            <h3 class="comic-title">Coastline & Chasing Stars</h3>
+            <p class="comic-desc">Pacific Coast Highway — road-testing the master through car speakers.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep7.webp" alt="Episode 7: First Day on Set" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 07</span>
+            <h3 class="comic-title">First Day on Set</h3>
+            <p class="comic-desc">Studio lot trailer — mirror vanity, pre-shoot butterflies, and lucky charm tea.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep8.webp" alt="Episode 8: That's a Wrap" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 08</span>
+            <h3 class="comic-title">That's a Wrap</h3>
+            <p class="comic-desc">Stage 4 soundstage — director calls cut, twilight tacos by the ocean.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep9.webp" alt="Episode 9: Midnight Drop" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 09</span>
+            <h3 class="comic-title">Midnight Drop</h3>
+            <p class="comic-desc">Living room — counting down to midnight as Chasing Stars goes live worldwide.</p>
+          </div>
+        </article>
+
+        <article class="comic-card">
+          <img class="comic-thumb" src="comics/ep10.webp" alt="Episode 10: The Acoustic Showcase" loading="lazy">
+          <div class="comic-info">
+            <span class="comic-ep">Episode 10</span>
+            <h3 class="comic-title">The Acoustic Showcase</h3>
+            <p class="comic-desc">Rooftop terrace — performing live under fairy lights, Season 1 milestone.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Comic Lightbox Modal -->
+    <div id="comic-modal" class="comic-modal" aria-hidden="true" role="dialog">
+      <div class="comic-modal-content">
+        <button type="button" class="comic-modal-close" id="comic-modal-close" aria-label="Close comic viewer">&times;</button>
+        <img id="comic-modal-img" class="comic-modal-img" src="" alt="Enlarged comic strip">
+        <p id="comic-modal-caption" style="margin: 0.8rem 0 0; color: var(--cream); font-weight: 600; text-align: center;"></p>
+      </div>
+    </div>
+
     <section id="contact" class="block">
       <p class="kicker">Contact</p>
       <h2>Get in touch.</h2>
@@ -161,6 +269,6 @@
     <audio id="audio" preload="none"></audio>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.20/dist/hls.min.js"></script>
-  <script src="player.js?v=25"></script>
+  <script src="player.js?v=26"></script>
 </body>
 </html>
