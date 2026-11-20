@@ -961,11 +961,36 @@
     </div>
   </div>
 
+  <!-- Podcast Show Notes Modal -->
+  <div id="podcast-notes-modal" class="pod-notes-modal-overlay" hidden>
+    <div class="pod-notes-pane" role="dialog" aria-modal="true" aria-labelledby="pod-notes-title">
+      <div class="pod-notes-head">
+        <div class="pod-notes-head-copy">
+          <h3 id="pod-notes-title">Episode Title</h3>
+          <p id="pod-notes-show">Show Title</p>
+        </div>
+        <button type="button" id="pod-notes-close" class="reader-close-btn" aria-label="Close Show Notes">×</button>
+      </div>
+      <div class="pod-notes-body">
+        <div id="pod-notes-meta" class="pod-notes-meta">Published on 18 Nov 2026 · Duration: 28:45</div>
+        <div id="pod-notes-summary" class="pod-notes-summary">Detailed summary...</div>
+        <h4>Episode Timestamps & Chapters</h4>
+        <ul id="pod-notes-timestamps" class="pod-timestamps-list">
+          <!-- Populated dynamically -->
+        </ul>
+      </div>
+      <div class="pod-notes-footer">
+        <button type="button" id="pod-notes-play" class="pill solid">Play This Episode</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.20/dist/hls.min.js"></script>
   <script src="player.js?v=26"></script>
   <script src="gallery.js?v=2"></script>
   <script src="community.js?v=2"></script>
   <script src="tv.js?v=2"></script>
   <script src="books.js?v=1"></script>
+  <script src="podcasts.js?v=1"></script>
 </body>
 </html>
