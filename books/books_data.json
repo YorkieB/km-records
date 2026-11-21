@@ -198,6 +198,228 @@
     ]
   },
   {
+    "id": "season-3-graphic",
+    "title": "By Kayleigh Merez: Season Three",
+    "author": "Kayleigh Merez",
+    "tag": "Graphic Diary",
+    "badge": "Studio Edition",
+    "pages": "10 Episodes \u00b7 Full Colour",
+    "cover": "books/covers/season3-cover.webp",
+    "pdf": "books/downloads/By_Kayleigh_Merez_Season_3.pdf",
+    "pdf_size": "2.21 MB",
+    "synopsis": "The complete 10-episode Hollywood studio and cinematic chapter. Follow Kayleigh stepping into feature acting on the Warner soundstage, table reads, late-night trailer conversations with Lola, acoustic jams on studio fire escapes, and walking the red carpet at the world premiere.",
+    "chapters": [
+      {
+        "id": "ep21",
+        "title": "Episode 21: Script Pages in the Morning Sun",
+        "subtitle": "Season 3 Premiere \u00b7 Coffee, highlighter pens, and Hollywood call times",
+        "content": "Reading script sides over fresh orange juice on the Los Angeles balcony. Lola testing Kayleigh's lines while the sun rises over the palm trees."
+      },
+      {
+        "id": "ep22",
+        "title": "Episode 22: The Soundstage Call Sheet",
+        "subtitle": "Security gates, golf carts, and the studio lot",
+        "content": "Driving through the iconic studio gates at 6:00 AM. Walking past towering soundstages with Lola holding Kayleigh's nervous, excited hand."
+      },
+      {
+        "id": "ep23",
+        "title": "Episode 23: Coffee on the Warner Lot",
+        "subtitle": "Prop warehouses, craft service, and vintage sets",
+        "content": "Sipping double espresso outside Soundstage 14. Watching grips push camera dollies while talking through the morning scene's emotional beat."
+      },
+      {
+        "id": "ep24",
+        "title": "Episode 24: First Table Read Under the Lights",
+        "subtitle": "Director notes, fellow actors, and finding the voice",
+        "content": "Sitting at the horseshoe table read with the ensemble cast. The director smiles as Kayleigh delivers her first scene with natural emotional resonance."
+      },
+      {
+        "id": "ep25",
+        "title": "Episode 25: The Soundstage Clapperboard",
+        "subtitle": "Quiet on set, rolling sound, and 'Action!'",
+        "content": "Standing on the lit film set before three cameras. The clapperboard snaps. Kayleigh enters character with complete poise and authentic heart."
+      },
+      {
+        "id": "ep26",
+        "title": "Episode 26: Trailer Sanctuary Between Takes",
+        "subtitle": "Sofa naps, air conditioning, and peaceful embraces",
+        "content": "Retreating to the dressing room trailer during set relighting. Lola resting her head on Kayleigh's shoulder, sharing grapes and quiet laughter away from the chaos."
+      },
+      {
+        "id": "ep27",
+        "title": "Episode 27: Acoustic Riffs on the Fire Escape",
+        "subtitle": "Golden hour glow, steel stairs, and melodic breaks",
+        "content": "Sneaking out to the exterior metal fire escape at sunset with her acoustic guitar. Playing fingerpicked melodies as the Hollywood sky turns purple."
+      },
+      {
+        "id": "ep28",
+        "title": "Episode 28: Director\u2019s Cut & Playback Room",
+        "subtitle": "Dark monitors, audio mixing, and quiet pride",
+        "content": "Watching the dailies in the editing bay. The director turns to praise the emotional depth of the performance as Lola beams with tearful pride."
+      },
+      {
+        "id": "ep29",
+        "title": "Episode 29: Wrap Party in the Hollywood Hills",
+        "subtitle": "String lights, poolside laughter, and goodbyes",
+        "content": "Celebrating the final scene wrap with the crew at an overlook in the Hollywood Hills. Toasting champagne flutes to a project finished with love."
+      },
+      {
+        "id": "ep30",
+        "title": "Episode 30: Red Carpet Lights & The Premiere Walk (Finale)",
+        "subtitle": "Season 3 Finale \u00b7 Camera flashes, tailored velvet, and hand in hand",
+        "content": "Stepping out of the town car under the marquee lights. Camera flashes dazzling the night. Kayleigh and Lola walking the red carpet together, unbreakable and radiant."
+      }
+    ]
+  },
+  {
+    "id": "season-4-graphic",
+    "title": "By Kayleigh Merez: Season Four",
+    "author": "Kayleigh Merez",
+    "tag": "Graphic Diary",
+    "badge": "World Tour",
+    "pages": "10 Episodes \u00b7 Full Colour",
+    "cover": "books/covers/season4-cover.webp",
+    "pdf": "books/downloads/By_Kayleigh_Merez_Season_4.pdf",
+    "pdf_size": "2.28 MB",
+    "synopsis": "The complete 10-episode international tour collection across the globe. From packing tour flight cases in Mount's Bay, London acoustic venues, and midnight rain in Paris at L'Olympia, to the neon lights of Tokyo Budokan, Sydney Harbour sunsets, and returning home to Cornwall.",
+    "chapters": [
+      {
+        "id": "ep31",
+        "title": "Episode 31: Packing the Trunks",
+        "subtitle": "Season 4 Premiere \u00b7 Flight cases, vintage denim, and guitar straps",
+        "content": "Latching the heavy metal road cases on the studio floor. Lola labelling cables and passports while Kayleigh tests the pickup on her 1968 Gibson."
+      },
+      {
+        "id": "ep32",
+        "title": "Episode 32: London Calling",
+        "subtitle": "Black cabs, wet asphalt, and the iconic Shepherd\u2019s Bush Empire",
+        "content": "Arriving under the marquee in West London. The electric buzz of hometown fans lining the street as the soundcheck bass reverberates through the brick."
+      },
+      {
+        "id": "ep33",
+        "title": "Episode 33: An Evening in Kensington",
+        "subtitle": "Warm pub fires, bitter ale, and quiet tour reflection",
+        "content": "Slipping into a cozy pub by Hyde Park between show dates. Lola and Kayleigh tucked into a corner booth by the hearth, speaking in hushed affection."
+      },
+      {
+        "id": "ep34",
+        "title": "Episode 34: Midnight Rain on the Seine",
+        "subtitle": "Cobblestones, streetlamps, and Parisian cafe awnings",
+        "content": "Walking along the river after midnight. Sharing a single umbrella in the gentle French rain, stopping on Pont Neuf to kiss under the amber streetlights."
+      },
+      {
+        "id": "ep35",
+        "title": "Episode 35: L\u2019Olympia Under Chandeliers",
+        "subtitle": "Velvet seats, acoustic reverbs, and Parisian encores",
+        "content": "Standing beneath the grand red velvet balconies of L'Olympia. Kayleigh's acoustic melodies filling the historic hall, receiving a standing ovation from Paris."
+      },
+      {
+        "id": "ep36",
+        "title": "Episode 36: Tokyo Neon & The Shinkansen Window",
+        "subtitle": "Bullet trains, Mount Fuji glimpses, and glowing rain",
+        "content": "Riding the Shinkansen toward Tokyo at 300 km/h. Watching Mount Fuji pierce the clouds while Lola sips green tea and listens to the master demos."
+      },
+      {
+        "id": "ep37",
+        "title": "Episode 37: Budokan Acoustic Echoes",
+        "subtitle": "Octagonal arena, paper lanterns, and reverent silence",
+        "content": "Walking onto the legendary Nippon Budokan stage. Ten thousand fans falling silent to hear a single acoustic chord ring out into the arena."
+      },
+      {
+        "id": "ep38",
+        "title": "Episode 38: Sydney Harbour Sunset & Soundcheck",
+        "subtitle": "Opera House sails, harbour breeze, and warm acoustic wood",
+        "content": "Testing microphones at an open-air amphitheatre on Sydney Harbour. The iconic white sails glowing pink in the Southern hemisphere dusk."
+      },
+      {
+        "id": "ep39",
+        "title": "Episode 39: The Final Encore of the Tour",
+        "subtitle": "Confetti drops, ringing ears, and emotional gratitude",
+        "content": "Taking the final bow with the touring band. Confetti raining down like snow. Kayleigh looking into the wings to see Lola wiping tears of absolute joy."
+      },
+      {
+        "id": "ep40",
+        "title": "Episode 40: Returning to Mount\u2019s Bay (Finale)",
+        "subtitle": "Season 4 Finale \u00b7 Coastal fog, granite headlands, and coming home",
+        "content": "Unpacking the travel bags back at Carn Lowen. Stepping onto the cliffs above Mount's Bay. Taking a deep breath of salt air and knowing they are home."
+      }
+    ]
+  },
+  {
+    "id": "season-5-graphic",
+    "title": "By Kayleigh Merez: Season Five",
+    "author": "Kayleigh Merez",
+    "tag": "Graphic Diary",
+    "badge": "Cornish Barn Sessions",
+    "pages": "10 Episodes \u00b7 Full Colour",
+    "cover": "books/covers/season5-cover.webp",
+    "pdf": "books/downloads/By_Kayleigh_Merez_Season_5.pdf",
+    "pdf_size": "2.48 MB",
+    "synopsis": "The complete 10-episode milestone Cornish sanctuary collection. Chronicling the conversion of the ancient granite barn into KM Records Studio Cornwall, cliff walks to Mousehole, rain on tin roofs, upright pianos, and recording intimate acoustic masterpieces by the sea.",
+    "chapters": [
+      {
+        "id": "ep41",
+        "title": "Episode 41: Morning Mist over Mount\u2019s Bay",
+        "subtitle": "Season 5 Premiere \u00b7 Sea foam, dawn light, and coastal sanctuary",
+        "content": "Standing on the farmhouse stone terrace watching the morning fog roll over St Michael's Mount. Lola bringing two mugs of steaming tea in hand-thrown Cornish pottery."
+      },
+      {
+        "id": "ep42",
+        "title": "Episode 42: The Old Stone Barn",
+        "subtitle": "Granite masonry, oak beams, and studio architecture",
+        "content": "Surveying the 18th-century stone barn with architectural blueprints. Kayleigh tapping the solid granite walls, feeling the natural acoustic resonance."
+      },
+      {
+        "id": "ep43",
+        "title": "Episode 43: Acoustic Wood & Cedar Shingles",
+        "subtitle": "Sawdust, carpenter pencils, and acoustic baffles",
+        "content": "Helping the local Cornish timber craftsmen install cedar diffusers and sound baffles. The sweet scent of fresh cedar wood filling the high-vaulted rafters."
+      },
+      {
+        "id": "ep44",
+        "title": "Episode 44: Cliff Path Walk to Mousehole",
+        "subtitle": "Gorse blossoms, sea salt air, and harbour cottages",
+        "content": "Walking the South West Coast Path hand-in-hand toward Mousehole harbour. Looking out over the Atlantic swells while seagulls glide in the breeze."
+      },
+      {
+        "id": "ep45",
+        "title": "Episode 45: Rain on the Tin Roof",
+        "subtitle": "Storm over the Atlantic, tea kettle whistle, and cozy blankets",
+        "content": "A sudden Cornish squall lashing the barn roof. Lola and Kayleigh curled up on the studio rug listening to the rhythmic rain and watching the lighthouse flash."
+      },
+      {
+        "id": "ep46",
+        "title": "Episode 46: The Upright Piano Arrives",
+        "subtitle": "Delivery vans, cast iron harp, and resonant ivory keys",
+        "content": "Hoisting the vintage upright acoustic piano through the double barn doors. Kayleigh striking the first resonant C-major chord under the wooden rafters."
+      },
+      {
+        "id": "ep47",
+        "title": "Episode 47: Soup, Scones & Song Sketches",
+        "subtitle": "Woodstove simmering, clotted cream, and handwritten lyrics",
+        "content": "A bowl of warm vegetable soup and fresh scones on the studio table. Jotting down verse lines on butcher paper while the cast-iron stove crackles."
+      },
+      {
+        "id": "ep48",
+        "title": "Episode 48: First Track in the Barn",
+        "subtitle": "Ribbon microphones, red recording light, and pure acoustic tone",
+        "content": "Hitting record on the vintage tape machine for the first time in the new barn studio. Kayleigh playing her Martin acoustic, capturing magic on the first take."
+      },
+      {
+        "id": "ep49",
+        "title": "Episode 49: St Michael\u2019s Starlight",
+        "subtitle": "Night skies over the bay, constellation reflections, and quiet vows",
+        "content": "Sitting on the stone wall at midnight. St Michael's Mount illuminated under a sky filled with countless stars, their hands interlaced in peaceful devotion."
+      },
+      {
+        "id": "ep50",
+        "title": "Episode 50: Sanctuary Found (Season 5 Finale & Milestone)",
+        "subtitle": "50th Milestone Episode \u00b7 Hearth fire, true home, and forever love",
+        "content": "The completed studio aglow with warm ambient lamps and burning embers. Lola resting in Kayleigh's arms on the sofa. Fifty episodes of love, art, and sanctuary found."
+      }
+    ]
+  },
+  {
     "id": "carn-lowen-memoir",
     "title": "Carn Lowen: The House on the Coast Road",
     "author": "Kayleigh Merez",
