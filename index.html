@@ -61,7 +61,13 @@
       <p class="kicker">Radio</p>
       <h2>On air.</h2>
       <p>Broadcasting 24/7 live from the UK. Uninterrupted indie-rock, live presenter shows, and exclusive releases from the KM Records house.</p>
-      <button type="button" class="pill solid track" data-live="true" data-src="/radio/live" data-title="KM Records — live">Listen live</button>
+      <div class="actions" style="margin-bottom: 1.5rem; display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+        <button type="button" class="pill solid track" data-live="true" data-src="/radio/live" data-title="KM Records — live">Listen live</button>
+        <button type="button" id="radio-log-btn" class="pill ghost" title="View Station Transmission & Activity Log" style="display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Activity Log
+        </button>
+      </div>
       <table class="times">
         <thead>
           <tr><th>Time</th><th>Show</th><th>Presenter</th></tr>
@@ -1050,6 +1056,56 @@
     </div>
   </div>
 
+  <!-- KM Radio Transmission & Activity Log Modal -->
+  <div id="radio-log-modal" class="radio-log-modal-overlay" hidden>
+    <div class="radio-log-pane" role="dialog" aria-modal="true" aria-labelledby="radio-log-title">
+      <div class="radio-log-head">
+        <div class="radio-log-head-copy">
+          <div class="radio-log-beacon"><span class="live-dot"></span> LIVE TRANSMISSION LOG</div>
+          <h3 id="radio-log-title">Station Transmission &amp; Activity Log</h3>
+          <p id="radio-log-subtitle" class="radio-log-sub">Real-time sample-accurate transmission log: Songs, DJ Links, Station Idents &amp; Jingles.</p>
+        </div>
+        <div class="radio-log-head-actions">
+          <a id="radio-log-export" href="/radio/log?format=csv" class="pill ghost" download="km_radio_transmission_log.csv" style="padding: 0.4rem 0.9rem; font-size: 0.8rem;">Export CSV</a>
+          <button type="button" id="radio-log-close" class="reader-close-btn" aria-label="Close Transmission Log">×</button>
+        </div>
+      </div>
+
+      <div class="radio-log-toolbar">
+        <div class="radio-log-filters">
+          <button type="button" class="radio-log-filter-btn active" data-filter="all">All Activity</button>
+          <button type="button" class="radio-log-filter-btn" data-filter="songs">Songs Only</button>
+          <button type="button" class="radio-log-filter-btn" data-filter="djs">DJ Links</button>
+          <button type="button" class="radio-log-filter-btn" data-filter="idents">Idents &amp; Jingles</button>
+        </div>
+        <div id="radio-log-clock-badge" class="radio-log-clock">UK Time: --:--:--</div>
+      </div>
+
+      <div class="radio-log-table-wrap">
+        <table class="radio-log-table">
+          <thead>
+            <tr>
+              <th>Time (UK)</th>
+              <th>Event</th>
+              <th>Item / Title</th>
+              <th>Artist / Host</th>
+              <th>Duration</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="radio-log-tbody">
+            <!-- Populated dynamically by radio_log.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="radio-log-footer">
+        <div id="radio-log-status-summary" class="radio-log-summary">Synchronized with 24/7 UK Broadcast Engine</div>
+        <button type="button" id="radio-log-refresh-btn" class="pill ghost" style="padding: 0.35rem 0.8rem; font-size: 0.8rem;">Refresh Log</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.20/dist/hls.min.js"></script>
   <script src="player.js?v=29"></script>
   <script src="gallery.js?v=2"></script>
@@ -1057,5 +1113,6 @@
   <script src="tv.js?v=2"></script>
   <script src="books.js?v=1"></script>
   <script src="podcasts.js?v=1"></script>
+  <script src="radio_log.js?v=1"></script>
 </body>
 </html>
