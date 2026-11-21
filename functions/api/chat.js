@@ -100,6 +100,10 @@ export async function onRequest(context) {
       if (stored && Array.isArray(stored)) {
         inMemoryMessages = stored;
       }
+      const storedMention = await env.COMMUNITY_KV.get("km_pending_mention", { type: "json" });
+      if (storedMention && (Date.now() - storedMention.timestamp < 300000)) {
+        pendingMention = storedMention;
+      }
     } catch (e) {
       console.error("KV read error", e);
     }
@@ -292,6 +296,9 @@ export async function onRequest(context) {
       if (env && env.COMMUNITY_KV) {
         try {
           await env.COMMUNITY_KV.put("km_chat_messages", JSON.stringify(inMemoryMessages));
+          if (pendingMention) {
+            await env.COMMUNITY_KV.put("km_pending_mention", JSON.stringify(pendingMention));
+          }
         } catch (e) {
           console.error("KV write error", e);
         }
