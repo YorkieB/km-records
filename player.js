@@ -11,10 +11,13 @@ let dragging = false
 let hls = null
 let nowTimer = null
 let lastTalkId = null
+let lastCueTime = 0
 let talking = false
 let currentPlayingSeg = 0
 let currentSongIdx = -1
 let lastWeather = "London & UK: clear, about 8 degrees"
+
+console.log("[KM Radio] Player v33 loaded — Broadcast-locked audio interlock & zero mid-song gating active")
 
 const talkAudio = new Audio()
 talkAudio.preload = "auto"
@@ -196,13 +199,15 @@ function attachLive(src) {
             const isSongStart = (seg === TRACK_SEGMENTS[newTrackIdx].start)
             const isSongChanged = (newTrackIdx !== currentSongIdx)
 
-            currentSongIdx = newTrackIdx
-
             // Fire cue ONLY when a new song actually begins and previous playback was active
             // This mathematically prevents ANY cue from triggering mid-song!
-            if (isSongChanged && isSongStart && prevSeg > 0) {
+            const nowMs = Date.now()
+            if (isSongChanged && isSongStart && currentSongIdx !== -1 && prevSeg > 0 && !talking && (nowMs - lastCueTime > 90000)) {
+              lastCueTime = nowMs
               triggerTransitionCue(newTrackIdx)
             }
+
+            currentSongIdx = newTrackIdx
           }
         }
       }
@@ -275,7 +280,9 @@ async function playTalk(cue) {
     await talkAudio.play()
 
     await new Promise((resolve) => {
+      const timer = setTimeout(resolve, 35000)
       const done = () => {
+        clearTimeout(timer)
         talkAudio.removeEventListener("ended", done)
         talkAudio.removeEventListener("error", done)
         resolve()
