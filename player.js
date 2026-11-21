@@ -15,9 +15,13 @@ let lastCueTime = 0
 let talking = false
 let currentPlayingSeg = 0
 let currentSongIdx = -1
+let lastHandledJoinTrack = -1
+let songsSincePresenter = 0
+let presenterSweepTarget = Math.floor(Math.random() * 3) + 1
+let currentFadeTimer = null
 let lastWeather = "London & UK: clear, about 8 degrees"
 
-console.log("[KM Radio] Player v34 loaded — Exclusive Heart-style commercial imaging & AI presenter desk active")
+console.log("[KM Radio] Player v35 loaded — Real-time commercial ducking/fading & randomized 1-3 song sweep scheduler active")
 
 const talkAudio = new Audio()
 talkAudio.preload = "auto"
@@ -102,21 +106,22 @@ function updateLiveSegment(seg) {
 // EXCLUSIVE HEART-STYLE COMMERCIAL IMAGING & LIVE AI PRESENTER CLOCK:
 // All old rock idents have been retired.
 // Every element is strictly from the official Heart UK-style package or live AI presenter desk.
-async function triggerTransitionCue(trackIdx) {
+async function triggerTransitionCue(trackIdx, mode) {
   if (talking || !isLive(current)) return
   const now = new Date()
   const minute = now.getMinutes()
   const hour = now.getHours()
   const isWeekend = now.getDay() === 0 || now.getDay() === 6
-  const nextTrack = TRACK_SEGMENTS[trackIdx]
+  const targetTrack = TRACK_SEGMENTS[trackIdx]
 
   let showId = "drive"
-  if (hour >= 6 && hour < 10) showId = "breakfast"
-  else if (hour >= 10 && hour < 15) showId = "days"
-  else if (hour >= 15 && hour < 19) showId = "drive"
-  else if (hour >= 19 && hour < 23) showId = "evenings"
-  else if (hour >= 23 || hour < 3) showId = "late"
-  else if (hour >= 3 && hour < 6) showId = "early"
+  let showPresenter = "Owen Hart"
+  if (hour >= 6 && hour < 10) { showId = "breakfast"; showPresenter = "Callum & Rhys" }
+  else if (hour >= 10 && hour < 15) { showId = "days"; showPresenter = "Sarah Quinn" }
+  else if (hour >= 15 && hour < 19) { showId = "drive"; showPresenter = "Owen Hart" }
+  else if (hour >= 19 && hour < 23) { showId = "evenings"; showPresenter = "Nia Brooks" }
+  else if (hour >= 23 || hour < 3) { showId = "late"; showPresenter = "Tom Hale" }
+  else if (hour >= 3 && hour < 6) { showId = "early"; showPresenter = "Maya Cole" }
 
   let cue = null
   const cueId = `cue_${Date.now()}_t${trackIdx}`
@@ -139,94 +144,107 @@ async function triggerTransitionCue(trackIdx) {
       title: "Non-Stop Variety Promise Ident"
     }
   }
-  // 3. Autonomous Live AI Presenter Link (Every 3rd song in commercial sweep)
-  else if (trackIdx % 3 === 0) {
+  // 3. Autonomous Live AI Presenter Link (Outro talkover or Intro ramp)
+  else if (mode === "outro" || mode === "intro") {
     cue = {
       id: `${cueId}_dj`,
       kind: "presenter_link",
-      src: `/radio/speak?show=${showId}&next=${encodeURIComponent(nextTrack.title)}&v=${Math.floor(Date.now() / 900000)}`,
-      title: "Live AI Presenter Link (Live UK News & Weather)"
+      src: `/radio/speak?show=${showId}&next=${encodeURIComponent(targetTrack.title)}&v=${Math.floor(Date.now() / 900000)}`,
+      title: `${showPresenter} On-Air Dry Link (${mode === "outro" ? "Song Outro" : "Intro Ramp"})`
     }
   }
-  // 4. Weekend Feel-Good Ident (Weekends)
-  else if (isWeekend && (trackIdx % 4 === 1)) {
-    cue = {
-      id: `${cueId}_wknd`,
-      kind: "ident",
-      src: "/audio/imaging/heart/heart_ident_weekend_feelgood.mp3",
-      title: "Weekend Feel-Good Station Ident"
-    }
-  }
-  // 5. Show-Specific Heart Programme Jingles
-  else if (showId === "breakfast" && trackIdx % 2 === 1) {
-    cue = {
-      id: `${cueId}_brk_jingle`,
-      kind: "jingle",
-      src: "/audio/imaging/heart/heart_jingle_callum_rhys_breakfast.mp3",
-      title: "Callum & Rhys Breakfast Show Jingle"
-    }
-  }
-  else if (showId === "drive" && trackIdx % 2 === 1) {
-    cue = {
-      id: `${cueId}_drv_jingle`,
-      kind: "jingle",
-      src: "/audio/imaging/heart/heart_jingle_drive_owen.mp3",
-      title: "Owen Hart Drivetime Feel-Good Jingle"
-    }
-  }
-  else if (showId === "days" && trackIdx % 2 === 1) {
-    cue = {
-      id: `${cueId}_workday_sweeper`,
-      kind: "sweeper",
-      src: "/audio/imaging/heart/heart_sweeper_workday_feelgood.mp3",
-      title: "Workday Feel-Good Sweeper"
-    }
-  }
-  else if ((showId === "evenings" || showId === "late") && trackIdx % 2 === 1) {
-    cue = {
-      id: `${cueId}_chilled`,
-      kind: "ident",
-      src: "/audio/imaging/heart/heart_ident_acoustic_chilled.mp3",
-      title: "Acoustic & Chilled Evening Ident"
-    }
-  }
-  // 6. Signature Artist Drops & Station Identity
-  else if (nextTrack.artist.includes("Kayleigh") && trackIdx % 6 === 2) {
-    cue = {
-      id: `${cueId}_drop_kayleigh`,
-      kind: "artist_drop",
-      src: "/audio/imaging/heart/heart_artist_drop_kayleigh.mp3",
-      title: "Kayleigh Merez Feel-Good Station Drop"
-    }
-  }
-  else if (nextTrack.artist.includes("Leah") && trackIdx % 6 === 5) {
-    cue = {
-      id: `${cueId}_drop_leah`,
-      kind: "artist_drop",
-      src: "/audio/imaging/heart/heart_artist_drop_leah.mp3",
-      title: "Leah Carter Music Variety Station Drop"
-    }
-  }
-  else if (trackIdx % 4 === 2) {
-    cue = {
-      id: `${cueId}_smart`,
-      kind: "ident",
-      src: "/audio/imaging/heart/heart_ident_smart_speaker_digital.mp3",
-      title: "Smart Speaker & Online Streaming Ident"
-    }
-  }
-  else {
-    cue = {
-      id: `${cueId}_feelgood`,
-      kind: "ident",
-      src: "/audio/imaging/heart/heart_ident_feel_good.mp3",
-      title: "Flagship Feel-Good Station Ident & Vocal Mnemonic"
+  // 4. Intermediate Station Jingles / Sweepers / Drops
+  else if (mode === "imaging") {
+    if (showId === "breakfast") {
+      cue = {
+        id: `${cueId}_brk_jingle`,
+        kind: "jingle",
+        src: "/audio/imaging/heart/heart_jingle_callum_rhys_breakfast.mp3",
+        title: "Callum & Rhys Breakfast Show Jingle"
+      }
+    } else if (showId === "drive") {
+      cue = {
+        id: `${cueId}_drv_jingle`,
+        kind: "jingle",
+        src: "/audio/imaging/heart/heart_jingle_drive_owen.mp3",
+        title: "Owen Hart Drivetime Feel-Good Jingle"
+      }
+    } else if (showId === "days") {
+      cue = {
+        id: `${cueId}_workday_sweeper`,
+        kind: "sweeper",
+        src: "/audio/imaging/heart/heart_sweeper_workday_feelgood.mp3",
+        title: "Workday Feel-Good Sweeper"
+      }
+    } else if (showId === "evenings" || showId === "late") {
+      cue = {
+        id: `${cueId}_chilled`,
+        kind: "ident",
+        src: "/audio/imaging/heart/heart_ident_acoustic_chilled.mp3",
+        title: "Acoustic & Chilled Evening Ident"
+      }
+    } else if (targetTrack.artist.includes("Kayleigh")) {
+      cue = {
+        id: `${cueId}_drop_kayleigh`,
+        kind: "artist_drop",
+        src: "/audio/imaging/heart/heart_artist_drop_kayleigh.mp3",
+        title: "Kayleigh Merez Feel-Good Station Drop"
+      }
+    } else if (targetTrack.artist.includes("Leah")) {
+      cue = {
+        id: `${cueId}_drop_leah`,
+        kind: "artist_drop",
+        src: "/audio/imaging/heart/heart_artist_drop_leah.mp3",
+        title: "Leah Carter Music Variety Station Drop"
+      }
+    } else {
+      cue = {
+        id: `${cueId}_feelgood`,
+        kind: "ident",
+        src: "/audio/imaging/heart/heart_ident_feel_good.mp3",
+        title: "Flagship Feel-Good Station Ident & Vocal Mnemonic"
+      }
     }
   }
 
   if (cue) {
     await playTalk(cue)
   }
+}
+
+// BROADCAST AUDIO FADER ENGINE:
+// Sinusoidal easeInOut parametric volume ramp for authentic radio ducking and vocal post swells
+function fadeAudioVolume(element, targetVolume, durationMs) {
+  return new Promise((resolve) => {
+    if (currentFadeTimer) {
+      clearInterval(currentFadeTimer)
+      currentFadeTimer = null
+    }
+    const startVolume = (typeof element.volume === "number") ? element.volume : 1.0
+    const diff = targetVolume - startVolume
+    if (Math.abs(diff) < 0.01) {
+      element.volume = targetVolume
+      return resolve()
+    }
+    const steps = 25
+    const stepInterval = Math.max(12, Math.floor(durationMs / steps))
+    let currentStep = 0
+
+    currentFadeTimer = setInterval(() => {
+      currentStep++
+      const progress = currentStep / steps
+      const ease = (1 - Math.cos(progress * Math.PI)) / 2
+      const newVol = Math.max(0, Math.min(1, startVolume + diff * ease))
+      element.volume = newVol
+
+      if (currentStep >= steps) {
+        clearInterval(currentFadeTimer)
+        currentFadeTimer = null
+        element.volume = targetVolume
+        resolve()
+      }
+    }, stepInterval)
+  })
 }
 
 function attachLive(src) {
@@ -247,7 +265,7 @@ function attachLive(src) {
     hls.loadSource(src)
     hls.attachMedia(audio)
 
-    // SAMPLE-ACCURATE ZERO-LATENCY SYNC & CLEAN TRANSITION HOOK:
+    // SAMPLE-ACCURATE ZERO-LATENCY SYNC & RANDOMIZED OUTRO/INTRO SWEEP SCHEDULER:
     hls.on(Hls.Events.FRAG_CHANGED, (event, data) => {
       if (!data || !data.frag) return
       const url = data.frag.relurl || data.frag.url || ""
@@ -259,21 +277,58 @@ function attachLive(src) {
           currentPlayingSeg = seg
           updateLiveSegment(seg)
 
-          // Check if this segment represents a genuine song transition:
-          const newTrackIdx = TRACK_SEGMENTS.findIndex(t => seg >= t.start && seg <= t.end)
-          if (newTrackIdx !== -1) {
-            const isSongStart = (seg === TRACK_SEGMENTS[newTrackIdx].start)
-            const isSongChanged = (newTrackIdx !== currentSongIdx)
+          const currentTrackIdx = TRACK_SEGMENTS.findIndex(t => seg >= t.start && seg <= t.end)
+          if (currentTrackIdx === -1) return
+          const currentTrack = TRACK_SEGMENTS[currentTrackIdx]
+          const nextTrackIdx = (currentTrackIdx + 1) % TRACK_SEGMENTS.length
 
-            // Fire cue ONLY when a new song actually begins and previous playback was active
-            // This mathematically prevents ANY cue from triggering mid-song!
-            const nowMs = Date.now()
-            if (isSongChanged && isSongStart && currentSongIdx !== -1 && prevSeg > 0 && !talking && (nowMs - lastCueTime > 90000)) {
-              lastCueTime = nowMs
-              triggerTransitionCue(newTrackIdx)
+          // 1. Initial connect: bind current track without firing surprise cues mid-song
+          if (currentSongIdx === -1) {
+            currentSongIdx = currentTrackIdx
+            lastHandledJoinTrack = currentTrackIdx
+            return
+          }
+
+          const nowMs = Date.now()
+
+          // 2. OUTRO CHECK: Final segment of currently playing song
+          if (seg === currentTrack.end && prevSeg > 0 && !talking && (nowMs - lastCueTime > 75000)) {
+            if (lastHandledJoinTrack !== nextTrackIdx) {
+              const isPresenterDue = (songsSincePresenter + 1 >= presenterSweepTarget)
+              const linkAtOutro = Math.random() < 0.5 // 50% outro, 50% intro
+              if (isPresenterDue && linkAtOutro) {
+                lastHandledJoinTrack = nextTrackIdx
+                lastCueTime = nowMs
+                songsSincePresenter = 0
+                presenterSweepTarget = Math.floor(Math.random() * 3) + 1 // 1, 2, or 3 songs for next sweep
+                triggerTransitionCue(nextTrackIdx, "outro")
+              }
             }
+          }
 
-            currentSongIdx = newTrackIdx
+          // 3. INTRO / START CHECK: First segment of incoming song
+          if (seg === currentTrack.start && currentTrackIdx !== currentSongIdx && prevSeg > 0 && !talking && (nowMs - lastCueTime > 75000)) {
+            currentSongIdx = currentTrackIdx
+            if (lastHandledJoinTrack !== currentTrackIdx) {
+              lastHandledJoinTrack = currentTrackIdx
+              lastCueTime = nowMs
+
+              songsSincePresenter++
+              const isPresenterDue = (songsSincePresenter >= presenterSweepTarget)
+
+              if (isPresenterDue) {
+                songsSincePresenter = 0
+                presenterSweepTarget = Math.floor(Math.random() * 3) + 1 // 1, 2, or 3 songs
+                triggerTransitionCue(currentTrackIdx, "intro")
+              } else {
+                // In-between sweep: 50% chance of a quick Heart jingle/drop, 50% pure music sweep
+                if (Math.random() < 0.5) {
+                  triggerTransitionCue(currentTrackIdx, "imaging")
+                }
+              }
+            }
+          } else if (currentTrackIdx !== currentSongIdx) {
+            currentSongIdx = currentTrackIdx
           }
         }
       }
@@ -316,23 +371,18 @@ function unparkLive() {
   return audio.play()
 }
 
-// COMPLETE AUDIO INTERLOCK:
-// When an Ident, Jingle, or Presenter Link plays, the live song audio is 100% silenced.
-// Zero overlap, zero bleed.
+// COMMERCIAL BROADCAST DUCKING & VOCAL POST SWELL ENGINE:
+// Matches the flagship demos: live music smoothly ducks down to 16% volume under the voice,
+// and swells cleanly back to 100% volume right as the song vocals start!
 async function playTalk(cue) {
   if (!cue || talking || cue.id === lastTalkId) return
   lastTalkId = cue.id
   talking = true
-  const liveSrc = isLive(current) && current ? current.dataset.src : null
 
   try {
-    // 1. HARD SILENCE the music stream:
-    audio.muted = true
-    audio.volume = 0
-    try { audio.pause() } catch (_) {}
-    if (hls) {
-      try { hls.stopLoad() } catch (_) {}
-    }
+    // 1. BROADCAST DUCKING: Smoothly fade live music bed down to 16% volume over 750ms
+    // The live music stream NEVER stops, never pauses, and never cuts out!
+    await fadeAudioVolume(audio, 0.16, 750)
 
     talkAudio.pause()
     talkAudio.muted = false
@@ -345,6 +395,7 @@ async function playTalk(cue) {
 
     await talkAudio.play()
 
+    // Wait for the speech / jingle to finish (with 35s safety watchdog)
     await new Promise((resolve) => {
       const timer = setTimeout(resolve, 35000)
       const done = () => {
@@ -361,32 +412,12 @@ async function playTalk(cue) {
   try {
     talkAudio.pause()
     talkAudio.removeAttribute("src")
-    talkAudio.load()
   } catch (_) {}
-  talking = false
 
-  // 2. Restore live music stream cleanly with zero overlap:
-  if (!current || !liveSrc) {
-    audio.muted = false
-    audio.volume = 1
-    return
-  }
-  try {
-    if (hls) {
-      try { hls.startLoad() } catch (_) {}
-    }
-    audio.muted = false
-    audio.volume = 1
-    await audio.play()
-  } catch (_) {
-    try {
-      await attachLive(liveSrc)
-      await audio.play()
-    } catch (_) {
-      audio.muted = false
-      audio.volume = 1
-    }
-  }
+  // 2. BROADCAST SWELL: Smoothly swell music bed back to 100% volume over 1200ms
+  // Hitting the vocal post with commercial radio warmth!
+  talking = false
+  await fadeAudioVolume(audio, 1.0, 1200)
 }
 
 async function refreshNow() {
@@ -451,6 +482,9 @@ async function playTrack(button) {
     lastTalkId = null
     currentPlayingSeg = 0
     currentSongIdx = -1
+    lastHandledJoinTrack = -1
+    if (currentFadeTimer) { clearInterval(currentFadeTimer); currentFadeTimer = null }
+    audio.volume = 1
     silenceLive()
     current = button
     title.textContent = button.dataset.artist

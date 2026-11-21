@@ -146,18 +146,26 @@ export async function onRequest(context) {
         presenter: show.presenter
       });
     }
-    // 4. Presenter Link (Every 3rd song in commercial sweep)
-    else if (tIdx % 3 === 0) {
-      const dur = 12;
-      let linkTitle = `${show.presenter} On-Air Link (Into ${song.title})`;
-      if (show.id === "breakfast") linkTitle = `Callum & Rhys Breakfast Link (Into ${song.title})`;
-      else if (show.id === "days") linkTitle = `Sarah Quinn Daytime Link (Into ${song.title})`;
-      else if (show.id === "drive") linkTitle = `Owen Hart Drivetime Link (Into ${song.title})`;
-      else if (show.id === "evenings") linkTitle = `Nia Brooks Evenings Rock Link (Into ${song.title})`;
-      else if (show.id === "late") linkTitle = `Tom Hale Late Show Unwind (Into ${song.title})`;
-      else if (show.id === "early") linkTitle = `Maya Cole Early Dawn Companion (Into ${song.title})`;
+    // 4. Deterministic Randomizer for Commercial Sweeps (1, 2, or 3 songs, Outro vs Intro)
+    // Using 32-bit Murmur-style integer hash of global song sequence
+    let h = ((gIdx ^ 0x5bf03635) >>> 0);
+    h = Math.imul((h >>> 16) ^ h, 0x45d9f3b) >>> 0;
+    h = Math.imul((h >>> 16) ^ h, 0x45d9f3b) >>> 0;
+    const isPresenterSlot = ((h % 100) < 45); // ~45% of transitions (1 to 3 songs)
+    const isOutro = (((h >>> 8) % 2) === 0);
 
-      const djStartSec = songStartSec;
+    if (isPresenterSlot) {
+      const dur = 14;
+      const timingLabel = isOutro ? "Song Outro" : "Intro Ramp";
+      let linkTitle = `${show.presenter} On-Air Dry Link (${timingLabel} into ${song.title})`;
+      if (show.id === "breakfast") linkTitle = `Callum & Rhys Breakfast Link (${timingLabel} into ${song.title})`;
+      else if (show.id === "days") linkTitle = `Sarah Quinn Daytime Link (${timingLabel} into ${song.title})`;
+      else if (show.id === "drive") linkTitle = `Owen Hart Drivetime Link (${timingLabel} into ${song.title})`;
+      else if (show.id === "evenings") linkTitle = `Nia Brooks Evenings Rock Link (${timingLabel} into ${song.title})`;
+      else if (show.id === "late") linkTitle = `Tom Hale Late Show Unwind (${timingLabel} into ${song.title})`;
+      else if (show.id === "early") linkTitle = `Maya Cole Early Dawn Companion (${timingLabel} into ${song.title})`;
+
+      const djStartSec = isOutro ? Math.max(0, songStartSec - 8) : songStartSec;
       const djFinishSec = djStartSec + dur;
 
       events.push({
@@ -169,7 +177,7 @@ export async function onRequest(context) {
         category: "Presenter Link",
         title: linkTitle,
         artist: show.presenter,
-        duration: "12s",
+        duration: "14s",
         durationSec: dur,
         show: show.title,
         presenter: show.presenter
@@ -183,7 +191,7 @@ export async function onRequest(context) {
         category: "Presenter Link",
         title: linkTitle,
         artist: show.presenter,
-        duration: "12s",
+        duration: "14s",
         durationSec: dur,
         show: show.title,
         presenter: show.presenter
