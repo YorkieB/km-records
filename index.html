@@ -891,7 +891,14 @@
               <span id="chat-char-count">0 / 300</span>
             </div>
             <div class="composer-input-row">
-              <input type="text" id="chat-input" class="chat-input" placeholder="Say something in the Green Room... (Enter to send)" maxlength="300" autocomplete="off">
+              <div id="mention-popup" class="mention-popup" hidden>
+                <div class="mention-popup-header">
+                  <span>Mention On-Air Presenter / Lounge</span>
+                  <span style="opacity: 0.7; font-size: 0.65rem;">↑↓ Navigate · Enter Select</span>
+                </div>
+                <ul id="mention-popup-list" class="mention-popup-list"></ul>
+              </div>
+              <input type="text" id="chat-input" class="chat-input" placeholder="Say something in the Green Room... Type @ for presenters (Enter to send)" maxlength="300" autocomplete="off">
               <button type="button" id="chat-send-btn" class="chat-send-btn">Send</button>
             </div>
           </div>
@@ -1137,7 +1144,7 @@
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.20/dist/hls.min.js"></script>
   <script src="player.js?v=36"></script>
   <script src="gallery.js?v=2"></script>
-  <script src="community.js?v=5"></script>
+  <script src="community.js?v=6"></script>
   <script src="tv.js?v=2"></script>
   <script src="books.js?v=1"></script>
   <script src="podcasts.js?v=1"></script>

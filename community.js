@@ -941,13 +941,254 @@
     }
   }
 
+  // --- @ MENTION AUTOCOMPLETE POPUP SYSTEM ---
+  const mentionPopup = document.getElementById("mention-popup");
+  const mentionPopupList = document.getElementById("mention-popup-list");
+  let mentionActiveIndex = 0;
+  let mentionMatchRange = null; // { start, end, query }
+
+  function getAvailableMentions() {
+    const activeShow = computeLocalRadio().show;
+    const activePres = (activeShow && activeShow.presenter) ? activeShow.presenter : "Owen Hart";
+    const activePresFirst = activePres.split(" ")[0];
+
+    const list = [
+      {
+        tag: `@${activePresFirst}`,
+        name: activePres,
+        role: `${activeShow.title} Show (Live On Air)`,
+        avatar: "📻",
+        onAir: true,
+        desc: "Ask current DJ for live radio shoutout"
+      },
+      {
+        tag: "@DJ",
+        name: "On-Air Presenter",
+        role: "Live Studio Broadcast",
+        avatar: "🎙️",
+        onAir: true,
+        desc: "Triggers whoever is currently broadcasting live"
+      },
+      {
+        tag: "@Daisy",
+        name: "Daisy",
+        role: "Resident Green Room AI Host",
+        avatar: "🌼",
+        onAir: false,
+        desc: "Chat about tracks, studio trivia & vibes"
+      },
+      {
+        tag: "@Owen",
+        name: "Owen Hart",
+        role: "KM Drive (15:00–19:00)",
+        avatar: "🚗",
+        onAir: activePres.includes("Owen"),
+        desc: "Drive show presenter"
+      },
+      {
+        tag: "@Nia",
+        name: "Nia Brooks",
+        role: "KM Evenings (19:00–23:00)",
+        avatar: "🎸",
+        onAir: activePres.includes("Nia"),
+        desc: "Evening indie-rock show presenter"
+      },
+      {
+        tag: "@Sarah",
+        name: "Sarah Quinn",
+        role: "KM Days (10:00–15:00)",
+        avatar: "☕",
+        onAir: activePres.includes("Sarah"),
+        desc: "Workday show presenter"
+      },
+      {
+        tag: "@Callum",
+        name: "Callum & Rhys",
+        role: "Breakfast Show (06:00–10:00)",
+        avatar: "🌅",
+        onAir: activePres.includes("Callum"),
+        desc: "Breakfast show duo"
+      },
+      {
+        tag: "@Tom",
+        name: "Tom Hale",
+        role: "Late Show (23:00–03:00)",
+        avatar: "🌙",
+        onAir: activePres.includes("Tom"),
+        desc: "Late-night presenter"
+      },
+      {
+        tag: "@Maya",
+        name: "Maya Cole",
+        role: "Early Breakfast (03:00–06:00)",
+        avatar: "☕",
+        onAir: activePres.includes("Maya"),
+        desc: "Early breakfast presenter"
+      }
+    ];
+
+    // Filter out duplicates if current presenter is already first
+    const seen = new Set();
+    return list.filter(item => {
+      if (seen.has(item.tag)) return false;
+      seen.add(item.tag);
+      return true;
+    });
+  }
+
+  function renderMentionSuggestions(filtered) {
+    if (!mentionPopup || !mentionPopupList) return;
+    if (filtered.length === 0) {
+      hideMentionPopup();
+      return;
+    }
+    mentionPopupList.innerHTML = "";
+    filtered.forEach((item, idx) => {
+      const li = document.createElement("li");
+      li.className = "mention-popup-item" + (idx === mentionActiveIndex ? " active" : "");
+      li.dataset.index = idx;
+      li.innerHTML = `
+        <div class="mention-popup-avatar">${item.avatar}</div>
+        <div class="mention-popup-info">
+          <div class="mention-popup-tag">
+            <span>${item.tag}</span>
+            <span style="font-weight: 500; font-size: 0.78rem; color: var(--cream); opacity: 0.85;">(${item.name})</span>
+            ${item.onAir ? '<span class="badge-on-air">ON AIR</span>' : ''}
+          </div>
+          <div class="mention-popup-role">${item.role} · ${item.desc}</div>
+        </div>
+      `;
+      li.addEventListener("mouseenter", () => {
+        mentionActiveIndex = idx;
+        updateMentionPopupSelection();
+      });
+      li.addEventListener("mousedown", (e) => {
+        e.preventDefault(); // Prevent blur
+        applyMentionSelection(item.tag);
+      });
+      mentionPopupList.appendChild(li);
+    });
+
+    mentionPopup.hidden = false;
+  }
+
+  function updateMentionPopupSelection() {
+    if (!mentionPopupList) return;
+    const items = mentionPopupList.querySelectorAll(".mention-popup-item");
+    items.forEach((item, idx) => {
+      item.classList.toggle("active", idx === mentionActiveIndex);
+      if (idx === mentionActiveIndex) {
+        item.scrollIntoView({ block: "nearest" });
+      }
+    });
+  }
+
+  function hideMentionPopup() {
+    if (mentionPopup) mentionPopup.hidden = true;
+    mentionMatchRange = null;
+    mentionActiveIndex = 0;
+  }
+
+  function checkMentionTrigger() {
+    if (!chatInput) return;
+    const val = chatInput.value;
+    const cursor = chatInput.selectionStart || val.length;
+
+    // Look back from cursor to find an uncompleted @mention
+    const textBefore = val.slice(0, cursor);
+    const atIndex = textBefore.lastIndexOf("@");
+
+    if (atIndex === -1) {
+      hideMentionPopup();
+      return;
+    }
+
+    // Ensure @ is at start of string or preceded by whitespace
+    if (atIndex > 0 && !/\s/.test(val[atIndex - 1])) {
+      hideMentionPopup();
+      return;
+    }
+
+    const query = textBefore.slice(atIndex + 1);
+    // If there is whitespace between @ and cursor, the mention is finished or invalid
+    if (/\s/.test(query)) {
+      hideMentionPopup();
+      return;
+    }
+
+    mentionMatchRange = { start: atIndex, end: cursor, query };
+    const all = getAvailableMentions();
+    const filtered = all.filter(item => {
+      const q = query.toLowerCase();
+      return item.tag.toLowerCase().includes(q) ||
+             item.name.toLowerCase().includes(q) ||
+             item.role.toLowerCase().includes(q);
+    });
+
+    mentionActiveIndex = 0;
+    renderMentionSuggestions(filtered);
+  }
+
+  function applyMentionSelection(tag) {
+    if (!chatInput || !mentionMatchRange) return;
+    const val = chatInput.value;
+    const before = val.slice(0, mentionMatchRange.start);
+    const after = val.slice(mentionMatchRange.end);
+    const insert = tag + " ";
+    chatInput.value = before + insert + after;
+    const newCursor = before.length + insert.length;
+    chatInput.setSelectionRange(newCursor, newCursor);
+    chatInput.focus();
+    hideMentionPopup();
+    updateCharCount();
+  }
+
   if (chatInput) {
-    chatInput.addEventListener("input", updateCharCount);
+    chatInput.addEventListener("input", () => {
+      updateCharCount();
+      checkMentionTrigger();
+    });
+
     chatInput.addEventListener("keydown", (e) => {
+      if (mentionPopup && !mentionPopup.hidden) {
+        const items = mentionPopupList ? mentionPopupList.querySelectorAll(".mention-popup-item") : [];
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          if (items.length > 0) {
+            mentionActiveIndex = (mentionActiveIndex + 1) % items.length;
+            updateMentionPopupSelection();
+          }
+          return;
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          if (items.length > 0) {
+            mentionActiveIndex = (mentionActiveIndex - 1 + items.length) % items.length;
+            updateMentionPopupSelection();
+          }
+          return;
+        } else if (e.key === "Enter" || e.key === "Tab") {
+          if (items.length > 0 && items[mentionActiveIndex]) {
+            e.preventDefault();
+            const chosenTag = items[mentionActiveIndex].querySelector(".mention-popup-tag span").textContent;
+            applyMentionSelection(chosenTag);
+            return;
+          }
+        } else if (e.key === "Escape") {
+          e.preventDefault();
+          hideMentionPopup();
+          return;
+        }
+      }
+
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         sendChatMessage();
       }
+    });
+
+    chatInput.addEventListener("blur", () => {
+      // Delay so mousedown on items registers
+      setTimeout(hideMentionPopup, 200);
     });
   }
   if (chatSendBtn) {
