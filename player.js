@@ -57,35 +57,59 @@ function attachLive(src) {
   audio.src = src
 }
 
-function parkLive() {
-  try { audio.pause() } catch (_) {}
-  audio.muted = true
-  audio.volume = 0
-}
-
-function unparkLive() {
-  audio.muted = false
-  audio.volume = 1
-  return audio.play()
+function rampVolume(targetVolume, durationMs) {
+  return new Promise((resolve) => {
+    const startVolume = audio.volume
+    const diff = targetVolume - startVolume
+    if (Math.abs(diff) < 0.01) {
+      audio.volume = targetVolume
+      return resolve()
+    }
+    const steps = 15
+    const stepInterval = Math.max(10, Math.floor(durationMs / steps))
+    let step = 0
+    const timer = setInterval(() => {
+      step++
+      const currentVol = startVolume + diff * (step / steps)
+      audio.volume = Math.max(0, Math.min(1, currentVol))
+      if (step >= steps) {
+        clearInterval(timer)
+        audio.volume = targetVolume
+        resolve()
+      }
+    }, stepInterval)
+  })
 }
 
 function atSongJoin(data) {
   const cat = data && data.live && data.live.catalogue
   if (!cat) return false
   if (cat.onIdent) return true
-  return typeof cat.into === "number" && cat.into < 4
+  return typeof cat.into === "number" && cat.into < 20
 }
 
 async function playTalk(cue) {
   if (!cue || talking || cue.id === lastTalkId) return
   lastTalkId = cue.id
   talking = true
-  const liveSrc = isLive(current) && current ? current.dataset.src : null
+  const duckTo = typeof cue.duckTo === "number" ? cue.duckTo : 0.22
+
   try {
-    parkLive()
+    // Content-aware commercial radio gain ducking:
+    // Smoothly duck background music to 20-22% over 300ms
+    await rampVolume(duckTo, 300)
+
     talkAudio.pause()
+    talkAudio.volume = 1.0
     talkAudio.src = cue.src
+
+    if (desk && cue.title) {
+      const prevDesk = desk.textContent
+      desk.textContent = `[ON AIR: ${cue.title}] · ${prevDesk}`
+    }
+
     await talkAudio.play()
+
     await new Promise((resolve) => {
       const done = () => {
         talkAudio.removeEventListener("ended", done)
@@ -95,27 +119,18 @@ async function playTalk(cue) {
       talkAudio.addEventListener("ended", done)
       talkAudio.addEventListener("error", done)
     })
-  } catch (_) {}
+
+    // Vocal post reached: Swell background music smoothly back to 100% over 400ms
+    await rampVolume(1.0, 400)
+  } catch (_) {
+    audio.volume = 1.0
+  }
+
   talkAudio.pause()
   talkAudio.removeAttribute("src")
   try { talkAudio.load() } catch (_) {}
   talking = false
-  if (!current || !liveSrc) {
-    audio.muted = false
-    audio.volume = 1
-    return
-  }
-  try {
-    await unparkLive()
-  } catch (_) {
-    try {
-      await attachLive(liveSrc)
-      await audio.play()
-    } catch (_) {
-      audio.muted = false
-      audio.volume = 1
-    }
-  }
+  audio.volume = 1.0
 }
 
 async function refreshNow() {
@@ -129,16 +144,15 @@ async function refreshNow() {
     if (desk) {
       const bits = []
       if (data.clock) bits.push(data.clock)
+      const cat = data.live && data.live.catalogue
+      if (cat) {
+        bits.push(`${cat.title} — ${cat.artist}`)
+        if (cat.next) bits.push(`Next: ${cat.next.title}`)
+      }
       const weather = data.live && data.live.weather
       if (weather && weather.weather) bits.push(weather.place + ": " + weather.weather)
-      const next = data.live && data.live.catalogue && data.live.catalogue.next
-      if (next) bits.push("Next: " + next.title)
-      if (data.talk && data.talk.kind === "conversation") {
-        bits.push(data.talk.with && data.talk.with.name ? "Chat with " + data.talk.with.name : "On-air chat")
-      } else if (data.talk && data.talk.kind === "desk") {
-        bits.push("Live desk")
-      } else if (data.talk && data.talk.kind === "jingle") {
-        bits.push("Jingle")
+      if (data.talk && data.talk.title) {
+        bits.push(`Upcoming: ${data.talk.title}`)
       }
       desk.textContent = bits.join(" · ")
     }
