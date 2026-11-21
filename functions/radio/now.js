@@ -51,7 +51,7 @@ export async function onRequest(context) {
   ];
 
   const SHOWS = [
-    { start: 6, end: 10, id: "breakfast", title: "Breakfast", presenter: "Callum & Woody" },
+    { start: 6, end: 10, id: "breakfast", title: "Breakfast", presenter: "Callum & Rhys" },
     { start: 10, end: 15, id: "days", title: "Days", presenter: "Sarah Quinn" },
     { start: 15, end: 19, id: "drive", title: "Drive", presenter: "Owen Hart" },
     { start: 19, end: 23, id: "evenings", title: "Evenings", presenter: "Nia Brooks" },
