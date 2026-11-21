@@ -73,11 +73,13 @@ export async function onRequest(context) {
   const intoSec = nowSec % songPeriod;
 
   // --- CONTENT-AWARE IMAGING & PRESENTER SELECTION ENGINE ---
+  // Idents, jingles, and presenter links are scheduled ONLY at the clean transition boundary
+  // (intoSec < 4) and with commercial radio music sweeps (2-3 songs between elements).
+  // They NEVER fire mid-song or over playing vocals.
   let cue = null;
   const joinId = `join_${rotationIndex}`;
 
-  // Evaluate transition cues when we are near the song join (intoSec < 24)
-  if (intoSec < 24) {
+  if (intoSec < 4) {
     // 1. Top of the Hour (minutes 58, 59, 0, 1): Grand Nationwide Ident (London to Penzance)
     if (minute >= 58 || minute <= 1) {
       cue = {
@@ -85,18 +87,16 @@ export async function onRequest(context) {
         kind: "ident",
         src: "/audio/imaging/heart/heart_ident_nationwide_toh.mp3",
         title: "Top of the Hour Nationwide Ident (London to Penzance)",
-        duckTo: 0.20,
         context: "Scheduled: Nationwide Top of the Hour broadcast check"
       };
     }
-    // 2. Bottom of the Hour (minutes 28 - 32): 30-Minute Variety Promise
-    else if (minute >= 28 && minute <= 32) {
+    // 2. Bottom of the Hour (minutes 28 - 31): 30-Minute Variety Promise
+    else if (minute >= 28 && minute <= 31) {
       cue = {
         id: `${joinId}_variety`,
         kind: "ident",
         src: "/audio/imaging/heart/heart_ident_nonstop_variety.mp3",
         title: "Non-Stop Variety Promise Ident",
-        duckTo: 0.22,
         context: "Scheduled: Mid-hour music variety guarantee"
       };
     }
@@ -107,53 +107,38 @@ export async function onRequest(context) {
         kind: "ident",
         src: "/audio/imaging/heart/heart_ident_weekend_feelgood.mp3",
         title: "Weekend Feel-Good Ident",
-        duckTo: 0.22,
         context: `Weekend programming: ${weekdayStr} uplifting rotation`
       };
     }
-    // 4. Content-Aware Presenter Links (Every 2nd transition across the broadcast daypart)
-    else if (rotationIndex % 2 === 0) {
+    // 4. Content-Aware Presenter Links (Every 3rd song in the commercial sweep)
+    else if (rotationIndex % 3 === 0) {
       if (currentShow.id === "breakfast") {
-        const link = (rotationIndex % 4 === 0) 
+        const link = (rotationIndex % 6 === 0) 
           ? { src: "/audio/presenters/callum_rhys_link_01.mp3", title: "Callum & Rhys Breakfast Link (Into Thunder Queen)" }
           : { src: "/audio/presenters/callum_rhys_link_02.mp3", title: "Callum & Rhys Breakfast Link (School Run Check)" };
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, duckTo: 0.20, context: `Breakfast link with Callum & Rhys heading into ${nextSong.title}` };
+        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, context: `Breakfast link with Callum & Rhys heading into ${nextSong.title}` };
       } else if (currentShow.id === "days") {
         const link = (nextSong.artist.includes("Kayleigh"))
           ? { src: "/audio/presenters/sarah_quinn_link_01.mp3", title: "Sarah Quinn Daytime Link (Into Kayleigh Merez)" }
           : { src: "/audio/presenters/sarah_quinn_link_02.mp3", title: "Sarah Quinn Daytime Link (Into Leah Carter Sunshine)" };
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, duckTo: 0.20, context: `Days link with Sarah Quinn heading into ${nextSong.title}` };
+        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, context: `Days link with Sarah Quinn heading into ${nextSong.title}` };
       } else if (currentShow.id === "drive") {
         const link = (nextSong.artist.includes("Kayleigh"))
           ? { src: "/audio/presenters/owen_hart_link_02.mp3", title: "Owen Hart Drivetime Link (Into Cherry Red)" }
           : { src: "/audio/presenters/owen_hart_link_01.mp3", title: "Owen Hart Drivetime Link (Rush Hour Highway Check)" };
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, duckTo: 0.20, context: `Drive link with Owen Hart heading into ${nextSong.title}` };
+        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, context: `Drive link with Owen Hart heading into ${nextSong.title}` };
       } else if (currentShow.id === "evenings") {
         const link = (nextSong.vibe === "rock")
           ? { src: "/audio/presenters/nia_brooks_link_01.mp3", title: "Nia Brooks Evenings Rock Link (Guitar Craft)" }
           : { src: "/audio/presenters/nia_brooks_link_02.mp3", title: "Nia Brooks Evenings Link (Leah Carter Grit)" };
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, duckTo: 0.20, context: `Evenings link with Nia Brooks heading into ${nextSong.title}` };
+        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, context: `Evenings link with Nia Brooks heading into ${nextSong.title}` };
       } else if (currentShow.id === "late") {
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: "/audio/presenters/tom_hale_link_01.mp3", title: "Tom Hale Late Show Link (Midnight Unwind)", duckTo: 0.20, context: `Late show link with Tom Hale heading into ${nextSong.title}` };
+        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: "/audio/presenters/tom_hale_link_01.mp3", title: "Tom Hale Late Show Link (Midnight Unwind)", context: `Late show link with Tom Hale heading into ${nextSong.title}` };
       } else if (currentShow.id === "early") {
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: "/audio/presenters/maya_cole_link_01.mp3", title: "Maya Cole Early Show Link (Dawn Shift Check)", duckTo: 0.20, context: `Early show link with Maya Cole heading into ${nextSong.title}` };
+        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: "/audio/presenters/maya_cole_link_01.mp3", title: "Maya Cole Early Show Link (Dawn Shift Check)", context: `Early show link with Maya Cole heading into ${nextSong.title}` };
       }
     }
-    // 5. Content-Aware Artist Drops & Energy Matching
-    else {
-      if (nextSong.artist === "Kayleigh Merez" && nextSong.energy === "high") {
-        cue = (rotationIndex % 3 === 0)
-          ? { id: `${joinId}_artist`, kind: "artist_drop", src: "/audio/imaging/heart/heart_artist_drop_kayleigh.mp3", title: "Kayleigh Merez Artist Drop", duckTo: 0.22, context: "Artist matching: Kayleigh Merez high-octane rock intro" }
-          : { id: `${joinId}_sweeper`, kind: "sweeper", src: "/audio/imaging/sweeper_01_nonstop_rock.mp3", title: "Non-Stop Rock Guitar Sweeper", duckTo: 0.22, context: "Energy matching: Rock intro ramp" };
-      } else if (nextSong.artist.includes("Leah Carter") && nextSong.vibe === "pop") {
-        cue = { id: `${joinId}_artist`, kind: "artist_drop", src: "/audio/imaging/heart/heart_artist_drop_leah.mp3", title: "Leah Carter Artist Drop", duckTo: 0.22, context: "Artist matching: Leah Carter pop feel-good intro" };
-      } else if (nextSong.vibe === "acoustic" || nextSong.vibe === "ballad") {
-        cue = { id: `${joinId}_chilled`, kind: "ident", src: "/audio/imaging/heart/heart_ident_acoustic_chilled.mp3", title: "Acoustic & Chilled Ident", duckTo: 0.22, context: "Vibe matching: Stripped-back acoustic ballad" };
-      } else {
-        // Fallback to station brander or feel-good ident
-        cue = { id: `${joinId}_feelgood`, kind: "ident", src: "/audio/imaging/heart/heart_ident_feel_good.mp3", title: "KM Radio Feel-Good Station Ident", duckTo: 0.22, context: "Standard station identity rotation" };
-      }
-    }
+    // 5. Uninterrupted 2-Song Music Sweep: Other transitions let the music flow back-to-back!
   }
 
   const data = {

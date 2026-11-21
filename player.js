@@ -57,55 +57,43 @@ function attachLive(src) {
   audio.src = src
 }
 
-function rampVolume(targetVolume, durationMs) {
-  return new Promise((resolve) => {
-    const startVolume = audio.volume
-    const diff = targetVolume - startVolume
-    if (Math.abs(diff) < 0.01) {
-      audio.volume = targetVolume
-      return resolve()
-    }
-    const steps = 15
-    const stepInterval = Math.max(10, Math.floor(durationMs / steps))
-    let step = 0
-    const timer = setInterval(() => {
-      step++
-      const currentVol = startVolume + diff * (step / steps)
-      audio.volume = Math.max(0, Math.min(1, currentVol))
-      if (step >= steps) {
-        clearInterval(timer)
-        audio.volume = targetVolume
-        resolve()
-      }
-    }, stepInterval)
-  })
+function parkLive() {
+  try { audio.pause() } catch (_) {}
+  audio.muted = true
+  audio.volume = 0
+}
+
+function unparkLive() {
+  audio.muted = false
+  audio.volume = 1
+  return audio.play()
 }
 
 function atSongJoin(data) {
   const cat = data && data.live && data.live.catalogue
   if (!cat) return false
   if (cat.onIdent) return true
-  return typeof cat.into === "number" && cat.into < 20
+  // ONLY trigger right at the true song boundary (first 3 seconds), NEVER mid-song!
+  return typeof cat.into === "number" && cat.into < 4
 }
 
 async function playTalk(cue) {
   if (!cue || talking || cue.id === lastTalkId) return
   lastTalkId = cue.id
   talking = true
-  const duckTo = typeof cue.duckTo === "number" ? cue.duckTo : 0.22
+  const liveSrc = isLive(current) && current ? current.dataset.src : null
 
   try {
-    // Content-aware commercial radio gain ducking:
-    // Smoothly duck background music to 20-22% over 300ms
-    await rampVolume(duckTo, 300)
+    // 1. Immediately park (pause & silence) the live music stream!
+    // This guarantees the Ident or Jingle NEVER plays over a song!
+    parkLive()
 
     talkAudio.pause()
     talkAudio.volume = 1.0
     talkAudio.src = cue.src
 
     if (desk && cue.title) {
-      const prevDesk = desk.textContent
-      desk.textContent = `[ON AIR: ${cue.title}] · ${prevDesk}`
+      desk.textContent = `[ON AIR: ${cue.title}] · KM Radio Live`
     }
 
     await talkAudio.play()
@@ -119,18 +107,30 @@ async function playTalk(cue) {
       talkAudio.addEventListener("ended", done)
       talkAudio.addEventListener("error", done)
     })
-
-    // Vocal post reached: Swell background music smoothly back to 100% over 400ms
-    await rampVolume(1.0, 400)
-  } catch (_) {
-    audio.volume = 1.0
-  }
+  } catch (_) {}
 
   talkAudio.pause()
   talkAudio.removeAttribute("src")
   try { talkAudio.load() } catch (_) {}
   talking = false
-  audio.volume = 1.0
+
+  // 2. Only after the Ident has fully completed, resume the music stream cleanly!
+  if (!current || !liveSrc) {
+    audio.muted = false
+    audio.volume = 1
+    return
+  }
+  try {
+    await unparkLive()
+  } catch (_) {
+    try {
+      await attachLive(liveSrc)
+      await audio.play()
+    } catch (_) {
+      audio.muted = false
+      audio.volume = 1
+    }
+  }
 }
 
 async function refreshNow() {
