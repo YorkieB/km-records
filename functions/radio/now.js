@@ -69,33 +69,16 @@ export async function onRequest(context) {
         context: `Weekend programming: ${weekdayStr} uplifting rotation`
       };
     }
-    // 4. Content-Aware Presenter Links (Every 3rd song in commercial sweep)
+    // 4. Autonomous AI Presenter Links (Every 3rd song in commercial sweep)
     else if (trackIdx % 3 === 0) {
-      if (currentShow.id === "breakfast") {
-        const link = (trackIdx % 6 === 0) 
-          ? { src: "/audio/presenters/callum_rhys_link_01.mp3", title: "Callum & Rhys Breakfast Link (Into Thunder Queen)" }
-          : { src: "/audio/presenters/callum_rhys_link_02.mp3", title: "Callum & Rhys Breakfast Link (School Run Check)" };
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, context: `Breakfast link with Callum & Rhys heading into ${currentSong.title}` };
-      } else if (currentShow.id === "days") {
-        const link = (currentSong.artist.includes("Kayleigh"))
-          ? { src: "/audio/presenters/sarah_quinn_link_01.mp3", title: "Sarah Quinn Daytime Link (Into Kayleigh Merez)" }
-          : { src: "/audio/presenters/sarah_quinn_link_02.mp3", title: "Sarah Quinn Daytime Link (Into Leah Carter Sunshine)" };
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, context: `Days link with Sarah Quinn heading into ${currentSong.title}` };
-      } else if (currentShow.id === "drive") {
-        const link = (currentSong.artist.includes("Kayleigh"))
-          ? { src: "/audio/presenters/owen_hart_link_02.mp3", title: "Owen Hart Drivetime Link (Into Cherry Red)" }
-          : { src: "/audio/presenters/owen_hart_link_01.mp3", title: "Owen Hart Drivetime Link (Rush Hour Highway Check)" };
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, context: `Drive link with Owen Hart heading into ${currentSong.title}` };
-      } else if (currentShow.id === "evenings") {
-        const link = (currentSong.vibe === "rock")
-          ? { src: "/audio/presenters/nia_brooks_link_01.mp3", title: "Nia Brooks Evenings Rock Link (Guitar Craft)" }
-          : { src: "/audio/presenters/nia_brooks_link_02.mp3", title: "Nia Brooks Evenings Link (Leah Carter Grit)" };
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: link.src, title: link.title, context: `Evenings link with Nia Brooks heading into ${currentSong.title}` };
-      } else if (currentShow.id === "late") {
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: "/audio/presenters/tom_hale_link_01.mp3", title: "Tom Hale Late Show Link (Midnight Unwind)", context: `Late show link with Tom Hale heading into ${currentSong.title}` };
-      } else if (currentShow.id === "early") {
-        cue = { id: `${joinId}_pres`, kind: "presenter_link", src: "/audio/presenters/maya_cole_link_01.mp3", title: "Maya Cole Early Show Link (Dawn Shift Check)", context: `Early show link with Maya Cole heading into ${currentSong.title}` };
-      }
+      const linkSrc = `/radio/speak?show=${currentShow.id}&next=${encodeURIComponent(currentSong.title)}&v=${Math.floor(nowSec / 900)}`;
+      cue = {
+        id: `${joinId}_pres`,
+        kind: "presenter_link",
+        src: linkSrc,
+        title: `${currentShow.presenter} On-Air Dry Link (Live UK News & Weather)`,
+        context: `Live AI Presenter: Real-time UK news and weather heading into ${currentSong.title}`
+      };
     }
   }
 

@@ -13,6 +13,7 @@ let nowTimer = null
 let lastTalkId = null
 let talking = false
 let currentPlayingSeg = 0
+let currentSongIdx = -1
 let lastWeather = "London & UK: clear, about 8 degrees"
 
 const talkAudio = new Audio()
@@ -95,6 +96,70 @@ function updateLiveSegment(seg) {
   }
 }
 
+// STRICT SONG TRANSITION GATING:
+// Idents, Jingles, and AI Presenter Links trigger ONLY at true song transitions
+// (when a new track starts at its exact first segment), NEVER mid-song!
+async function triggerTransitionCue(trackIdx) {
+  if (talking || !isLive(current)) return
+  const now = new Date()
+  const minute = now.getMinutes()
+  const hour = now.getHours()
+  const isWeekend = now.getDay() === 0 || now.getDay() === 6
+  const nextTrack = TRACK_SEGMENTS[trackIdx]
+
+  let showId = "drive"
+  if (hour >= 6 && hour < 10) showId = "breakfast"
+  else if (hour >= 10 && hour < 15) showId = "days"
+  else if (hour >= 15 && hour < 19) showId = "drive"
+  else if (hour >= 19 && hour < 23) showId = "evenings"
+  else if (hour >= 23 || hour < 3) showId = "late"
+  else if (hour >= 3 && hour < 6) showId = "early"
+
+  let cue = null
+  const cueId = `cue_${Date.now()}_t${trackIdx}`
+
+  // 1. Top of the Hour (minutes 58-02): Nationwide TOH Ident (London to Penzance)
+  if (minute >= 58 || minute <= 2) {
+    cue = {
+      id: `${cueId}_toh`,
+      kind: "ident",
+      src: "/audio/imaging/heart/heart_ident_nationwide_toh.mp3",
+      title: "Nationwide Top of the Hour Ident (London to Penzance)"
+    }
+  }
+  // 2. Bottom of the Hour (minutes 28-32): Variety Promise Ident
+  else if (minute >= 28 && minute <= 32) {
+    cue = {
+      id: `${cueId}_var`,
+      kind: "ident",
+      src: "/audio/imaging/heart/heart_ident_nonstop_variety.mp3",
+      title: "Non-Stop Variety Promise Ident"
+    }
+  }
+  // 3. Autonomous AI Presenter Link (Every 3rd song in commercial sweep)
+  else if (trackIdx % 3 === 0) {
+    cue = {
+      id: `${cueId}_dj`,
+      kind: "presenter_link",
+      src: `/radio/speak?show=${showId}&next=${encodeURIComponent(nextTrack.title)}&v=${Math.floor(Date.now() / 900000)}`,
+      title: "Live AI Presenter Link (Live UK News & Weather)"
+    }
+  }
+  // 4. Weekend Feel-Good Ident (Every 4th song on weekends)
+  else if (isWeekend && (trackIdx % 4 === 1)) {
+    cue = {
+      id: `${cueId}_wknd`,
+      kind: "ident",
+      src: "/audio/imaging/heart/heart_ident_weekend_feelgood.mp3",
+      title: "Weekend Feel-Good Station Ident"
+    }
+  }
+
+  if (cue) {
+    await playTalk(cue)
+  }
+}
+
 function attachLive(src) {
   stopHls()
   audio.muted = false
@@ -103,8 +168,8 @@ function attachLive(src) {
     hls = new Hls({
       enableWorker: true,
       lowLatencyMode: true,
-      liveSyncDurationCount: 2,          // Tight 2-segment (~11.7s) live buffer for prompt real-time responsiveness
-      liveMaxLatencyDurationCount: 8,    // Tightly tether to live transmission
+      liveSyncDurationCount: 2,          // Responsive ~11.7s buffer to tightly track real-time broadcast
+      liveMaxLatencyDurationCount: 8,
       maxBufferLength: 20,
       maxMaxBufferLength: 40,
       backBufferLength: 30,
@@ -113,8 +178,7 @@ function attachLive(src) {
     hls.loadSource(src)
     hls.attachMedia(audio)
 
-    // SAMPLE-ACCURATE REAL-TIME SYNC:
-    // Listen for the exact fragment entering playback so the title/desk updates the exact instant the song audio starts!
+    // SAMPLE-ACCURATE ZERO-LATENCY SYNC & CLEAN TRANSITION HOOK:
     hls.on(Hls.Events.FRAG_CHANGED, (event, data) => {
       if (!data || !data.frag) return
       const url = data.frag.relurl || data.frag.url || ""
@@ -122,9 +186,24 @@ function attachLive(src) {
       if (m) {
         const seg = parseInt(m[1], 10)
         if (seg !== currentPlayingSeg) {
+          const prevSeg = currentPlayingSeg
           currentPlayingSeg = seg
           updateLiveSegment(seg)
-          refreshNow()
+
+          // Check if this segment represents a genuine song transition:
+          const newTrackIdx = TRACK_SEGMENTS.findIndex(t => seg >= t.start && seg <= t.end)
+          if (newTrackIdx !== -1) {
+            const isSongStart = (seg === TRACK_SEGMENTS[newTrackIdx].start)
+            const isSongChanged = (newTrackIdx !== currentSongIdx)
+
+            currentSongIdx = newTrackIdx
+
+            // Fire cue ONLY when a new song actually begins and previous playback was active
+            // This mathematically prevents ANY cue from triggering mid-song!
+            if (isSongChanged && isSongStart && prevSeg > 0) {
+              triggerTransitionCue(newTrackIdx)
+            }
+          }
         }
       }
     })
@@ -166,14 +245,9 @@ function unparkLive() {
   return audio.play()
 }
 
-function atSongJoin(data) {
-  const cat = data && data.live && data.live.catalogue
-  if (!cat) return false
-  if (cat.onIdent) return true
-  // ONLY trigger right at the true song boundary (first 3 seconds), NEVER mid-song!
-  return typeof cat.into === "number" && cat.into < 4
-}
-
+// COMPLETE AUDIO INTERLOCK:
+// When an Ident, Jingle, or Presenter Link plays, the live song audio is 100% silenced.
+// Zero overlap, zero bleed.
 async function playTalk(cue) {
   if (!cue || talking || cue.id === lastTalkId) return
   lastTalkId = cue.id
@@ -181,10 +255,16 @@ async function playTalk(cue) {
   const liveSrc = isLive(current) && current ? current.dataset.src : null
 
   try {
-    // 1. Immediately park (pause & silence) the live music stream!
-    parkLive()
+    // 1. HARD SILENCE the music stream:
+    audio.muted = true
+    audio.volume = 0
+    try { audio.pause() } catch (_) {}
+    if (hls) {
+      try { hls.stopLoad() } catch (_) {}
+    }
 
     talkAudio.pause()
+    talkAudio.muted = false
     talkAudio.volume = 1.0
     talkAudio.src = cue.src
 
@@ -205,19 +285,26 @@ async function playTalk(cue) {
     })
   } catch (_) {}
 
-  talkAudio.pause()
-  talkAudio.removeAttribute("src")
-  try { talkAudio.load() } catch (_) {}
+  try {
+    talkAudio.pause()
+    talkAudio.removeAttribute("src")
+    talkAudio.load()
+  } catch (_) {}
   talking = false
 
-  // 2. Only after the Ident has fully completed, resume the music stream cleanly!
+  // 2. Restore live music stream cleanly with zero overlap:
   if (!current || !liveSrc) {
     audio.muted = false
     audio.volume = 1
     return
   }
   try {
-    await unparkLive()
+    if (hls) {
+      try { hls.startLoad() } catch (_) {}
+    }
+    audio.muted = false
+    audio.volume = 1
+    await audio.play()
   } catch (_) {
     try {
       await attachLive(liveSrc)
@@ -255,7 +342,8 @@ async function refreshNow() {
       }
       desk.textContent = bits.join(" · ")
     }
-    if (data.talk && atSongJoin(data)) await playTalk(data.talk)
+    // Cues are now strictly triggered by physical segment boundaries in FRAG_CHANGED,
+    // so refreshNow never triggers cues to avoid mid-song accidents!
   } catch (_) {}
 }
 
@@ -289,6 +377,7 @@ async function playTrack(button) {
     talking = false
     lastTalkId = null
     currentPlayingSeg = 0
+    currentSongIdx = -1
     silenceLive()
     current = button
     title.textContent = button.dataset.artist
