@@ -47,7 +47,7 @@
   async function loadLog() {
     if (!modal || modal.hidden) return;
     try {
-      const res = await fetch(`/radio/log?filter=${currentFilter}&limit=80`, { cache: "no-store" });
+      const res = await fetch(`/radio/log?filter=${currentFilter}&limit=80&_t=${Date.now()}`, { cache: "no-store" });
       if (!res.ok) return;
       const data = await res.json();
 
@@ -90,7 +90,7 @@
     modal.classList.add("active");
     loadLog();
     if (pollTimer) clearInterval(pollTimer);
-    pollTimer = setInterval(loadLog, 4000);
+    pollTimer = setInterval(loadLog, 1500);
   }
 
   function closeModal() {

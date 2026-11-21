@@ -12,8 +12,52 @@ let hls = null
 let nowTimer = null
 let lastTalkId = null
 let talking = false
+let currentPlayingSeg = 0
+let lastWeather = "London & UK: clear, about 8 degrees"
+
 const talkAudio = new Audio()
 talkAudio.preload = "auto"
+
+// Physical segment catalogue for 0ms instantaneous UI updates on fragment change
+const TRACK_SEGMENTS = [
+  { start: 1, end: 34, title: "Play the Whole Thing", artist: "Kayleigh Merez" },
+  { start: 35, end: 68, title: "Play It Twice", artist: "Kayleigh Merez" },
+  { start: 69, end: 107, title: "No Encore", artist: "Kayleigh Merez" },
+  { start: 108, end: 145, title: "Call It What It Is", artist: "Kayleigh Merez" },
+  { start: 146, end: 178, title: "No Warm Up", artist: "Kayleigh Merez" },
+  { start: 179, end: 210, title: "Not Half", artist: "Kayleigh Merez" },
+  { start: 211, end: 247, title: "Same Old Road", artist: "Kayleigh Merez" },
+  { start: 248, end: 285, title: "We Already Know", artist: "Kayleigh Merez" },
+  { start: 286, end: 324, title: "All the Way Home", artist: "Kayleigh Merez" },
+  { start: 325, end: 363, title: "Down the Front", artist: "Kayleigh Merez" },
+  { start: 364, end: 415, title: "Never Say My Name", artist: "Leah Carter" },
+  { start: 416, end: 463, title: "Thunder Queen", artist: "Kayleigh Merez" },
+  { start: 464, end: 515, title: "Wrong Kind of Right", artist: "Kayleigh Merez" },
+  { start: 516, end: 565, title: "Lola's the Fire in the Wire", artist: "Kayleigh Merez" },
+  { start: 566, end: 605, title: "The Highway Don't Lie", artist: "Leah Carter" },
+  { start: 606, end: 645, title: "The Ranch", artist: "Leah Carter" },
+  { start: 646, end: 675, title: "Same Old Shadow", artist: "Leah Carter" },
+  { start: 676, end: 714, title: "The Last Good Year", artist: "Leah Carter" },
+  { start: 715, end: 757, title: "Calluses on These Hands", artist: "Leah Carter" },
+  { start: 758, end: 795, title: "My Own Two Feet", artist: "Leah Carter" },
+  { start: 796, end: 821, title: "Whiskey on a Wednesday", artist: "Leah Carter" },
+  { start: 822, end: 861, title: "Not That Girl", artist: "Leah Carter" },
+  { start: 862, end: 891, title: "Bubblegum in the Rain", artist: "Leah Carter" },
+  { start: 892, end: 922, title: "Pocket Full of Stars", artist: "Leah Carter" },
+  { start: 923, end: 960, title: "Kindness Wins", artist: "Leah Carter" },
+  { start: 961, end: 989, title: "Take My Hand", artist: "Leah Carter" },
+  { start: 990, end: 1026, title: "Echoes in My Room", artist: "Leah Carter" },
+  { start: 1027, end: 1057, title: "The Hard Part", artist: "Leah Carter" },
+  { start: 1058, end: 1095, title: "Gold on the Water", artist: "Leah Carter" },
+  { start: 1096, end: 1131, title: "The Last Stool at the Bar", artist: "Leah Carter" },
+  { start: 1132, end: 1171, title: "Golden, Actually", artist: "Leah Carter & Zach Rivera" },
+  { start: 1172, end: 1213, title: "We Dance All Night", artist: "Leah Carter" },
+  { start: 1214, end: 1254, title: "Gravel and Goodbye", artist: "Leah Carter" },
+  { start: 1255, end: 1297, title: "Cherry Red", artist: "Kayleigh Merez" },
+  { start: 1298, end: 1341, title: "Guitar Speaks", artist: "Kayleigh Merez" },
+  { start: 1342, end: 1365, title: "Harbour of Ashes", artist: "Leah Carter" },
+  { start: 1366, end: 1411, title: "Is This It? (What Am I Here For)", artist: "Leah Carter" }
+]
 
 function isLive(button) {
   return button && button.dataset.live === "true"
@@ -34,6 +78,23 @@ function silenceLive() {
   try { audio.load() } catch (_) {}
 }
 
+function updateLiveSegment(seg) {
+  if (!isLive(current) || talking) return
+  const trackIdx = TRACK_SEGMENTS.findIndex(t => seg >= t.start && seg <= t.end)
+  if (trackIdx === -1) return
+  const song = TRACK_SEGMENTS[trackIdx]
+  const next = TRACK_SEGMENTS[(trackIdx + 1) % TRACK_SEGMENTS.length]
+
+  const now = new Date()
+  const clockStr = now.toLocaleTimeString("en-GB", { timeZone: "Europe/London", hour: "2-digit", minute: "2-digit" })
+
+  if (desk) {
+    const bits = [clockStr, `${song.title} — ${song.artist}`, `Next: ${next.title}`]
+    if (lastWeather) bits.push(lastWeather)
+    desk.textContent = bits.join(" · ")
+  }
+}
+
 function attachLive(src) {
   stopHls()
   audio.muted = false
@@ -41,16 +102,33 @@ function attachLive(src) {
   if (window.Hls && Hls.isSupported()) {
     hls = new Hls({
       enableWorker: true,
-      lowLatencyMode: false,
-      liveSyncDurationCount: 4,          // Buffer 4 segments (approx 24s) ahead - eliminates buffer starvation & popping
-      liveMaxLatencyDurationCount: 20,   // Prevent drifting too far
-      maxBufferLength: 30,              // Keep 30s of decoded audio in memory
-      maxMaxBufferLength: 60,
-      backBufferLength: 60,
+      lowLatencyMode: true,
+      liveSyncDurationCount: 2,          // Tight 2-segment (~11.7s) live buffer for prompt real-time responsiveness
+      liveMaxLatencyDurationCount: 8,    // Tightly tether to live transmission
+      maxBufferLength: 20,
+      maxMaxBufferLength: 40,
+      backBufferLength: 30,
       highBufferWatchdogPeriod: 2
     })
     hls.loadSource(src)
     hls.attachMedia(audio)
+
+    // SAMPLE-ACCURATE REAL-TIME SYNC:
+    // Listen for the exact fragment entering playback so the title/desk updates the exact instant the song audio starts!
+    hls.on(Hls.Events.FRAG_CHANGED, (event, data) => {
+      if (!data || !data.frag) return
+      const url = data.frag.relurl || data.frag.url || ""
+      const m = url.match(/s(\d{4})\.ts/)
+      if (m) {
+        const seg = parseInt(m[1], 10)
+        if (seg !== currentPlayingSeg) {
+          currentPlayingSeg = seg
+          updateLiveSegment(seg)
+          refreshNow()
+        }
+      }
+    })
+
     hls.on(Hls.Events.ERROR, (event, data) => {
       if (data.fatal) {
         switch (data.type) {
@@ -104,7 +182,6 @@ async function playTalk(cue) {
 
   try {
     // 1. Immediately park (pause & silence) the live music stream!
-    // This guarantees the Ident or Jingle NEVER plays over a song!
     parkLive()
 
     talkAudio.pause()
@@ -155,11 +232,15 @@ async function playTalk(cue) {
 async function refreshNow() {
   if (!isLive(current) || talking) return
   try {
-    const res = await fetch("/radio/now", { cache: "no-store" })
+    const segQuery = currentPlayingSeg ? `&seg=${currentPlayingSeg}` : ""
+    const res = await fetch(`/radio/now?_t=${Date.now()}${segQuery}`, { cache: "no-store" })
     if (!res.ok) return
     const data = await res.json()
     if (talking) return
     if (data.onAir) title.textContent = data.onAir
+    if (data.live && data.live.weather && data.live.weather.weather) {
+      lastWeather = `${data.live.weather.place}: ${data.live.weather.weather}`
+    }
     if (desk) {
       const bits = []
       if (data.clock) bits.push(data.clock)
@@ -168,8 +249,7 @@ async function refreshNow() {
         bits.push(`${cat.title} — ${cat.artist}`)
         if (cat.next) bits.push(`Next: ${cat.next.title}`)
       }
-      const weather = data.live && data.live.weather
-      if (weather && weather.weather) bits.push(weather.place + ": " + weather.weather)
+      if (lastWeather) bits.push(lastWeather)
       if (data.talk && data.talk.title) {
         bits.push(`Upcoming: ${data.talk.title}`)
       }
@@ -208,6 +288,7 @@ async function playTrack(button) {
     talkAudio.pause()
     talking = false
     lastTalkId = null
+    currentPlayingSeg = 0
     silenceLive()
     current = button
     title.textContent = button.dataset.artist
@@ -222,7 +303,8 @@ async function playTrack(button) {
     if (isLive(button)) {
       await attachLive(button.dataset.src)
       if (nowTimer) window.clearInterval(nowTimer)
-      nowTimer = window.setInterval(refreshNow, 5000)
+      // Rapid 1.5s live polling so clock, weather, and show changes update immediately
+      nowTimer = window.setInterval(refreshNow, 1500)
       refreshNow()
     } else {
       if (nowTimer) window.clearInterval(nowTimer)
@@ -283,42 +365,3 @@ seek.addEventListener("change", () => {
   if (audio.duration) audio.currentTime = (seek.value / 1000) * audio.duration
   dragging = false
 })
-
-// Comic Lightbox Modal
-const comicModal = document.querySelector("#comic-modal")
-const comicModalImg = document.querySelector("#comic-modal-img")
-const comicModalCaption = document.querySelector("#comic-modal-caption")
-const comicModalClose = document.querySelector("#comic-modal-close")
-
-if (comicModal) {
-  document.querySelectorAll(".comic-card").forEach(card => {
-    card.addEventListener("click", () => {
-      const img = card.querySelector(".comic-thumb")
-      const title = card.querySelector(".comic-title")?.textContent || ""
-      const ep = card.querySelector(".comic-ep")?.textContent || ""
-      if (img) {
-        comicModalImg.src = img.src
-        comicModalImg.alt = img.alt
-        comicModalCaption.textContent = ep ? ep + " — " + title : title
-        comicModal.classList.add("active")
-        comicModal.setAttribute("aria-hidden", "false")
-      }
-    })
-  })
-
-  function closeComicModal() {
-    comicModal.classList.remove("active")
-    comicModal.setAttribute("aria-hidden", "true")
-    comicModalImg.src = ""
-  }
-
-  comicModalClose?.addEventListener("click", closeComicModal)
-  comicModal.addEventListener("click", (e) => {
-    if (e.target === comicModal) closeComicModal()
-  })
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && comicModal.classList.contains("active")) {
-      closeComicModal()
-    }
-  })
-}

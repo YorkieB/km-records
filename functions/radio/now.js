@@ -15,8 +15,14 @@ export async function onRequest(context) {
 
   // Exact physical segment calculation matching /radio/live.js
   const seq = Math.floor(nowSec / SEGMENT_DURATION);
-  const currentSeg = (seq % TOTAL_SEGMENTS) + 1;
   const cycleNum = Math.floor(seq / TOTAL_SEGMENTS);
+
+  // Allow client player to pass its currently decoded fragment for sample-accurate sync
+  const url = new URL(context.request.url);
+  const reqSeg = parseInt(url.searchParams.get("seg") || "0", 10);
+  const currentSeg = (reqSeg >= 1 && reqSeg <= TOTAL_SEGMENTS) 
+    ? reqSeg 
+    : ((seq % TOTAL_SEGMENTS) + 1);
 
   let trackIdx = TRACK_SEGMENTS.findIndex(t => currentSeg >= t.start && currentSeg <= t.end);
   if (trackIdx === -1) trackIdx = 0;
@@ -29,8 +35,6 @@ export async function onRequest(context) {
   const remainingSec = Math.max(0, totalTrackSec - intoSec);
 
   // --- CONTENT-AWARE IMAGING & PRESENTER SELECTION ENGINE ---
-  // Elements trigger ONLY at clean song transitions (when the current song just started, intoSec < 6).
-  // They NEVER fire mid-song or over playing vocals.
   let cue = null;
   const joinId = `join_c${cycleNum}_t${trackIdx}`;
 
@@ -138,7 +142,7 @@ export async function onRequest(context) {
   return new Response(JSON.stringify(data), {
     headers: {
       "Content-Type": "application/json",
-      "Cache-Control": "public, max-age=2, must-revalidate",
+      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
       "Access-Control-Allow-Origin": "*"
     }
   });

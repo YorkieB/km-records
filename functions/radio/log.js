@@ -301,7 +301,7 @@ export async function onRequest(context) {
   return new Response(JSON.stringify(responseData, null, 2), {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "public, max-age=3, must-revalidate",
+      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
       "Access-Control-Allow-Origin": "*"
     }
   });
