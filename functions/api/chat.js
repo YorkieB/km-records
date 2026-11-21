@@ -17,6 +17,8 @@ function getActiveShow(date = new Date()) {
   return match || { id: "drive", title: "Drive", presenter: "Owen Hart" };
 }
 
+let pendingMention = null;
+
 let inMemoryMessages = [
   {
     id: "msg_1",
@@ -113,7 +115,10 @@ export async function onRequest(context) {
   });
 
   if (request.method === "GET") {
-    return new Response(JSON.stringify({ messages: inMemoryMessages.slice(-60) }), {
+    return new Response(JSON.stringify({
+      messages: inMemoryMessages.slice(-60),
+      pendingMention: pendingMention && (Date.now() - pendingMention.timestamp < 300000) ? pendingMention : null
+    }), {
       headers: corsHeaders
     });
   }
@@ -256,10 +261,16 @@ export async function onRequest(context) {
                                   lowerText.includes("play");
 
         if (isPresenterMention) {
+          pendingMention = {
+            id: newMsg.id,
+            author,
+            text,
+            timestamp: Date.now()
+          };
           const presenterReplies = [
-            `Got your shoutout, ${author}! 📻 Marking this down to read out live on KM Radio on our next link. Keep it locked!`,
-            `Love having you in the Green Room, ${author}! 🎙️ Giving you a shoutout on air right after this song!`,
-            `Big shoutout back to you, ${author}! 📻 Reading your message out live across the UK on the next sweep.`
+            `Got your @mention, ${author}! 📻 I've marked this down to read out live on air right now on our next link. Listen out!`,
+            `Hey ${author}! 🎙️ Noted your mention—reading your shoutout live on KM Radio on our very next link!`,
+            `Brilliant to hear from you, ${author}! 📻 Reading this out live across the UK on the next sweep.`
           ];
           const presMsg = {
             id: "msg_pres_" + Date.now() + "_" + Math.random().toString(36).substr(2, 4),

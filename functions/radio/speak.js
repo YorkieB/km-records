@@ -49,7 +49,16 @@ async function getLiveIntel(origin) {
     const chatRes = await fetch(chatUrl, { headers: { "User-Agent": "KMRadioDJ/2.0" } });
     if (chatRes.ok) {
       const cData = await chatRes.json();
-      if (cData && Array.isArray(cData.messages) && cData.messages.length > 0) {
+      // Prioritize explicit live @ mentions from Green Room
+      if (cData && cData.pendingMention && cData.pendingMention.author) {
+        let cleanText = (cData.pendingMention.text || "").replace(/&amp;/g, "&").replace(/&#039;/g, "'").replace(/&quot;/g, '"').trim();
+        if (cleanText.length > 55) cleanText = cleanText.slice(0, 52) + "...";
+        chatShoutout = {
+          author: cData.pendingMention.author,
+          text: cleanText,
+          isMention: true
+        };
+      } else if (cData && Array.isArray(cData.messages) && cData.messages.length > 0) {
         // Find recent fan messages (not bot or presenter)
         const fanMessages = cData.messages.filter(m => (!m.badge || m.badge === "FAN") && m.text && m.author);
         if (fanMessages.length > 0) {
@@ -58,7 +67,8 @@ async function getLiveIntel(origin) {
           if (cleanText.length > 55) cleanText = cleanText.slice(0, 52) + "...";
           chatShoutout = {
             author: latest.author,
-            text: cleanText
+            text: cleanText,
+            isMention: false
           };
         }
       }
@@ -123,16 +133,17 @@ function buildPresenterScript(showId, clockStr, nextTrack, intel) {
 
   // 1. Live Green Room Listener Shoutout (reading out real listener conversations on air!)
   if (chatShoutout && chatShoutout.author) {
-    const { author, text } = chatShoutout;
+    const { author, text, isMention } = chatShoutout;
+    const prefix = isMention ? "I see an @mention just came through from" : "big shoutout to";
     switch (showId) {
       case "breakfast":
-        return `Good morning UK! Callum and Rhys with you on Breakfast at ${clockStr}. Checking the Green Room chat—big shoutout to ${author} who posted: "${text}". Love that! Let's keep the energy high, heading into ${nextTrack} on KM Radio.`;
+        return `Good morning UK! Callum and Rhys with you on Breakfast at ${clockStr}. Checking the Green Room chat—${prefix} ${author} who posted: "${text}". Love that! Let's keep the energy high, heading into ${nextTrack} on KM Radio.`;
       case "days":
-        return `Sarah Quinn keeping your workday moving on KM Days. It's ${clockStr} across the UK. Giving a lovely shoutout to ${author} listening in the Green Room today. Coming up next, ${nextTrack} on KM Radio.`;
+        return `Sarah Quinn keeping your workday moving on KM Days. It's ${clockStr} across the UK. Giving a lovely shoutout to ${author} in the Green Room today. Coming up next, ${nextTrack} on KM Radio.`;
       case "drive":
-        return `It's ${clockStr} on KM Drive across the UK, Owen Hart here. Checking into the Green Room chat—big shoutout to ${author} who says: "${text}". Great having you with us! Turning the volume up for ${nextTrack} on KM Radio.`;
+        return `It's ${clockStr} on KM Drive across the UK, Owen Hart here. Checking into the Green Room chat—${prefix} ${author} who says: "${text}". Great having you with us! Turning the volume up for ${nextTrack} on KM Radio.`;
       case "evenings":
-        return `Nia Brooks taking you through the evening on KM Radio, ${clockStr} in the UK. Big shoutout to ${author} over in the lounge! Heading straight into ${nextTrack} on KM Radio.`;
+        return `Nia Brooks taking you through the evening on KM Radio, ${clockStr} in the UK. ${prefix} ${author} over in the lounge! Heading straight into ${nextTrack} on KM Radio.`;
       case "late":
         return `Past midnight across the UK, Tom Hale on the Late Show. Nice to see ${author} hanging out in the Green Room tonight. Unwinding now with ${nextTrack} on KM Radio.`;
       case "early":

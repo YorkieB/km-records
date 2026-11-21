@@ -17,11 +17,12 @@ let currentPlayingSeg = 0
 let currentSongIdx = -1
 let lastHandledJoinTrack = -1
 let songsSincePresenter = 0
-let presenterSweepTarget = Math.floor(Math.random() * 3) + 1
+let presenterSweepTarget = Math.floor(Math.random() * 2) + 1 // STRICTLY 1 OR 2 SONGS MAX
+let forcePresenterNext = false
 let currentFadeTimer = null
 let lastWeather = "London & UK: clear, about 8 degrees"
 
-console.log("[KM Radio] Player v35 loaded — Real-time commercial ducking/fading & randomized 1-3 song sweep scheduler active")
+console.log("[KM Radio] Player v36 loaded — Max 2-song presenter sweeps & live Green Room @mention on-air queue active")
 
 const talkAudio = new Audio()
 talkAudio.preload = "auto"
@@ -290,44 +291,29 @@ function attachLive(src) {
           }
 
           const nowMs = Date.now()
+          const isSongChanged = (currentTrackIdx !== currentSongIdx)
 
-          // 2. OUTRO CHECK: Final segment of currently playing song
-          if (seg === currentTrack.end && prevSeg > 0 && !talking && (nowMs - lastCueTime > 75000)) {
-            if (lastHandledJoinTrack !== nextTrackIdx) {
-              const isPresenterDue = (songsSincePresenter + 1 >= presenterSweepTarget)
-              const linkAtOutro = Math.random() < 0.5 // 50% outro, 50% intro
-              if (isPresenterDue && linkAtOutro) {
-                lastHandledJoinTrack = nextTrackIdx
-                lastCueTime = nowMs
-                songsSincePresenter = 0
-                presenterSweepTarget = Math.floor(Math.random() * 3) + 1 // 1, 2, or 3 songs for next sweep
-                triggerTransitionCue(nextTrackIdx, "outro")
-              }
-            }
-          }
-
-          // 3. INTRO / START CHECK: First segment of incoming song
-          if (seg === currentTrack.start && currentTrackIdx !== currentSongIdx && prevSeg > 0 && !talking && (nowMs - lastCueTime > 75000)) {
+          // 2. SONG BOUNDARY TRANSITION (Reliably triggers on every track change, max 2 songs between presenter links)
+          if (isSongChanged && currentSongIdx !== -1 && prevSeg > 0 && !talking && (nowMs - lastCueTime > 45000)) {
             currentSongIdx = currentTrackIdx
-            if (lastHandledJoinTrack !== currentTrackIdx) {
-              lastHandledJoinTrack = currentTrackIdx
-              lastCueTime = nowMs
+            lastHandledJoinTrack = currentTrackIdx
+            lastCueTime = nowMs
 
-              songsSincePresenter++
-              const isPresenterDue = (songsSincePresenter >= presenterSweepTarget)
+            songsSincePresenter++
+            const isPresenterDue = (forcePresenterNext || songsSincePresenter >= presenterSweepTarget)
+            forcePresenterNext = false
 
-              if (isPresenterDue) {
-                songsSincePresenter = 0
-                presenterSweepTarget = Math.floor(Math.random() * 3) + 1 // 1, 2, or 3 songs
-                triggerTransitionCue(currentTrackIdx, "intro")
-              } else {
-                // In-between sweep: 50% chance of a quick Heart jingle/drop, 50% pure music sweep
-                if (Math.random() < 0.5) {
-                  triggerTransitionCue(currentTrackIdx, "imaging")
-                }
+            if (isPresenterDue) {
+              songsSincePresenter = 0
+              presenterSweepTarget = Math.floor(Math.random() * 2) + 1 // STRICTLY 1 OR 2 SONGS MAX!
+              triggerTransitionCue(currentTrackIdx, "intro")
+            } else {
+              // Intermediate song: 50% quick Heart jingle/drop, 50% pure music sweep
+              if (Math.random() < 0.5) {
+                triggerTransitionCue(currentTrackIdx, "imaging")
               }
             }
-          } else if (currentTrackIdx !== currentSongIdx) {
+          } else if (isSongChanged) {
             currentSongIdx = currentTrackIdx
           }
         }
@@ -446,8 +432,16 @@ async function refreshNow() {
       }
       desk.textContent = bits.join(" · ")
     }
-    // Cues are now strictly triggered by physical segment boundaries in FRAG_CHANGED,
-    // so refreshNow never triggers cues to avoid mid-song accidents!
+    // Check if there is an active Green Room @mention awaiting live readout
+    try {
+      const chatRes = await fetch(`/api/chat?_t=${Date.now()}`, { cache: "no-store" })
+      if (chatRes.ok) {
+        const chatData = await chatRes.json()
+        if (chatData && chatData.pendingMention && (Date.now() - chatData.pendingMention.timestamp < 180000)) {
+          forcePresenterNext = true
+        }
+      }
+    } catch (_) {}
   } catch (_) {}
 }
 
