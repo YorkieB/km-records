@@ -1,6 +1,22 @@
 // Cloudflare Pages Function: /api/chat
 // In-memory edge store with KV binding support (context.env.COMMUNITY_KV)
 
+const SHOWS = [
+  { start: 6, end: 10, id: "breakfast", title: "Breakfast", presenter: "Callum & Rhys" },
+  { start: 10, end: 15, id: "days", title: "Days", presenter: "Sarah Quinn" },
+  { start: 15, end: 19, id: "drive", title: "Drive", presenter: "Owen Hart" },
+  { start: 19, end: 23, id: "evenings", title: "Evenings", presenter: "Nia Brooks" },
+  { start: 23, end: 27, id: "late", title: "Late", presenter: "Tom Hale" },
+  { start: 3, end: 6, id: "early", title: "Early", presenter: "Maya Cole" }
+];
+
+function getActiveShow(date = new Date()) {
+  const hour = parseInt(date.toLocaleTimeString("en-GB", { timeZone: "Europe/London", hour: "2-digit", hour12: false }), 10);
+  const adjusted = hour < 3 ? hour + 24 : hour;
+  const match = SHOWS.find(s => adjusted >= s.start && adjusted < s.end);
+  return match || { id: "drive", title: "Drive", presenter: "Owen Hart" };
+}
+
 let inMemoryMessages = [
   {
     id: "msg_1",
@@ -218,6 +234,46 @@ export async function onRequest(context) {
       };
 
       inMemoryMessages.push(newMsg);
+
+      // Check if message is addressed to the on-air presenter or requests a radio shoutout
+      if (badge !== "PRESENTER" && badge !== "HOST") {
+        const lowerText = text.toLowerCase();
+        const currentShow = getActiveShow();
+        const presenterFirstName = currentShow.presenter.split(" ")[0].toLowerCase();
+        const isPresenterMention = lowerText.includes(presenterFirstName) ||
+                                  lowerText.includes("owen") ||
+                                  lowerText.includes("sarah") ||
+                                  lowerText.includes("callum") ||
+                                  lowerText.includes("rhys") ||
+                                  lowerText.includes("nia") ||
+                                  lowerText.includes("tom") ||
+                                  lowerText.includes("maya") ||
+                                  lowerText.includes("dj") ||
+                                  lowerText.includes("presenter") ||
+                                  lowerText.includes("shoutout") ||
+                                  lowerText.includes("radio") ||
+                                  lowerText.includes("on air") ||
+                                  lowerText.includes("play");
+
+        if (isPresenterMention) {
+          const presenterReplies = [
+            `Got your shoutout, ${author}! 📻 Marking this down to read out live on KM Radio on our next link. Keep it locked!`,
+            `Love having you in the Green Room, ${author}! 🎙️ Giving you a shoutout on air right after this song!`,
+            `Big shoutout back to you, ${author}! 📻 Reading your message out live across the UK on the next sweep.`
+          ];
+          const presMsg = {
+            id: "msg_pres_" + Date.now() + "_" + Math.random().toString(36).substr(2, 4),
+            author: `${currentShow.presenter} [${currentShow.title} Presenter]`,
+            avatar: "📻",
+            badge: "PRESENTER",
+            text: presenterReplies[Math.floor(Math.random() * presenterReplies.length)],
+            timestamp: Date.now() + 800,
+            reactions: { "📻": 2, "❤️": 1 }
+          };
+          inMemoryMessages.push(presMsg);
+        }
+      }
+
       if (inMemoryMessages.length > 100) {
         inMemoryMessages = inMemoryMessages.slice(-100);
       }

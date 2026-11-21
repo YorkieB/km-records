@@ -1,5 +1,6 @@
 // Autonomous AI Radio Presenter Engine for KM Radio UK
 // Pulls live UK news headlines and real-time weather from the web,
+// reads live Green Room listener chat messages & community discussions,
 // generates authentic British commercial radio presenter scripts,
 // and synthesizes broadcast-quality audio via ElevenLabs TTS API.
 
@@ -10,6 +11,15 @@ const VOICE_MAP = {
   evenings: "ZF6FPAbjXT4488VcRRnw",  // Nia Brooks (Amelia)
   late: "howQSp4vukBSqM6XL2q5",      // Tom Hale (Rob Charles)
   early: "V0cljQmo7wpx8LTdbqfJ"      // Maya Cole (Vicky Cowan)
+};
+
+const SHOW_NAMES = {
+  breakfast: "Callum & Rhys",
+  days: "Sarah Quinn",
+  drive: "Owen Hart",
+  evenings: "Nia Brooks",
+  late: "Tom Hale",
+  early: "Maya Cole"
 };
 
 const FALLBACK_LINKS = {
@@ -24,11 +34,54 @@ const FALLBACK_LINKS = {
 // In-memory link cache to serve instantaneous audio without regenerating identical links
 const LINK_CACHE = new Map();
 
-async function getLiveIntel() {
+let lastPresenterPostTime = 0;
+let lastPostedShow = "";
+
+async function getLiveIntel(origin) {
   let headline = "music fans tuning in across the country";
   let weatherPhrase = "mild conditions across London and the UK";
+  let chatShoutout = null;
+  let forumTopic = null;
 
-  // 1. Fetch live BBC UK News RSS
+  // 1. Fetch live Green Room chat messages & listener shoutouts
+  try {
+    const chatUrl = new URL("/api/chat", origin);
+    const chatRes = await fetch(chatUrl, { headers: { "User-Agent": "KMRadioDJ/2.0" } });
+    if (chatRes.ok) {
+      const cData = await chatRes.json();
+      if (cData && Array.isArray(cData.messages) && cData.messages.length > 0) {
+        // Find recent fan messages (not bot or presenter)
+        const fanMessages = cData.messages.filter(m => (!m.badge || m.badge === "FAN") && m.text && m.author);
+        if (fanMessages.length > 0) {
+          const latest = fanMessages[fanMessages.length - 1];
+          let cleanText = latest.text.replace(/&amp;/g, "&").replace(/&#039;/g, "'").replace(/&quot;/g, '"').trim();
+          if (cleanText.length > 55) cleanText = cleanText.slice(0, 52) + "...";
+          chatShoutout = {
+            author: latest.author,
+            text: cleanText
+          };
+        }
+      }
+    }
+  } catch (_) {}
+
+  // 2. Fetch live community forum discussions
+  try {
+    const forumUrl = new URL("/api/forum", origin);
+    const forumRes = await fetch(forumUrl, { headers: { "User-Agent": "KMRadioDJ/2.0" } });
+    if (forumRes.ok) {
+      const fData = await forumRes.json();
+      if (fData && Array.isArray(fData.topics) && fData.topics.length > 0) {
+        const top = fData.topics[0];
+        forumTopic = {
+          title: top.title,
+          author: top.author
+        };
+      }
+    }
+  } catch (_) {}
+
+  // 3. Fetch live BBC UK News RSS
   try {
     const newsRes = await fetch("https://feeds.bbci.co.uk/news/uk/rss.xml", {
       headers: { "User-Agent": "KMRadioBot/2.0" }
@@ -45,7 +98,7 @@ async function getLiveIntel() {
     }
   } catch (_) {}
 
-  // 2. Fetch live London & UK weather from Open-Meteo
+  // 4. Fetch live London & UK weather from Open-Meteo
   try {
     const weatherRes = await fetch(
       "https://api.open-meteo.com/v1/forecast?latitude=51.5074&longitude=-0.1278&current=temperature_2m,weather_code",
@@ -62,19 +115,39 @@ async function getLiveIntel() {
     }
   } catch (_) {}
 
-  return { headline, weatherPhrase };
+  return { headline, weatherPhrase, chatShoutout, forumTopic };
 }
 
 function buildPresenterScript(showId, clockStr, nextTrack, intel) {
-  const { headline, weatherPhrase } = intel;
+  const { headline, weatherPhrase, chatShoutout, forumTopic } = intel;
 
+  // 1. Live Green Room Listener Shoutout (reading out real listener conversations on air!)
+  if (chatShoutout && chatShoutout.author) {
+    const { author, text } = chatShoutout;
+    switch (showId) {
+      case "breakfast":
+        return `Good morning UK! Callum and Rhys with you on Breakfast at ${clockStr}. Checking the Green Room chat—big shoutout to ${author} who posted: "${text}". Love that! Let's keep the energy high, heading into ${nextTrack} on KM Radio.`;
+      case "days":
+        return `Sarah Quinn keeping your workday moving on KM Days. It's ${clockStr} across the UK. Giving a lovely shoutout to ${author} listening in the Green Room today. Coming up next, ${nextTrack} on KM Radio.`;
+      case "drive":
+        return `It's ${clockStr} on KM Drive across the UK, Owen Hart here. Checking into the Green Room chat—big shoutout to ${author} who says: "${text}". Great having you with us! Turning the volume up for ${nextTrack} on KM Radio.`;
+      case "evenings":
+        return `Nia Brooks taking you through the evening on KM Radio, ${clockStr} in the UK. Big shoutout to ${author} over in the lounge! Heading straight into ${nextTrack} on KM Radio.`;
+      case "late":
+        return `Past midnight across the UK, Tom Hale on the Late Show. Nice to see ${author} hanging out in the Green Room tonight. Unwinding now with ${nextTrack} on KM Radio.`;
+      case "early":
+        return `Early hours on KM Radio, Maya Cole with you. Early morning shoutout to ${author} in the chat. Here is ${nextTrack} on KM Radio.`;
+    }
+  }
+
+  // 2. Standard News & Weather with Green Room chat invite
   switch (showId) {
     case "breakfast":
-      return `Good morning UK! Callum and Rhys with you on Breakfast. It's ${clockStr}, ${weatherPhrase}. Top story this morning: ${headline}. Let's keep the energy high, heading into ${nextTrack} right here on KM Radio.`;
+      return `Good morning UK! Callum and Rhys with you on Breakfast. It's ${clockStr}, ${weatherPhrase}. Top story this morning: ${headline}. Head into the Green Room at kmrecords.uk to drop your shoutouts! Here's ${nextTrack} on KM Radio.`;
     case "days":
-      return `It's ${clockStr} in the UK, Sarah Quinn keeping your workday moving on KM Radio. ${weatherPhrase}. In the news today: ${headline}. Coming up next, ${nextTrack}.`;
+      return `It's ${clockStr} in the UK, Sarah Quinn keeping your workday moving on KM Radio. ${weatherPhrase}. In the news today: ${headline}. Say hello in the Green Room! Coming up next, ${nextTrack}.`;
     case "drive":
-      return `It's ${clockStr} on Drivetime across the UK, Owen Hart here. London sitting at ${weatherPhrase}. In the headlines right now: ${headline}. Turning the volume up for ${nextTrack} on KM Radio.`;
+      return `It's ${clockStr} on Drivetime across the UK, Owen Hart here. London sitting at ${weatherPhrase}. In the headlines right now: ${headline}. Drop your shoutout in the Green Room! Turning the volume up for ${nextTrack} on KM Radio.`;
     case "evenings":
       return `Nia Brooks taking you through the evening on KM Radio. It's ${clockStr} in the UK, ${weatherPhrase}. In the news this evening: ${headline}. Diving straight into ${nextTrack}.`;
     case "late":
@@ -86,12 +159,35 @@ function buildPresenterScript(showId, clockStr, nextTrack, intel) {
   }
 }
 
+async function postPresenterChatGreeting(origin, showId, presenterName) {
+  const nowMs = Date.now();
+  if (nowMs - lastPresenterPostTime < 900000 && lastPostedShow === showId) return; // once per 15 min per show
+  lastPresenterPostTime = nowMs;
+  lastPostedShow = showId;
+
+  try {
+    const postUrl = new URL("/api/chat", origin);
+    const greetingText = `On air live right now across the UK! 📻 Reading out your shoutouts live on KM Radio—leave your thoughts here in the Green Room!`;
+    await fetch(postUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        author: `${presenterName}`,
+        avatar: "📻",
+        badge: "PRESENTER",
+        text: greetingText
+      })
+    });
+  } catch (_) {}
+}
+
 export async function onRequest(context) {
   const url = new URL(context.request.url);
   const showId = url.searchParams.get("show") || "drive";
   const nextTrack = url.searchParams.get("next") || "Cherry Red";
 
   const voiceId = VOICE_MAP[showId] || VOICE_MAP.drive;
+  const presenterName = SHOW_NAMES[showId] || "Owen Hart";
 
   const now = new Date();
   const clockStr = now.toLocaleTimeString("en-GB", {
@@ -101,7 +197,20 @@ export async function onRequest(context) {
   });
 
   const hour = now.getUTCHours();
-  const cacheKey = `${showId}_${hour}_${nextTrack.replace(/[^a-zA-Z0-9]/g, "_")}`;
+
+  // Gather live real-time intelligence from the web & Green Room chat
+  const intel = await getLiveIntel(url.origin);
+  const script = buildPresenterScript(showId, clockStr, nextTrack, intel);
+
+  // Background post: update Green Room chat with on-air host presence
+  if (context.waitUntil) {
+    context.waitUntil(postPresenterChatGreeting(url.origin, showId, presenterName));
+  } else {
+    postPresenterChatGreeting(url.origin, showId, presenterName).catch(() => {});
+  }
+
+  const shoutoutId = intel.chatShoutout ? intel.chatShoutout.author.replace(/[^a-zA-Z0-9]/g, "") : "std";
+  const cacheKey = `${showId}_${hour}_${nextTrack.replace(/[^a-zA-Z0-9]/g, "_")}_${shoutoutId}`;
 
   // Check cache (15-minute validity)
   const cached = LINK_CACHE.get(cacheKey);
@@ -111,14 +220,11 @@ export async function onRequest(context) {
         "Content-Type": "audio/mpeg",
         "Cache-Control": "public, max-age=600",
         "Access-Control-Allow-Origin": "*",
-        "X-Radio-Source": "cache"
+        "X-Radio-Source": "cache",
+        "X-Radio-Script": encodeURIComponent(script)
       }
     });
   }
-
-  // Gather live real-time intelligence from the web
-  const intel = await getLiveIntel();
-  const script = buildPresenterScript(showId, clockStr, nextTrack, intel);
 
   const apiKey = context.env?.ELEVENLABS_API_KEY || "sk_d18092c688cc128b20fd0173bfa86a9a347eebbadb272fdd";
 

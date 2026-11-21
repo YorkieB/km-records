@@ -965,6 +965,20 @@
     });
   }
 
+  const mentionDjBtn = document.getElementById("mention-dj-btn");
+  if (mentionDjBtn && chatInput) {
+    mentionDjBtn.addEventListener("click", () => {
+      const activeShow = computeLocalRadio().show;
+      const presenterName = (activeShow && activeShow.presenter) ? activeShow.presenter.split(" ")[0] : "DJ";
+      const tag = `@${presenterName} `;
+      if (!chatInput.value.includes(tag)) {
+        chatInput.value = tag + chatInput.value;
+      }
+      chatInput.focus();
+      updateCharCount();
+    });
+  }
+
   // Radio Floating Reactions & Chat Shoutout
   document.querySelectorAll(".react-btn").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -1041,8 +1055,15 @@
       chatRadioTrack.innerHTML = `
         <span class="live-dot"></span>
         <strong>Spinning Now:</strong> ${trackTitle} — ${trackArtist}
-        <span class="show-tag">(${showTitle} with ${presenterName})</span>
+        <span class="show-tag" style="background: rgba(0, 240, 255, 0.15); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.4); border-radius: 9999px; padding: 0.15rem 0.5rem; font-size: 0.75rem; font-weight: 700; margin-left: 0.4rem;">📻 ${presenterName} ON AIR — Reading Chat Live</span>
       `;
+    }
+
+    const mentionDjBtn = document.getElementById("mention-dj-btn");
+    if (mentionDjBtn && presenterName) {
+      const shortPres = presenterName.split(" ")[0];
+      mentionDjBtn.textContent = `📻 @${shortPres} (On Air)`;
+      mentionDjBtn.title = `Ask ${presenterName} for an on-air radio shoutout`;
     }
   }
 
