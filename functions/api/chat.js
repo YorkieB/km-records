@@ -8,7 +8,8 @@ let inMemoryMessages = [
     avatar: "🎧",
     badge: "MOD",
     text: "Welcome to the KM Green Room! The 24/7 stream is live from London. Drop your thoughts & shoutouts below!",
-    timestamp: Date.now() - 3600000 * 2
+    timestamp: Date.now() - 3600000 * 2,
+    reactions: { "❤️": 12, "👏": 8 }
   },
   {
     id: "msg_2",
@@ -16,7 +17,8 @@ let inMemoryMessages = [
     avatar: "🎸",
     badge: "FAN",
     text: "Kayleigh's solo on 'Thunder Queen' gave me absolute chills! Pure rock lineage.",
-    timestamp: Date.now() - 3600000 * 1.5
+    timestamp: Date.now() - 3600000 * 1.5,
+    reactions: { "🔥": 15, "🎸": 9 }
   },
   {
     id: "msg_3",
@@ -24,7 +26,8 @@ let inMemoryMessages = [
     avatar: "✨",
     badge: "FAN",
     text: "The sound quality on this stream is amazing. Love that the radio plays non-stop in the background.",
-    timestamp: Date.now() - 3600000 * 1
+    timestamp: Date.now() - 3600000 * 1,
+    reactions: { "❤️": 7 }
   },
   {
     id: "msg_4",
@@ -32,7 +35,8 @@ let inMemoryMessages = [
     avatar: "📻",
     badge: "PRESENTER",
     text: "Owen here from the Drive show! What's everyone's favourite track from Leah's new desktop collection?",
-    timestamp: Date.now() - 1800000
+    timestamp: Date.now() - 1800000,
+    reactions: { "📻": 6, "❤️": 10 }
   },
   {
     id: "msg_5",
@@ -40,7 +44,8 @@ let inMemoryMessages = [
     avatar: "🌾",
     badge: "FAN",
     text: "'Bubblegum in the Rain' and 'Gravel and Goodbye' are on repeat for me. Leah's storytelling is unmatched.",
-    timestamp: Date.now() - 600000
+    timestamp: Date.now() - 600000,
+    reactions: { "🌾": 5, "❤️": 11 }
   }
 ];
 
@@ -100,6 +105,96 @@ export async function onRequest(context) {
   if (request.method === "POST") {
     try {
       const body = await request.json();
+
+      // Handle message reactions
+      if (body.action === "react") {
+        const msgId = sanitize(body.messageId || "");
+        const emoji = sanitize(body.emoji || "❤️").slice(0, 10);
+        const msg = inMemoryMessages.find(m => m.id === msgId);
+        if (msg) {
+          if (!msg.reactions) msg.reactions = {};
+          msg.reactions[emoji] = (msg.reactions[emoji] || 0) + 1;
+          if (env && env.COMMUNITY_KV) {
+            try {
+              await env.COMMUNITY_KV.put("km_chat_messages", JSON.stringify(inMemoryMessages));
+            } catch (e) {
+              console.error("KV write error", e);
+            }
+          }
+          return new Response(JSON.stringify({ success: true, messageId: msgId, reactions: msg.reactions }), {
+            headers: corsHeaders
+          });
+        }
+        return new Response(JSON.stringify({ error: "Message not found" }), {
+          status: 404,
+          headers: corsHeaders
+        });
+      }
+
+      // Handle AI Host Daisy response
+      if (body.action === "ai_reply") {
+        const prompt = sanitize(body.prompt || "").slice(0, 300);
+        const userAuthor = sanitize(body.author || "Friend").slice(0, 30);
+        const currentSong = sanitize(body.song || "").slice(0, 80);
+
+        let aiText = "";
+        if (env && env.AI) {
+          try {
+            const aiRes = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
+              messages: [
+                {
+                  role: "system",
+                  content: "You are Daisy, a charismatic, warm, genuine music enthusiast and Green Room AI host at KM Records in London. You love Kayleigh Merez's searing British rock guitar solos and Leah Carter's heartwarming acoustic country songs. Write a concise, natural response (1-2 sentences). Be conversational and occasionally ask an engaging follow-up question to keep the conversation flowing. Never sound like a generic robotic assistant."
+                },
+                {
+                  role: "user",
+                  content: `${userAuthor} says in chat: "${prompt}" (Current song playing: ${currentSong})`
+                }
+              ],
+              max_tokens: 120
+            });
+            if (aiRes && (aiRes.response || aiRes.text)) {
+              aiText = (aiRes.response || aiRes.text).trim();
+            }
+          } catch (aiErr) {
+            console.error("Workers AI generation error", aiErr);
+          }
+        }
+
+        if (!aiText) {
+          // Contextual fallback response
+          const fallbacks = [
+            `I love that thought, ${userAuthor}! What's your favourite moment in the track?`,
+            `Kayleigh and Leah have such a magical dynamic. Are you more drawn to the rock overdrive or the acoustic ballads?`,
+            `That guitar tone never fails to give me chills! Have you tried playing any of Kayleigh's riffs yourself?`,
+            `The energy in the Green Room today is wonderful. What track would you spin next if you had the radio deck?`
+          ];
+          aiText = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+        }
+
+        const daisyMsg = {
+          id: "msg_daisy_" + Date.now() + "_" + Math.random().toString(36).substr(2, 4),
+          author: "Daisy",
+          avatar: "🌼",
+          badge: "HOST",
+          text: aiText,
+          timestamp: Date.now(),
+          reactions: { "❤️": 2, "✨": 1 }
+        };
+
+        inMemoryMessages.push(daisyMsg);
+        if (inMemoryMessages.length > 100) inMemoryMessages = inMemoryMessages.slice(-100);
+        if (env && env.COMMUNITY_KV) {
+          try {
+            await env.COMMUNITY_KV.put("km_chat_messages", JSON.stringify(inMemoryMessages));
+          } catch (e) {}
+        }
+
+        return new Response(JSON.stringify({ success: true, message: daisyMsg }), {
+          headers: corsHeaders
+        });
+      }
+
       const text = sanitize(body.text || "").slice(0, 300);
       const author = sanitize(body.author || "Fan").slice(0, 30);
       const avatar = sanitize(body.avatar || "🎸").slice(0, 10);
@@ -118,7 +213,8 @@ export async function onRequest(context) {
         avatar: avatar || "🎸",
         badge: badge || "FAN",
         text,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        reactions: {}
       };
 
       inMemoryMessages.push(newMsg);

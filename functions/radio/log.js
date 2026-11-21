@@ -1,220 +1,170 @@
+import { TOTAL_SEGMENTS, SEGMENT_DURATION, CYCLE_DURATION, TRACK_SEGMENTS, SHOWS, getShowAt, formatUKTime, formatUKDate, formatDuration } from "./_segments.js";
+
 export async function onRequest(context) {
-  const CATALOGUE = [
-    { title: "Thunder Queen", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "The Highway Don't Lie", artist: "Leah Carter", duration: 210, vibe: "country" },
-    { title: "Cherry Red", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "Bubblegum in the Rain", artist: "Leah Carter", duration: 210, vibe: "pop" },
-    { title: "Wrong Kind of Right", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "Pocket Full of Stars", artist: "Leah Carter", duration: 210, vibe: "pop" },
-    { title: "Guitar Speaks", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "Kindness Wins", artist: "Leah Carter", duration: 210, vibe: "pop" },
-    { title: "Lola's the Fire in the Wire", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "Take My Hand", artist: "Leah Carter", duration: 210, vibe: "pop" },
-    { title: "No Encore", artist: "Kayleigh Merez", duration: 210, vibe: "ballad" },
-    { title: "Echoes in My Room", artist: "Leah Carter", duration: 210, vibe: "acoustic" },
-    { title: "Call It What It Is", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "The Hard Part", artist: "Leah Carter", duration: 210, vibe: "ballad" },
-    { title: "No Warm Up", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "Gold on the Water", artist: "Leah Carter", duration: 210, vibe: "acoustic" },
-    { title: "Not Half", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "The Last Stool at the Bar", artist: "Leah Carter", duration: 210, vibe: "acoustic" },
-    { title: "Play It Twice", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "Golden, Actually", artist: "Leah Carter & Zach Rivera", duration: 210, vibe: "pop" },
-    { title: "Same Old Road", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "We Dance All Night", artist: "Leah Carter", duration: 210, vibe: "pop" },
-    { title: "All the Way Home", artist: "Kayleigh Merez", duration: 210, vibe: "acoustic" },
-    { title: "Gravel and Goodbye", artist: "Leah Carter", duration: 210, vibe: "country" },
-    { title: "Down the Front", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "The Ranch", artist: "Leah Carter", duration: 210, vibe: "country" },
-    { title: "Play the Whole Thing", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "Calluses on These Hands", artist: "Leah Carter", duration: 210, vibe: "acoustic" },
-    { title: "We Already Know", artist: "Kayleigh Merez", duration: 210, vibe: "rock" },
-    { title: "Whiskey on a Wednesday", artist: "Leah Carter", duration: 210, vibe: "country" },
-    { title: "Same Old Shadow", artist: "Leah Carter", duration: 210, vibe: "country" },
-    { title: "My Own Two Feet", artist: "Leah Carter", duration: 210, vibe: "pop" },
-    { title: "The Last Good Year", artist: "Leah Carter", duration: 210, vibe: "ballad" },
-    { title: "Not That Girl", artist: "Leah Carter", duration: 210, vibe: "pop" },
-    { title: "Never Say My Name", artist: "Leah Carter", duration: 210, vibe: "ballad" },
-    { title: "Harbour of Ashes", artist: "Leah Carter", duration: 210, vibe: "acoustic" },
-    { title: "Is This It? (What Am I Here For)", artist: "Leah Carter", duration: 210, vibe: "pop" },
-    { title: "Let It Ring", artist: "Leah Carter", duration: 210, vibe: "ballad" },
-    { title: "Come Back Louder", artist: "Leah Carter", duration: 210, vibe: "rock" }
-  ];
-
-  const SHOWS = [
-    { start: 6, end: 10, id: "breakfast", title: "Breakfast", presenter: "Callum & Rhys" },
-    { start: 10, end: 15, id: "days", title: "Days", presenter: "Sarah Quinn" },
-    { start: 15, end: 19, id: "drive", title: "Drive", presenter: "Owen Hart" },
-    { start: 19, end: 23, id: "evenings", title: "Evenings", presenter: "Nia Brooks" },
-    { start: 23, end: 27, id: "late", title: "Late", presenter: "Tom Hale" },
-    { start: 3, end: 6, id: "early", title: "Early", presenter: "Maya Cole" }
-  ];
-
-  function getShowAt(sec) {
-    const d = new Date(sec * 1000);
-    const clockStr = d.toLocaleTimeString("en-GB", { timeZone: "Europe/London", hour: "2-digit", minute: "2-digit" });
-    const hour = parseInt(clockStr.split(":")[0], 10);
-    return SHOWS.find(s => {
-      if (s.start <= s.end) return hour >= s.start && hour < s.end;
-      return hour >= s.start || hour < (s.end % 24);
-    }) || SHOWS[0];
-  }
-
-  function formatUKTime(sec) {
-    const d = new Date(sec * 1000);
-    return d.toLocaleTimeString("en-GB", { timeZone: "Europe/London", hour: "2-digit", minute: "2-digit", second: "2-digit" });
-  }
-
-  function formatUKDate(sec) {
-    const d = new Date(sec * 1000);
-    return d.toLocaleDateString("en-GB", { timeZone: "Europe/London", day: "numeric", month: "short", year: "numeric" });
-  }
-
   const url = new URL(context.request.url);
   const format = url.searchParams.get("format") || "json";
   const limit = Math.min(200, Math.max(10, parseInt(url.searchParams.get("limit") || "60", 10)));
   const filterType = url.searchParams.get("filter") || "all"; // all, songs, idents, djs
 
   const nowSec = Math.floor(Date.now() / 1000);
-  const songPeriod = 210; // 3m 30s per rotation block
-  const currentRot = Math.floor(nowSec / songPeriod);
 
-  // We build a timeline from (currentRot - pastRotations) to (currentRot + futureRotations)
-  const pastCount = Math.floor(limit * 0.7);
+  // Determine current cycle and sequence matching /radio/live.js
+  const seq = Math.floor(nowSec / SEGMENT_DURATION);
+  const currentSeg = (seq % TOTAL_SEGMENTS) + 1;
+  const currentCycle = Math.floor(seq / TOTAL_SEGMENTS);
+
+  // Find index of track currently on air
+  let currentTrackIdx = TRACK_SEGMENTS.findIndex(t => currentSeg >= t.start && currentSeg <= t.end);
+  if (currentTrackIdx === -1) currentTrackIdx = 0;
+
+  // We build a timeline of past and upcoming songs based on physical segments
+  const pastCount = Math.floor(limit * 0.6);
   const futureCount = limit - pastCount;
-  const startRot = currentRot - pastCount;
-  const endRot = currentRot + futureCount;
+  const startGlobalIdx = currentCycle * TRACK_SEGMENTS.length + currentTrackIdx - pastCount;
+  const endGlobalIdx = currentCycle * TRACK_SEGMENTS.length + currentTrackIdx + futureCount;
 
   const events = [];
 
-  for (let rot = startRot; rot <= endRot; rot++) {
-    const rotStartSec = rot * songPeriod;
-    const songIdx = ((rot % CATALOGUE.length) + CATALOGUE.length) % CATALOGUE.length;
-    const song = CATALOGUE[songIdx];
-    const show = getShowAt(rotStartSec);
-    const d = new Date(rotStartSec * 1000);
+  for (let gIdx = startGlobalIdx; gIdx <= endGlobalIdx; gIdx++) {
+    const cycle = Math.floor(gIdx / TRACK_SEGMENTS.length);
+    const tIdx = ((gIdx % TRACK_SEGMENTS.length) + TRACK_SEGMENTS.length) % TRACK_SEGMENTS.length;
+    const song = TRACK_SEGMENTS[tIdx];
+
+    const songSegStart = cycle * TOTAL_SEGMENTS + (song.start - 1);
+    const songSegEnd = cycle * TOTAL_SEGMENTS + song.end;
+
+    const songStartSec = Math.floor(songSegStart * SEGMENT_DURATION);
+    const songFinishSec = Math.floor(songSegEnd * SEGMENT_DURATION);
+    const songDurSec = songFinishSec - songStartSec;
+
+    const show = getShowAt(songStartSec);
+    const d = new Date(songStartSec * 1000);
     const minute = parseInt(d.toLocaleTimeString("en-GB", { timeZone: "Europe/London", minute: "2-digit" }), 10);
     const weekdayStr = d.toLocaleDateString("en-GB", { timeZone: "Europe/London", weekday: "long" });
     const isWeekend = weekdayStr === "Saturday" || weekdayStr === "Sunday";
 
-    let cursorSec = rotStartSec;
-
-    // Check if transition element was scheduled before song
+    // Check if an Imaging Element (Ident / DJ link) occurs at this song boundary
     // 1. Top of the Hour Ident
     if (minute >= 58 || minute <= 1) {
-      const dur = 10;
+      const dur = 18;
+      const identStartSec = songStartSec;
+      const identFinishSec = identStartSec + dur;
       events.push({
-        id: `ident_${rot}_toh`,
-        timestamp: cursorSec,
-        time: formatUKTime(cursorSec),
-        date: formatUKDate(cursorSec),
+        id: `ident_${gIdx}_toh_start`,
+        timestamp: identStartSec,
+        time: formatUKTime(identStartSec),
+        date: formatUKDate(identStartSec),
         type: "IDENT_START",
         category: "Station Ident",
-        title: "Top of the Hour Nationwide Ident (London to Penzance)",
+        title: "Nationwide Top of the Hour Ident (London to Penzance)",
         artist: "KM Radio Station Imaging",
-        duration: "10s",
+        duration: "18s",
         durationSec: dur,
         show: show.title,
         presenter: show.presenter
       });
-      cursorSec += dur;
       events.push({
-        id: `ident_${rot}_toh_end`,
-        timestamp: cursorSec,
-        time: formatUKTime(cursorSec),
-        date: formatUKDate(cursorSec),
+        id: `ident_${gIdx}_toh_end`,
+        timestamp: identFinishSec,
+        time: formatUKTime(identFinishSec),
+        date: formatUKDate(identFinishSec),
         type: "IDENT_FINISH",
         category: "Station Ident",
-        title: "Top of the Hour Nationwide Ident (London to Penzance)",
+        title: "Nationwide Top of the Hour Ident (London to Penzance)",
         artist: "KM Radio Station Imaging",
-        duration: "10s",
+        duration: "18s",
         durationSec: dur,
         show: show.title,
         presenter: show.presenter
       });
     }
-    // 2. Bottom of the Hour Variety Promise
+    // 2. Bottom of the Hour Variety Promise Ident
     else if (minute >= 28 && minute <= 31) {
-      const dur = 8;
+      const dur = 12;
+      const identStartSec = songStartSec;
+      const identFinishSec = identStartSec + dur;
       events.push({
-        id: `ident_${rot}_variety`,
-        timestamp: cursorSec,
-        time: formatUKTime(cursorSec),
-        date: formatUKDate(cursorSec),
+        id: `ident_${gIdx}_var_start`,
+        timestamp: identStartSec,
+        time: formatUKTime(identStartSec),
+        date: formatUKDate(identStartSec),
         type: "IDENT_START",
         category: "Station Ident",
-        title: "30-Minute Non-Stop Variety Promise Ident",
+        title: "Non-Stop Variety Promise Ident",
         artist: "KM Radio Station Imaging",
-        duration: "8s",
+        duration: "12s",
         durationSec: dur,
         show: show.title,
         presenter: show.presenter
       });
-      cursorSec += dur;
       events.push({
-        id: `ident_${rot}_variety_end`,
-        timestamp: cursorSec,
-        time: formatUKTime(cursorSec),
-        date: formatUKDate(cursorSec),
+        id: `ident_${gIdx}_var_end`,
+        timestamp: identFinishSec,
+        time: formatUKTime(identFinishSec),
+        date: formatUKDate(identFinishSec),
         type: "IDENT_FINISH",
         category: "Station Ident",
-        title: "30-Minute Non-Stop Variety Promise Ident",
+        title: "Non-Stop Variety Promise Ident",
         artist: "KM Radio Station Imaging",
-        duration: "8s",
+        duration: "12s",
         durationSec: dur,
         show: show.title,
         presenter: show.presenter
       });
     }
     // 3. Weekend Feel-Good Ident
-    else if (isWeekend && (rot % 4 === 1)) {
-      const dur = 8;
+    else if (isWeekend && (tIdx % 4 === 1)) {
+      const dur = 10;
+      const identStartSec = songStartSec;
+      const identFinishSec = identStartSec + dur;
       events.push({
-        id: `ident_${rot}_weekend`,
-        timestamp: cursorSec,
-        time: formatUKTime(cursorSec),
-        date: formatUKDate(cursorSec),
+        id: `ident_${gIdx}_wknd_start`,
+        timestamp: identStartSec,
+        time: formatUKTime(identStartSec),
+        date: formatUKDate(identStartSec),
         type: "IDENT_START",
         category: "Station Ident",
         title: "Weekend Feel-Good Station Ident",
         artist: "KM Radio Station Imaging",
-        duration: "8s",
+        duration: "10s",
         durationSec: dur,
         show: show.title,
         presenter: show.presenter
       });
-      cursorSec += dur;
       events.push({
-        id: `ident_${rot}_weekend_end`,
-        timestamp: cursorSec,
-        time: formatUKTime(cursorSec),
-        date: formatUKDate(cursorSec),
+        id: `ident_${gIdx}_wknd_end`,
+        timestamp: identFinishSec,
+        time: formatUKTime(identFinishSec),
+        date: formatUKDate(identFinishSec),
         type: "IDENT_FINISH",
         category: "Station Ident",
         title: "Weekend Feel-Good Station Ident",
         artist: "KM Radio Station Imaging",
-        duration: "8s",
+        duration: "10s",
         durationSec: dur,
         show: show.title,
         presenter: show.presenter
       });
     }
-    // 4. Presenter Link (Every 3rd track)
-    else if (rot % 3 === 0) {
+    // 4. Presenter Link (Every 3rd song in commercial sweep)
+    else if (tIdx % 3 === 0) {
       const dur = 12;
       let linkTitle = `${show.presenter} On-Air Link (Into ${song.title})`;
       if (show.id === "breakfast") linkTitle = `Callum & Rhys Breakfast Link (Into ${song.title})`;
       else if (show.id === "days") linkTitle = `Sarah Quinn Daytime Link (Into ${song.title})`;
       else if (show.id === "drive") linkTitle = `Owen Hart Drivetime Link (Into ${song.title})`;
-      else if (show.id === "evenings") linkTitle = `Nia Brooks Evenings Alternative Rock Link (Into ${song.title})`;
+      else if (show.id === "evenings") linkTitle = `Nia Brooks Evenings Rock Link (Into ${song.title})`;
       else if (show.id === "late") linkTitle = `Tom Hale Late Show Unwind (Into ${song.title})`;
       else if (show.id === "early") linkTitle = `Maya Cole Early Dawn Companion (Into ${song.title})`;
 
+      const djStartSec = songStartSec;
+      const djFinishSec = djStartSec + dur;
+
       events.push({
-        id: `dj_${rot}_start`,
-        timestamp: cursorSec,
-        time: formatUKTime(cursorSec),
-        date: formatUKDate(cursorSec),
+        id: `dj_${gIdx}_start`,
+        timestamp: djStartSec,
+        time: formatUKTime(djStartSec),
+        date: formatUKDate(djStartSec),
         type: "DJ_START",
         category: "Presenter Link",
         title: linkTitle,
@@ -224,12 +174,11 @@ export async function onRequest(context) {
         show: show.title,
         presenter: show.presenter
       });
-      cursorSec += dur;
       events.push({
-        id: `dj_${rot}_end`,
-        timestamp: cursorSec,
-        time: formatUKTime(cursorSec),
-        date: formatUKDate(cursorSec),
+        id: `dj_${gIdx}_end`,
+        timestamp: djFinishSec,
+        time: formatUKTime(djFinishSec),
+        date: formatUKDate(djFinishSec),
         type: "DJ_FINISH",
         category: "Presenter Link",
         title: linkTitle,
@@ -241,13 +190,9 @@ export async function onRequest(context) {
       });
     }
 
-    // Now the Song plays
-    const songStartSec = cursorSec;
-    const songDur = song.duration;
-    const songFinishSec = songStartSec + songDur;
-
+    // Now the Song Transmission Event
     events.push({
-      id: `song_${rot}_start`,
+      id: `song_${gIdx}_start`,
       timestamp: songStartSec,
       time: formatUKTime(songStartSec),
       date: formatUKDate(songStartSec),
@@ -255,15 +200,16 @@ export async function onRequest(context) {
       category: "Music",
       title: song.title,
       artist: song.artist,
-      duration: "3m 30s",
-      durationSec: songDur,
+      duration: formatDuration(songDurSec),
+      durationSec: songDurSec,
       vibe: song.vibe,
       show: show.title,
-      presenter: show.presenter
+      presenter: show.presenter,
+      segmentRange: `s${String(song.start).padStart(4, "0")}.ts - s${String(song.end).padStart(4, "0")}.ts`
     });
 
     events.push({
-      id: `song_${rot}_finish`,
+      id: `song_${gIdx}_finish`,
       timestamp: songFinishSec,
       time: formatUKTime(songFinishSec),
       date: formatUKDate(songFinishSec),
@@ -271,11 +217,12 @@ export async function onRequest(context) {
       category: "Music",
       title: song.title,
       artist: song.artist,
-      duration: "3m 30s",
-      durationSec: songDur,
+      duration: formatDuration(songDurSec),
+      durationSec: songDurSec,
       vibe: song.vibe,
       show: show.title,
-      presenter: show.presenter
+      presenter: show.presenter,
+      segmentRange: `s${String(song.start).padStart(4, "0")}.ts - s${String(song.end).padStart(4, "0")}.ts`
     });
   }
 
@@ -305,7 +252,7 @@ export async function onRequest(context) {
 
   // Return CSV export if requested
   if (format === "csv") {
-    const csvHeader = "Timestamp (UK),Date,Event Type,Category,Item Title,Artist / Presenter,Show,Duration,Status\n";
+    const csvHeader = "Timestamp (UK),Date,Event Type,Category,Item Title,Artist / Presenter,Show,Duration,Status,Segments\n";
     const csvRows = filtered.map(e => {
       const escape = s => `"${(s || "").toString().replace(/"/g, '""')}"`;
       return [
@@ -317,7 +264,8 @@ export async function onRequest(context) {
         escape(e.artist),
         escape(e.show),
         escape(e.duration),
-        escape(e.status)
+        escape(e.status),
+        escape(e.segmentRange || "")
       ].join(",");
     }).join("\n");
 
@@ -340,6 +288,8 @@ export async function onRequest(context) {
     generatedAt: new Date(nowSec * 1000).toISOString(),
     currentClock: formatUKTime(nowSec),
     currentDate: formatUKDate(nowSec),
+    currentSegment: currentSeg,
+    totalSegments: TOTAL_SEGMENTS,
     currentShow: {
       title: currentShow.title,
       presenter: currentShow.presenter

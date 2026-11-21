@@ -823,12 +823,16 @@
         <div class="community-status-bar">
           <div class="user-identity">
             <span class="avatar-badge" id="user-avatar-display">🎸</span>
-            <span class="user-name" id="user-name-display">Fan_101</span>
+            <span class="user-name" id="user-name-display">Kayleigh</span>
+            <span class="badge artist" id="user-badge-display">ARTIST</span>
             <button type="button" class="pill ghost" id="edit-profile-btn" style="padding: 0.25rem 0.75rem; font-size: 0.8rem; margin-left: 0.4rem;">Edit Profile</button>
           </div>
-          <div class="presence-tag">
-            <span class="pulse-dot"></span>
-            <span>48 fans listening &amp; in the lounge</span>
+          <div class="status-meta-group">
+            <button type="button" class="sound-toggle-btn" id="chat-sound-toggle" title="Toggle audio chime on message" aria-label="Toggle chat sounds">🔔 Sound On</button>
+            <div class="presence-tag">
+              <span class="pulse-dot"></span>
+              <span id="presence-count-text">48 fans listening &amp; in the lounge</span>
+            </div>
           </div>
         </div>
 
@@ -840,7 +844,7 @@
 
       <!-- Tab 1: Live Green Room Chat -->
       <div id="tab-chat-pane" class="chat-pane">
-        <div class="chat-container">
+        <div class="chat-container" id="chat-container">
           <div class="chat-radio-banner">
             <div id="chat-radio-track" class="chat-radio-track">
               <span class="live-dot"></span>
@@ -854,21 +858,34 @@
             </div>
           </div>
 
+          <div id="floating-reaction-container" class="floating-reaction-container" aria-hidden="true"></div>
+
           <div id="chat-messages-list" class="chat-messages" aria-live="polite">
             <!-- Messages loaded via /api/chat -->
           </div>
 
+          <button type="button" id="chat-scroll-bottom-btn" class="chat-scroll-bottom-btn hidden" aria-label="Scroll to newest messages">
+            ↓ New messages
+          </button>
+
+          <div id="chat-typing-indicator" class="chat-typing-indicator hidden">
+            <span class="typing-dots"><span></span><span></span><span></span></span>
+            <span id="typing-text" class="typing-text">Someone is typing...</span>
+          </div>
+
           <div class="chat-composer">
             <div class="composer-top">
-              <span id="chat-author-preview">🎸 Fan</span>
+              <span id="chat-author-preview">🎸 Kayleigh</span>
               <div class="quick-emojis">
-                <button type="button" class="quick-emoji">🎸</button>
-                <button type="button" class="quick-emoji">⚡</button>
-                <button type="button" class="quick-emoji">❤️</button>
-                <button type="button" class="quick-emoji">🔥</button>
-                <button type="button" class="quick-emoji">📻</button>
-                <button type="button" class="quick-emoji">✨</button>
-                <button type="button" class="quick-emoji">👏</button>
+                <button type="button" class="quick-mention-chip" id="mention-daisy-btn" title="Chat with Daisy, Green Room AI Host">🌼 @Daisy</button>
+                <button type="button" class="quick-emoji" title="Guitar">🎸</button>
+                <button type="button" class="quick-emoji" title="Electric">⚡</button>
+                <button type="button" class="quick-emoji" title="Love">❤️</button>
+                <button type="button" class="quick-emoji" title="Fire">🔥</button>
+                <button type="button" class="quick-emoji" title="Radio">📻</button>
+                <button type="button" class="quick-emoji" title="Sparkles">✨</button>
+                <button type="button" class="quick-emoji" title="Applause">👏</button>
+                <button type="button" class="quick-emoji" title="Acoustic">🌾</button>
               </div>
               <span id="chat-char-count">0 / 300</span>
             </div>
@@ -922,6 +939,16 @@
           <div class="form-group">
             <label for="profile-name-input">Display Name / Handle</label>
             <input type="text" id="profile-name-input" class="modal-input" maxlength="25" placeholder="Your name or handle">
+          </div>
+          <div class="form-group">
+            <label for="profile-badge-select">Community Role / Badge</label>
+            <select id="profile-badge-select" class="modal-select">
+              <option value="FAN">FAN · Music Listener</option>
+              <option value="ARTIST">ARTIST · Band / Musician</option>
+              <option value="VIP">VIP · Backstage Pass</option>
+              <option value="LABEL">LABEL · KM Records Crew</option>
+              <option value="MOD">MOD · Room Moderator</option>
+            </select>
           </div>
           <div class="form-group">
             <label>Choose Avatar Icon</label>
@@ -1109,7 +1136,7 @@
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.20/dist/hls.min.js"></script>
   <script src="player.js?v=29"></script>
   <script src="gallery.js?v=2"></script>
-  <script src="community.js?v=2"></script>
+  <script src="community.js?v=4"></script>
   <script src="tv.js?v=2"></script>
   <script src="books.js?v=1"></script>
   <script src="podcasts.js?v=1"></script>
