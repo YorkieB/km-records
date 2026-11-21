@@ -1,7 +1,7 @@
 export async function onRequest(context) {
   const TOTAL_SEGMENTS = 1411;
-  const SEGMENT_DURATION = 6.0;
-  const WINDOW_SIZE = 22;
+  const SEGMENT_DURATION = 5.875;
+  const WINDOW_SIZE = 24;
 
   const nowSec = Date.now() / 1000;
   const seq = Math.floor(nowSec / SEGMENT_DURATION);
@@ -15,8 +15,7 @@ export async function onRequest(context) {
   for (let i = 0; i < WINDOW_SIZE; i++) {
     const sIndex = ((seq + i) % TOTAL_SEGMENTS) + 1;
     const padIndex = String(sIndex).padStart(4, "0");
-    const dur = (i % 2 === 0) ? "5.991" : "6.014";
-    manifest += `#EXTINF:${dur},\n/radio/s${padIndex}.ts\n`;
+    manifest += `#EXTINF:5.875,\n/radio/s${padIndex}.ts\n`;
   }
 
   return new Response(manifest, {

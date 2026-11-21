@@ -40,13 +40,32 @@ function attachLive(src) {
   audio.volume = 1
   if (window.Hls && Hls.isSupported()) {
     hls = new Hls({
-      liveSyncDurationCount: 1,
-      liveMaxLatencyDurationCount: 40,
-      maxLiveSyncPlaybackRate: 1,
-      backBufferLength: 180
+      enableWorker: true,
+      lowLatencyMode: false,
+      liveSyncDurationCount: 4,          // Buffer 4 segments (approx 24s) ahead - eliminates buffer starvation & popping
+      liveMaxLatencyDurationCount: 20,   // Prevent drifting too far
+      maxBufferLength: 30,              // Keep 30s of decoded audio in memory
+      maxMaxBufferLength: 60,
+      backBufferLength: 60,
+      highBufferWatchdogPeriod: 2
     })
     hls.loadSource(src)
     hls.attachMedia(audio)
+    hls.on(Hls.Events.ERROR, (event, data) => {
+      if (data.fatal) {
+        switch (data.type) {
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            try { hls.startLoad() } catch (_) {}
+            break
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            try { hls.recoverMediaError() } catch (_) {}
+            break
+          default:
+            stopHls()
+            break
+        }
+      }
+    })
     return new Promise((resolve, reject) => {
       hls.on(Hls.Events.MANIFEST_PARSED, () => resolve())
       hls.on(Hls.Events.ERROR, (_, data) => {
@@ -203,7 +222,7 @@ async function playTrack(button) {
     if (isLive(button)) {
       await attachLive(button.dataset.src)
       if (nowTimer) window.clearInterval(nowTimer)
-      nowTimer = window.setInterval(refreshNow, 2000)
+      nowTimer = window.setInterval(refreshNow, 5000)
       refreshNow()
     } else {
       if (nowTimer) window.clearInterval(nowTimer)
