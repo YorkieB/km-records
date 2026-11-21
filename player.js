@@ -17,7 +17,7 @@ let currentPlayingSeg = 0
 let currentSongIdx = -1
 let lastWeather = "London & UK: clear, about 8 degrees"
 
-console.log("[KM Radio] Player v33 loaded — Broadcast-locked audio interlock & zero mid-song gating active")
+console.log("[KM Radio] Player v34 loaded — Exclusive Heart-style commercial imaging & AI presenter desk active")
 
 const talkAudio = new Audio()
 talkAudio.preload = "auto"
@@ -99,9 +99,9 @@ function updateLiveSegment(seg) {
   }
 }
 
-// STRICT SONG TRANSITION GATING:
-// Idents, Jingles, and AI Presenter Links trigger ONLY at true song transitions
-// (when a new track starts at its exact first segment), NEVER mid-song!
+// EXCLUSIVE HEART-STYLE COMMERCIAL IMAGING & LIVE AI PRESENTER CLOCK:
+// All old rock idents have been retired.
+// Every element is strictly from the official Heart UK-style package or live AI presenter desk.
 async function triggerTransitionCue(trackIdx) {
   if (talking || !isLive(current)) return
   const now = new Date()
@@ -121,7 +121,7 @@ async function triggerTransitionCue(trackIdx) {
   let cue = null
   const cueId = `cue_${Date.now()}_t${trackIdx}`
 
-  // 1. Top of the Hour (minutes 58-02): Nationwide TOH Ident (London to Penzance)
+  // 1. Top of the Hour (minutes 58-02): Grand Nationwide TOH Ident (London to Penzance)
   if (minute >= 58 || minute <= 2) {
     cue = {
       id: `${cueId}_toh`,
@@ -130,7 +130,7 @@ async function triggerTransitionCue(trackIdx) {
       title: "Nationwide Top of the Hour Ident (London to Penzance)"
     }
   }
-  // 2. Bottom of the Hour (minutes 28-32): Variety Promise Ident
+  // 2. Bottom of the Hour (minutes 28-32): 30-Minute Variety Promise Ident
   else if (minute >= 28 && minute <= 32) {
     cue = {
       id: `${cueId}_var`,
@@ -139,7 +139,7 @@ async function triggerTransitionCue(trackIdx) {
       title: "Non-Stop Variety Promise Ident"
     }
   }
-  // 3. Autonomous AI Presenter Link (Every 3rd song in commercial sweep)
+  // 3. Autonomous Live AI Presenter Link (Every 3rd song in commercial sweep)
   else if (trackIdx % 3 === 0) {
     cue = {
       id: `${cueId}_dj`,
@@ -148,13 +148,79 @@ async function triggerTransitionCue(trackIdx) {
       title: "Live AI Presenter Link (Live UK News & Weather)"
     }
   }
-  // 4. Weekend Feel-Good Ident (Every 4th song on weekends)
+  // 4. Weekend Feel-Good Ident (Weekends)
   else if (isWeekend && (trackIdx % 4 === 1)) {
     cue = {
       id: `${cueId}_wknd`,
       kind: "ident",
       src: "/audio/imaging/heart/heart_ident_weekend_feelgood.mp3",
       title: "Weekend Feel-Good Station Ident"
+    }
+  }
+  // 5. Show-Specific Heart Programme Jingles
+  else if (showId === "breakfast" && trackIdx % 2 === 1) {
+    cue = {
+      id: `${cueId}_brk_jingle`,
+      kind: "jingle",
+      src: "/audio/imaging/heart/heart_jingle_callum_rhys_breakfast.mp3",
+      title: "Callum & Rhys Breakfast Show Jingle"
+    }
+  }
+  else if (showId === "drive" && trackIdx % 2 === 1) {
+    cue = {
+      id: `${cueId}_drv_jingle`,
+      kind: "jingle",
+      src: "/audio/imaging/heart/heart_jingle_drive_owen.mp3",
+      title: "Owen Hart Drivetime Feel-Good Jingle"
+    }
+  }
+  else if (showId === "days" && trackIdx % 2 === 1) {
+    cue = {
+      id: `${cueId}_workday_sweeper`,
+      kind: "sweeper",
+      src: "/audio/imaging/heart/heart_sweeper_workday_feelgood.mp3",
+      title: "Workday Feel-Good Sweeper"
+    }
+  }
+  else if ((showId === "evenings" || showId === "late") && trackIdx % 2 === 1) {
+    cue = {
+      id: `${cueId}_chilled`,
+      kind: "ident",
+      src: "/audio/imaging/heart/heart_ident_acoustic_chilled.mp3",
+      title: "Acoustic & Chilled Evening Ident"
+    }
+  }
+  // 6. Signature Artist Drops & Station Identity
+  else if (nextTrack.artist.includes("Kayleigh") && trackIdx % 6 === 2) {
+    cue = {
+      id: `${cueId}_drop_kayleigh`,
+      kind: "artist_drop",
+      src: "/audio/imaging/heart/heart_artist_drop_kayleigh.mp3",
+      title: "Kayleigh Merez Feel-Good Station Drop"
+    }
+  }
+  else if (nextTrack.artist.includes("Leah") && trackIdx % 6 === 5) {
+    cue = {
+      id: `${cueId}_drop_leah`,
+      kind: "artist_drop",
+      src: "/audio/imaging/heart/heart_artist_drop_leah.mp3",
+      title: "Leah Carter Music Variety Station Drop"
+    }
+  }
+  else if (trackIdx % 4 === 2) {
+    cue = {
+      id: `${cueId}_smart`,
+      kind: "ident",
+      src: "/audio/imaging/heart/heart_ident_smart_speaker_digital.mp3",
+      title: "Smart Speaker & Online Streaming Ident"
+    }
+  }
+  else {
+    cue = {
+      id: `${cueId}_feelgood`,
+      kind: "ident",
+      src: "/audio/imaging/heart/heart_ident_feel_good.mp3",
+      title: "Flagship Feel-Good Station Ident & Vocal Mnemonic"
     }
   }
 
