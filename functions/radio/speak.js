@@ -8,7 +8,7 @@ const VOICE_MAP = {
   breakfast: "004KTmksPwLFhbYi3ENc", // Callum & Rhys (Zak Welsh)
   days: "7HStkwG7dv8Mlka4MdTL",      // Sarah Quinn (Eleven v4)
   drive: "bDTlr4ICxntY9qVWyL0o",     // Owen Hart (Edmund)
-  evenings: "ZF6FPAbjXT4488VcRRnw",  // Nia Brooks (Amelia)
+  evenings: "aD6riP1btT197c6dACmy",  // Nia Brooks (Rachel M - Pro British Radio Presenter, lively & full of personality)
   late: "howQSp4vukBSqM6XL2q5",      // Tom Hale (Rob Charles)
   early: "V0cljQmo7wpx8LTdbqfJ"      // Maya Cole (Vicky Cowan)
 };
@@ -52,7 +52,7 @@ async function getLiveIntel(origin) {
       // Prioritize explicit live @ mentions from Green Room
       if (cData && cData.pendingMention && cData.pendingMention.author) {
         let cleanText = (cData.pendingMention.text || "").replace(/&amp;/g, "&").replace(/&#039;/g, "'").replace(/&quot;/g, '"').trim();
-        if (cleanText.length > 55) cleanText = cleanText.slice(0, 52) + "...";
+        if (cleanText.length > 180) cleanText = cleanText.slice(0, 175) + "...";
         chatShoutout = {
           author: cData.pendingMention.author,
           text: cleanText,
@@ -64,7 +64,7 @@ async function getLiveIntel(origin) {
         if (fanMessages.length > 0) {
           const latest = fanMessages[fanMessages.length - 1];
           let cleanText = latest.text.replace(/&amp;/g, "&").replace(/&#039;/g, "'").replace(/&quot;/g, '"').trim();
-          if (cleanText.length > 55) cleanText = cleanText.slice(0, 52) + "...";
+          if (cleanText.length > 180) cleanText = cleanText.slice(0, 175) + "...";
           chatShoutout = {
             author: latest.author,
             text: cleanText,
@@ -128,26 +128,63 @@ async function getLiveIntel(origin) {
   return { headline, weatherPhrase, chatShoutout, forumTopic };
 }
 
+function generateConversationalReply(text, author, presenterFirstName) {
+  const lower = (text || "").toLowerCase();
+  
+  // Strip out @mentions and names from the start
+  let stripped = text.replace(/@[a-zA-Z0-9_]+/g, "").trim();
+
+  // 1. Inquiries about guitars, gear, tone, instruments
+  if (lower.includes("guitar") || lower.includes("tone") || lower.includes("solo") || lower.includes("riff") || lower.includes("amp") || lower.includes("pedal") || lower.includes("telecaster") || lower.includes("les paul")) {
+    return `You're asking about the guitar tone there, ${author}! Honestly, having spent time listening to Kayleigh track those guitars in the studio, it is all vintage valve crunch with zero digital trickery. That tone punches right through the room!`;
+  }
+  
+  // 2. Questions about favorite songs, recommendations or lyrics
+  if (lower.includes("favourite") || lower.includes("favorite") || lower.includes("recommend") || lower.includes("best track") || lower.includes("album")) {
+    return `That is a proper debate, ${author}! If you're asking me, Thunder Queen is pure unadulterated rock adrenaline, but Leah's storytelling on Bubblegum in the Rain hits you right in the chest. You really can't go wrong either way!`;
+  }
+
+  // 3. Questions asking how the presenter is doing or studio vibes
+  if (lower.includes("how are you") || lower.includes("how's it going") || lower.includes("having a good") || lower.includes("hows it going")) {
+    return `I am having an absolute blast here in the studio, ${author}! The coffee is piping hot, the playlist is stacked with proper guitar anthems, and having everyone buzzing in the Green Room makes the whole show!`;
+  }
+
+  // 4. Praise for the show, station, or music
+  if (lower.includes("love") || lower.includes("great") || lower.includes("amazing") || lower.includes("banger") || lower.includes("tune") || lower.includes("proper") || lower.includes("brilliant") || lower.includes("fire")) {
+    return `Really appreciate that, ${author}! We put so much graft into keeping the music 100 percent real British indie-rock, no fluff, just proper songs played with heart. So glad you're cranking it up with us!`;
+  }
+
+  // 5. General question with ?
+  if (lower.includes("?")) {
+    return `That's a cracking question from ${author} in the lounge! There is so much going on behind the scenes at KM Records right now, and hearing from you lot makes the whole live broadcast feel like one massive living room session!`;
+  }
+
+  // 6. Natural conversational fallback with personality
+  return `Really loved seeing that post come through from ${author}! That is exactly what this station is all about—connecting everyone across the country through great independent rock and acoustic music. Keep the thoughts coming in the chat!`;
+}
+
 function buildPresenterScript(showId, clockStr, nextTrack, intel) {
   const { headline, weatherPhrase, chatShoutout, forumTopic } = intel;
 
-  // 1. Live Green Room Listener Shoutout (reading out real listener conversations on air!)
+  // 1. Live Green Room Listener Shoutout (deep, conversational on-air reply & waffle!)
   if (chatShoutout && chatShoutout.author) {
     const { author, text, isMention } = chatShoutout;
-    const prefix = isMention ? "I see an @mention just came through from" : "big shoutout to";
+    const presenterFirstName = (SHOW_NAMES[showId] || "Nia").split(" ")[0];
+    const replyWaffle = generateConversationalReply(text, author, presenterFirstName);
+
     switch (showId) {
       case "breakfast":
-        return `Good morning UK! Callum and Rhys with you on Breakfast at ${clockStr}. Checking the Green Room chat—${prefix} ${author} who posted: "${text}". Love that! Let's keep the energy high, heading into ${nextTrack} on KM Radio.`;
+        return `Good morning UK! Callum and Rhys with you on Breakfast at ${clockStr}. Checking straight into the Green Room chat—${author} dropped a note saying: "${text}". ${replyWaffle} That's how we kick off the morning! Heading straight into ${nextTrack} on KM Radio.`;
       case "days":
-        return `Sarah Quinn keeping your workday moving on KM Days. It's ${clockStr} across the UK. Giving a lovely shoutout to ${author} in the Green Room today. Coming up next, ${nextTrack} on KM Radio.`;
+        return `Sarah Quinn keeping you company on KM Days. It's ${clockStr} across the country. Just glancing at our live chat—${author} posted: "${text}". ${replyWaffle} Always brilliant to hear from you. Let's keep the workday moving, coming up next is ${nextTrack} on KM Radio.`;
       case "drive":
-        return `It's ${clockStr} on KM Drive across the UK, Owen Hart here. Checking into the Green Room chat—${prefix} ${author} who says: "${text}". Great having you with us! Turning the volume up for ${nextTrack} on KM Radio.`;
+        return `It's ${clockStr} on KM Drive across the UK, Owen Hart here. Catching up on the Green Room chat—${author} says: "${text}". ${replyWaffle} Big respect to you for tuning in! Let's get the volume right back up, here is ${nextTrack} on KM Radio.`;
       case "evenings":
-        return `Nia Brooks taking you through the evening on KM Radio, ${clockStr} in the UK. ${prefix} ${author} over in the lounge! Heading straight into ${nextTrack} on KM Radio.`;
+        return `Nia Brooks here, taking you through the evening on KM Radio, ${clockStr} in the UK. Just saw an absolute gem in the Green Room from ${author}, who writes: "${text}". ${replyWaffle} Love having you on board tonight! Straight into ${nextTrack} on KM Radio.`;
       case "late":
-        return `Past midnight across the UK, Tom Hale on the Late Show. Nice to see ${author} hanging out in the Green Room tonight. Unwinding now with ${nextTrack} on KM Radio.`;
+        return `Past midnight across the UK, Tom Hale on the Late Show. Nice to see ${author} active in the lounge, saying: "${text}". ${replyWaffle} Settle in, night owls. Here is ${nextTrack} on KM Radio.`;
       case "early":
-        return `Early hours on KM Radio, Maya Cole with you. Early morning shoutout to ${author} in the chat. Here is ${nextTrack} on KM Radio.`;
+        return `Early hours on KM Radio, Maya Cole with you. Early shoutout to ${author} in our chat who posted: "${text}". ${replyWaffle} Starting your day right with ${nextTrack} on KM Radio.`;
     }
   }
 

@@ -22,7 +22,7 @@ let forcePresenterNext = false
 let currentFadeTimer = null
 let lastWeather = "London & UK: clear, about 8 degrees"
 
-console.log("[KM Radio] Player v36 loaded — Max 2-song presenter sweeps & live Green Room @mention on-air queue active")
+console.log("[KM Radio] Player v37 loaded — Music stop for presenter reply & waffle, station ident drop, straight into next track")
 
 const talkAudio = new Audio()
 talkAudio.preload = "auto"
@@ -147,11 +147,32 @@ async function triggerTransitionCue(trackIdx, mode) {
   }
   // 3. Autonomous Live AI Presenter Link (Outro talkover or Intro ramp)
   else if (mode === "outro" || mode === "intro") {
+    // Select an appropriate station ident to play right after the presenter finishes
+    let identSrc = "/audio/imaging/heart/heart_ident_feel_good.mp3"
+    let identTitle = "KM Radio Feel-Good Ident"
+    if (showId === "breakfast") {
+      identSrc = "/audio/imaging/heart/heart_jingle_callum_rhys_breakfast.mp3"
+      identTitle = "Callum & Rhys Breakfast Ident"
+    } else if (showId === "drive") {
+      identSrc = "/audio/imaging/heart/heart_jingle_drive_owen.mp3"
+      identTitle = "Owen Hart Drive Ident"
+    } else if (showId === "days") {
+      identSrc = "/audio/imaging/heart/heart_sweeper_workday_feelgood.mp3"
+      identTitle = "Workday Feel-Good Ident"
+    } else if (showId === "evenings" || showId === "late") {
+      identSrc = "/audio/imaging/heart/heart_ident_acoustic_chilled.mp3"
+      identTitle = "Acoustic & Chilled Evening Ident"
+    }
+
     cue = {
       id: `${cueId}_dj`,
       kind: "presenter_link",
       src: `/radio/speak?show=${showId}&next=${encodeURIComponent(targetTrack.title)}&v=${Math.floor(Date.now() / 900000)}`,
-      title: `${showPresenter} On-Air Dry Link (${mode === "outro" ? "Song Outro" : "Intro Ramp"})`
+      title: `${showPresenter} Live On-Air Link & Chat Reply`,
+      identAfter: {
+        src: identSrc,
+        title: identTitle
+      }
     }
   }
   // 4. Intermediate Station Jingles / Sweepers / Drops
@@ -357,18 +378,27 @@ function unparkLive() {
   return audio.play()
 }
 
-// COMMERCIAL BROADCAST DUCKING & VOCAL POST SWELL ENGINE:
-// Matches the flagship demos: live music smoothly ducks down to 16% volume under the voice,
-// and swells cleanly back to 100% volume right as the song vocals start!
+// COMMERCIAL BROADCAST PRESENTATION & STOP ENGINE:
+// When the presenter speaks (giving proper chat replies & waffling on topic),
+// the music stops completely so the presenter can be heard loud and clear.
+// After the presenter finishes, a station ident plays immediately,
+// and the music stream kicks straight in!
 async function playTalk(cue) {
   if (!cue || talking || cue.id === lastTalkId) return
   lastTalkId = cue.id
   talking = true
 
+  const isPresenter = (cue.kind === "presenter_link")
+
   try {
-    // 1. BROADCAST DUCKING: Smoothly fade live music bed down to 16% volume over 750ms
-    // The live music stream NEVER stops, never pauses, and never cuts out!
-    await fadeAudioVolume(audio, 0.16, 750)
+    if (isPresenter) {
+      // 1. MUSIC STOPS FOR PRESENTER: Smoothly fade out over 300ms then pause the music stream
+      await fadeAudioVolume(audio, 0.0, 300)
+      try { audio.pause() } catch (_) {}
+    } else {
+      // Station jingle/sweeper: duck to 16% over 750ms
+      await fadeAudioVolume(audio, 0.16, 750)
+    }
 
     talkAudio.pause()
     talkAudio.muted = false
@@ -381,9 +411,9 @@ async function playTalk(cue) {
 
     await talkAudio.play()
 
-    // Wait for the speech / jingle to finish (with 35s safety watchdog)
+    // Wait for the presenter link to finish (with 45s safety watchdog)
     await new Promise((resolve) => {
-      const timer = setTimeout(resolve, 35000)
+      const timer = setTimeout(resolve, 45000)
       const done = () => {
         clearTimeout(timer)
         talkAudio.removeEventListener("ended", done)
@@ -393,6 +423,28 @@ async function playTalk(cue) {
       talkAudio.addEventListener("ended", done)
       talkAudio.addEventListener("error", done)
     })
+
+    // 2. PLAY STATION IDENT AFTER PRESENTER FINISHES
+    if (isPresenter && cue.identAfter && cue.identAfter.src) {
+      if (desk) {
+        desk.textContent = `[ON AIR: ${cue.identAfter.title}] · KM Radio Live`
+      }
+      talkAudio.src = cue.identAfter.src
+      await talkAudio.play()
+
+      // Wait for station ident to play
+      await new Promise((resolve) => {
+        const identTimer = setTimeout(resolve, 15000)
+        const identDone = () => {
+          clearTimeout(identTimer)
+          talkAudio.removeEventListener("ended", identDone)
+          talkAudio.removeEventListener("error", identDone)
+          resolve()
+        }
+        talkAudio.addEventListener("ended", identDone)
+        talkAudio.addEventListener("error", identDone)
+      })
+    }
   } catch (_) {}
 
   try {
@@ -400,10 +452,12 @@ async function playTalk(cue) {
     talkAudio.removeAttribute("src")
   } catch (_) {}
 
-  // 2. BROADCAST SWELL: Smoothly swell music bed back to 100% volume over 1200ms
-  // Hitting the vocal post with commercial radio warmth!
+  // 3. GO STRAIGHT INTO NEXT TRACK AT FULL VOLUME
   talking = false
-  await fadeAudioVolume(audio, 1.0, 1200)
+  audio.volume = 1.0
+  try {
+    await audio.play()
+  } catch (_) {}
 }
 
 async function refreshNow() {
